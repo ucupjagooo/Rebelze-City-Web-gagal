@@ -6,6 +6,8 @@
     <title>Toko Digital Glow - Pembelian & Penjualan</title>
     <!-- Memuat Tailwind CSS CDN untuk styling cepat dan responsif -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Konfigurasi Tailwind untuk tema custom dan animasi glow -->
     <script>
         tailwind.config = {
@@ -54,6 +56,11 @@
         .btn-glow:hover {
             background-color: #9333ea;
             box-shadow: 0 0 15px rgba(192, 132, 252, 1);
+        }
+        .btn-disabled {
+            background-color: #555 !important;
+            cursor: not-allowed;
+            box-shadow: none !important;
         }
 
         /* Scrollbar styling untuk tampilan gelap */
@@ -112,19 +119,18 @@
 
                     <!-- Area Tombol Checkout -->
                     <div id="checkout-area">
-                        <!-- Tombol "Pesan via WhatsApp" (muncul saat jam operasional) -->
-                        <button id="checkout-button" onclick="checkout()" class="btn-glow w-full py-3 rounded-lg text-white font-semibold uppercase tracking-wider transition duration-200 hidden">
-                            Pesan via WhatsApp
+                        
+                        <!-- Input Nama Pemesan -->
+                        <input type="text" id="buyer-name" placeholder="Nama IC Pemesan (Wajib)" class="w-full p-3 mb-3 bg-gray-900 border border-purple-accent rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-glow">
+
+                        <!-- Tombol "Kirim Pesanan ke Discord" -->
+                        <button id="checkout-button" onclick="checkoutToDiscord()" class="btn-glow w-full py-3 rounded-lg text-white font-semibold uppercase tracking-wider transition duration-200">
+                            Kirim Pesanan ke Discord
                         </button>
                         
-                        <!-- Tombol untuk membuka link WA (muncul setelah validasi) -->
-                        <a id="wa-link-button" href="#" target="_blank" class="hidden btn-glow w-full py-3 mt-3 rounded-lg text-center text-white font-semibold uppercase tracking-wider transition duration-200 bg-green-600 hover:bg-green-700 hover:shadow-green-500/50" role="button">
-                            Lanjut ke WhatsApp
-                        </a>
-
-                        <!-- Pesan Jam Tutup atau Pesan Validasi -->
+                        <!-- Pesan Status -->
                         <p id="checkout-message" class="text-center mt-3 text-sm text-yellow-400">
-                            <!-- Pesan akan muncul di sini (termasuk pesan jam tutup) -->
+                            Pesanan akan dikirim ke Discord Admin.
                         </p>
                     </div>
 
@@ -135,10 +141,10 @@
     </main>
 
     <script>
-        // Nomor WhatsApp tujuan
-        const WA_NUMBER = "6285352002602";
+        // --- KONFIGURASI WEBHOOK PESANAN DISCORD ---
+        const DISCORD_ORDER_WEBHOOK = "https://discord.com/api/webhooks/1444582884211163177/YwoA8pNqvpbvO_7bR2zEdRJn2eP3SypKziV5kQb0O6vZoy-4vCTFVubEPt3Et95TFf7b";
         
-        // Data Produk Baru Sesuai Permintaan
+        // Data Produk
         const products = [
             { id: 1, name: "M4a1", price: 20000, description: "Senjata Kelas Berat." },
             { id: 2, name: "M4a4", price: 20000, description: "Senjata Kelas Berat." },
@@ -154,12 +160,10 @@
         ];
 
         // State Keranjang Belanja
-        // Format: { productId: quantity, ... }
         let cart = {};
 
-        // Fungsi Format Mata Uang USD (Dolar Amerika)
+        // Fungsi Format Mata Uang USD
         const formatCurrency = (number) => {
-            // Mengubah format mata uang ke USD (United States Dollar)
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
@@ -167,16 +171,16 @@
             }).format(number);
         };
         
-        // 0. Fungsi Pengecekan Jam Operasional
+        // --- Fungsi Pengecekan Jam Operasional ---
         const checkOperatingHours = () => {
             const now = new Date();
             const hour = now.getHours(); 
             // Jam operasional: 15:00 (3 sore) sampai 21:00 (9 malam)
-            // Jam 21:00 sudah tutup, jadi harus kurang dari 21
+            // Kurang dari 21:00 (Jam 20:59 masih buka, Jam 21:00 tutup)
             return hour >= 15 && hour < 21; 
         };
 
-        // 1. Fungsi untuk Menghitung dan Memperbarui Total Harga
+        // Fungsi untuk Menghitung dan Memperbarui Total Harga
         const calculateTotal = () => {
             let total = 0;
             for (const id in cart) {
@@ -185,13 +189,24 @@
                     total += product.price * cart[id];
                 }
             }
-            // Menggunakan formatCurrency
             document.getElementById('total-price').textContent = formatCurrency(total);
-            return total; // Mengembalikan total untuk digunakan di fungsi checkout
+            return total;
         };
 
-        // 2. Fungsi untuk Menambah Item ke Keranjang
+        // Fungsi untuk Menambah Item ke Keranjang
         const addToCart = (productId) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ 
+                    icon: 'warning', 
+                    title: 'Toko Tutup', 
+                    text: 'Toko beroperasi pukul 15:00 - 21:00 WIB. Pemesanan di luar jam ini tidak dapat dilakukan.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                return;
+            }
+            
             const id = String(productId);
             if (cart[id]) {
                 cart[id]++;
@@ -201,20 +216,32 @@
             renderCart();
         };
 
-        // 3. Fungsi untuk Mengubah Kuantitas Item (Digunakan oleh tombol + dan - di keranjang)
+        // Fungsi untuk Mengubah Kuantitas Item
         const updateQuantity = (productId, change) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ 
+                    icon: 'warning', 
+                    title: 'Toko Tutup', 
+                    text: 'Toko beroperasi pukul 15:00 - 21:00 WIB. Perubahan pesanan di luar jam ini tidak dapat dilakukan.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                return;
+            }
+
             const id = String(productId);
             if (cart[id]) {
                 cart[id] += change;
 
                 if (cart[id] <= 0) {
-                    delete cart[id]; // Hapus jika kuantitas mencapai 0 atau kurang
+                    delete cart[id];
                 }
             }
             renderCart();
         };
 
-        // 4. Fungsi untuk Merender Daftar Produk
+        // Fungsi untuk Merender Daftar Produk
         const renderProducts = () => {
             const productListDiv = document.getElementById('product-list');
             productListDiv.innerHTML = products.map(product => `
@@ -233,26 +260,24 @@
             `).join('');
         };
 
-        // 5. Fungsi untuk Merender Isi Keranjang Belanja & Mengontrol Tombol Checkout
+        // Fungsi untuk Merender Isi Keranjang Belanja & Mengontrol Tombol Checkout
         const renderCart = () => {
             const cartItemsDiv = document.getElementById('cart-items');
-            const waLinkButton = document.getElementById('wa-link-button');
             const checkoutButton = document.getElementById('checkout-button');
             const messageDiv = document.getElementById('checkout-message');
+            const isOperating = checkOperatingHours();
             
             let cartContent = '';
-
             const itemsInCart = Object.keys(cart).map(id => {
                 const product = products.find(p => p.id === parseInt(id));
                 if (product) {
-                    return { ...product, quantity: cart[id] };
+                    return { ...product, quantity: cart[id], subtotal: product.price * cart[id] };
                 }
                 return null;
             }).filter(item => item !== null);
 
             if (itemsInCart.length === 0) {
                 cartContent = `<p class="text-gray-500 text-center py-4">Keranjang Anda kosong.</p>`;
-                waLinkButton.classList.add('hidden'); 
             } else {
                 cartContent = itemsInCart.map(item => `
                     <div class="flex items-center justify-between p-3 bg-dark-bg rounded-lg border border-gray-700">
@@ -261,69 +286,74 @@
                             <p class="text-purple-400 text-sm">${formatCurrency(item.price)} x ${item.quantity}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas">-</button>
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas" ${isOperating ? '' : 'disabled'} >-</button>
                             <span class="text-lg font-bold">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas">+</button>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas" ${isOperating ? '' : 'disabled'} >+</button>
                         </div>
                     </div>
                 `).join('');
             }
 
             cartItemsDiv.innerHTML = cartContent;
-            calculateTotal(); // Selalu hitung ulang total
+            calculateTotal();
 
-            // LOGIKA PENGENDALIAN JAM OPERASIONAL
-            if (checkOperatingHours() && itemsInCart.length > 0) {
-                checkoutButton.classList.remove('hidden');
-                messageDiv.textContent = "";
-            } else if (!checkOperatingHours()) {
-                // Sembunyikan semua tombol order jika di luar jam kerja
-                checkoutButton.classList.add('hidden');
-                waLinkButton.classList.add('hidden');
-                messageDiv.textContent = "Toko tutup. Jam operasional: 15:00 - 21:00.";
-                messageDiv.classList.remove('hidden', 'text-green-400');
+            // Kontrol Tombol dan Pesan Berdasarkan Jam Operasional dan Isi Keranjang
+            if (!isOperating) {
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+                messageDiv.textContent = "Toko TUTUP. Jam operasional: 15:00 - 21:00 WIB.";
+                messageDiv.classList.remove('text-yellow-400', 'text-green-400');
                 messageDiv.classList.add('text-red-400');
+            } else if (itemsInCart.length === 0) {
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+                messageDiv.textContent = "Keranjang kosong. Tambahkan item untuk membeli.";
+                messageDiv.classList.remove('text-red-400', 'text-green-400');
+                messageDiv.classList.add('text-yellow-400');
             } else {
-                 // Hanya keranjang kosong
-                checkoutButton.classList.add('hidden');
-                waLinkButton.classList.add('hidden');
-                messageDiv.textContent = "";
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+                messageDiv.textContent = "Pesanan akan dikirim ke Discord Admin.";
+                messageDiv.classList.remove('text-red-400', 'text-green-400');
+                messageDiv.classList.add('text-yellow-400');
             }
         };
 
-        // 6. Fungsi Checkout: Membuat dan mengarahkan ke link WhatsApp
-        const checkout = () => {
+        // Fungsi Checkout: Mengirim ke Discord Webhook
+        const checkoutToDiscord = async () => {
+            const buyerNameInput = document.getElementById('buyer-name');
+            const buyerName = buyerNameInput.value.trim();
             const messageDiv = document.getElementById('checkout-message');
-            const waLinkButton = document.getElementById('wa-link-button');
             const checkoutButton = document.getElementById('checkout-button');
-            const totalAmount = calculateTotal();
             const totalPriceText = document.getElementById('total-price').textContent;
 
-            // Pengecekan jam operasional kedua (redundansi untuk keamanan)
+            // Pengecekan Jam Operasional Final
             if (!checkOperatingHours()) {
-                messageDiv.textContent = "Toko tutup. Jam operasional: 15:00 - 21:00.";
-                messageDiv.classList.remove('hidden', 'text-green-400');
-                messageDiv.classList.add('text-red-400');
-                checkoutButton.classList.add('hidden');
-                waLinkButton.classList.add('hidden');
+                 Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Gagal', 
+                    text: 'Toko tutup. Pemesanan hanya bisa dilakukan pukul 15:00 - 21:00 WIB.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                renderCart(); // Perbarui status tombol
                 return;
             }
 
+            // 1. Validasi Nama dan Keranjang
             if (Object.keys(cart).length === 0) {
-                messageDiv.textContent = "Keranjang Anda masih kosong. Silakan pilih item dulu.";
-                messageDiv.classList.remove('hidden', 'text-green-400');
-                messageDiv.classList.add('text-red-400');
-                waLinkButton.classList.add('hidden');
-
-                setTimeout(() => {
-                    messageDiv.classList.add('hidden');
-                }, 5000);
+                Swal.fire({ icon: 'warning', title: 'Keranjang Kosong', text: 'Keranjang Anda masih kosong. Silakan pilih item dulu.', background: '#1a1a1a', color: '#fff' });
+                return;
+            }
+            if (!buyerName) {
+                Swal.fire({ icon: 'error', title: 'Nama Wajib Diisi', text: 'Mohon masukkan Nama IC (RP) Anda untuk memproses pesanan.', background: '#1a1a1a', color: '#fff' });
+                buyerNameInput.focus();
                 return;
             }
 
-            // 1. Buat List Pesanan
-            let orderList = "Halo, saya ingin memesan item berikut:\n\n";
-            let itemsInCart = Object.keys(cart).map(id => {
+            // 2. Persiapan Data
+            const itemsInCart = Object.keys(cart).map(id => {
                 const product = products.find(p => p.id === parseInt(id));
                 if (product) {
                     return { ...product, quantity: cart[id], subtotal: product.price * cart[id] };
@@ -331,38 +361,84 @@
                 return null;
             }).filter(item => item !== null);
 
-            itemsInCart.forEach((item, index) => {
-                orderList += `${index + 1}. ${item.name} (${formatCurrency(item.price)}/item) x ${item.quantity} = ${formatCurrency(item.subtotal)}\n`;
-            });
+            // Format field list item Discord
+            const itemDescription = itemsInCart.map(item => 
+                `${item.name} (${formatCurrency(item.price)}) x ${item.quantity} = **${formatCurrency(item.subtotal)}**`
+            ).join('\n');
 
-            // 2. Tambahkan Total
-            orderList += `\n------------------------\n`;
-            orderList += `Total Keseluruhan: ${totalPriceText}\n`;
-            orderList += `\nMohon konfirmasi ketersediaan dan proses pembayarannya. Terima kasih!`;
+            const discordPayload = {
+                embeds: [{
+                    title: `🛒 PESANAN PASAR GELAP BARU`,
+                    description: `Pesanan diterima melalui Toko Digital Glow.`,
+                    color: 11031031, // Ungu Decimal
+                    fields: [
+                        { name: "👤 Pemesan", value: `**${buyerName}**`, inline: false },
+                        { name: "📦 Detail Pesanan", value: itemDescription, inline: false },
+                        { name: "💰 TOTAL HARGA", value: `**${totalPriceText}**`, inline: true },
+                        { name: "🕒 Waktu Pesan", value: new Date().toLocaleString('id-ID'), inline: true }
+                    ]
+                }]
+            };
 
-            // 3. Encode pesan untuk URL
-            const encodedMessage = encodeURIComponent(orderList);
+            // 3. Kirim ke Discord
+            checkoutButton.innerHTML = "MENGIRIM...";
+            checkoutButton.classList.add('btn-disabled');
+            checkoutButton.disabled = true;
 
-            // 4. Buat URL WhatsApp
-            const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodedMessage}`;
+            try {
+                 // Ganti pengecekan placeholder
+                if (DISCORD_ORDER_WEBHOOK.includes("MASUKKAN_URL_WEBHOOK")) {
+                     throw new Error("Webhook URL belum diatur.");
+                }
+                
+                const response = await fetch(DISCORD_ORDER_WEBHOOK, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(discordPayload)
+                });
 
-            // 5. Update tombol dan tampilkan pesan
-            waLinkButton.href = whatsappUrl;
-            waLinkButton.classList.remove('hidden');
-            checkoutButton.classList.add('hidden'); // Sembunyikan tombol utama
-            
-            messageDiv.textContent = `List pesanan siap! Klik tombol di bawah untuk mengirim via WhatsApp.`;
-            messageDiv.classList.remove('hidden', 'text-red-400');
-            messageDiv.classList.add('text-green-400');
+                if (!response.ok) {
+                    throw new Error(`Discord API responded with status ${response.status}`);
+                }
+
+                // 4. Sukses
+                Swal.fire({ 
+                    icon: 'success', 
+                    title: 'Pesanan Terkirim!', 
+                    text: `Pesanan atas nama ${buyerName} berhasil dikirim ke Discord Admin.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+
+                // Reset keranjang
+                cart = {};
+                renderCart();
+                buyerNameInput.value = '';
+
+            } catch (error) {
+                console.error("Error saat mengirim pesanan:", error);
+                 Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Gagal Mengirim Pesanan', 
+                    text: `Terjadi kesalahan: ${error.message}. Pastikan URL Webhook sudah benar.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+            } finally {
+                checkoutButton.innerHTML = "Kirim Pesanan ke Discord";
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+            }
         };
 
 
         // Inisialisasi Aplikasi saat memuat halaman
         window.onload = () => {
             renderProducts();
-            renderCart(); // Render keranjang awal (kosong) dan cek jam operasional
-            
-            // Atur timer untuk refresh setiap 1 menit untuk update jam operasional secara otomatis
+            renderCart();
+            // Atur timer untuk refresh status setiap 1 menit
             setInterval(renderCart, 60000); 
         };
     </script>
