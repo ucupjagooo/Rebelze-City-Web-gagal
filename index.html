@@ -122,6 +122,16 @@
             font-style: italic;
         }
 
+        /* NEW CLOCK STYLE */
+        .neon-clock {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            font-weight: 700;
+            font-family: monospace;
+            line-height: 1.2;
+        }
+
+
         .hero-logo-container {
             width: 220px;
             height: 220px;
@@ -397,6 +407,12 @@
                 
                 <h1 data-aos="fade-up" data-aos-delay="200">REBEL STATE</h1>
                 <p data-aos="fade-up" data-aos-delay="400" class="text-xl text-cyan-300 tracking-widest">ROLEPLAY • COMMUNITY • LEGACY</p>
+                
+                <!-- NEW CLOCK DISPLAY -->
+                <div id="current-datetime" data-aos="fade-up" data-aos-delay="500" class="mt-4 text-lg neon-clock">
+                    <!-- Clock content inserted by JS -->
+                </div>
+
                 <!-- Tombol ini sekarang mengarah ke Whitelist Section dan memicu SweetAlert -->
                 <a href="#whitelist" id="hero-join-btn" class="cta-button" data-aos="fade-up" data-aos-delay="600" onclick="showManualRegistrationInfo(event)">JOIN THE CHAOS</a>
             </div>
@@ -511,7 +527,7 @@
                         <img src="CSS.jpeg" alt="Gang" class="portfolio-image">
                         <h3>CSS</h3>
                         <p>Crime Syndicate</p>
-                    </div>
+                    </diV>
                 </a>
 
                 <a href="#" class="portfolio-link">
@@ -522,6 +538,13 @@
                     </div>
                 </a>
                 
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="500">
+                        <img src="image.png" alt="Gang" class="portfolio-image">
+                        <h3>VoldiGod</h3>
+                        <p>Unknown Gang</p>
+                    </div>
+                </a>
 
                 <a href="tgsf.html" class="portfolio-link">
                     <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="600">
@@ -541,8 +564,8 @@
 
             </div>
         </section>
-
-                <!-- WHITELIST SECTION -->
+        
+        <!-- FASILITAS KOTA -->
         <section id="whitelist" class="container">
             <div class="section-header" data-aos="fade-up">
                 <h2 style="color: var(--neon-pink);">FASILITAS KOTA</h2>
@@ -550,7 +573,7 @@
             </div>
 
             <div class="max-w-sm mx-auto"> 
-                <!-- Link ke Discord, memicu SweetAlert -->
+                <!-- Link ke Aksara Studio -->
                 <a href="https://aksarastudio.vercel.app/" target="_blank" id="card-join-link" class="portfolio-link block">
                     <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="700">
                         <img src="image.png" alt="Registrasi" class="portfolio-image">
@@ -620,7 +643,6 @@
         
         // --- Fungsi Kirim Log Login ke Discord ---
         const sendLoginLogToDiscord = async (namaAsli, namaRp) => {
-             // Cek jika URL Webhook kosong atau masih placeholder
             if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.includes("LINK_WEBHOOK")) {
                 console.warn("Webhook URL is missing or still placeholder. Login log skipped.");
                 return;
@@ -694,6 +716,25 @@
             }
         };
 
+        // --- Fungsi CLOCK ---
+        const updateClock = () => {
+            const now = new Date();
+            
+            // Formatting options for date (Day, Date, Month, Year)
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('id-ID', dateOptions);
+            
+            // Formatting options for time (HH:MM:SS)
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const timeStr = now.toLocaleTimeString('id-ID', timeOptions);
+
+            const datetimeDiv = document.getElementById('current-datetime');
+            if (datetimeDiv) {
+                datetimeDiv.innerHTML = `${dateStr}<br>${timeStr} WIB`;
+            }
+        };
+
+
         const initializeSite = () => {
             const userData = sessionStorage.getItem(REBEL_ACCESS_KEY);
             if (userData) {
@@ -712,6 +753,10 @@
                 heroJoinBtn.href = "#";
                 heroJoinBtn.onclick = showManualRegistrationInfo;
             }
+            
+            // Start the clock
+            setInterval(updateClock, 1000);
+            updateClock();
         };
         
         // Logika Form Login
@@ -747,5 +792,4 @@
         window.onload = initializeSite;
     </script>
 </body>
-
 </html>

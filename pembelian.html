@@ -203,7 +203,9 @@
         const CORRECT_PASSWORD = "ucupganteng";
         const PASSWORD_SESSION_KEY = 'shop_access_granted';
         const ATTEMPTS_LEFT_KEY = 'shop_attempts_left';
+        const LAST_PURCHASE_KEY = 'shop_last_purchase_time'; 
         const MAX_ATTEMPTS = 3;
+        const COOLDOWN_DURATION = 30 * 60 * 1000; // Ditetapkan menjadi 30 menit (30 * 60 * 1000 ms)
         const DISCORD_ORDER_WEBHOOK = "https://discord.com/api/webhooks/1444582884211163177/YwoA8pNqvpbvO_7bR2zEdRJn2eP3SypKziV5kQb0O6vZoy-4vCTFVubEPt3Et95TFf7b";
         
         // Data Produk
@@ -329,6 +331,19 @@
             // Jam operasional: 15:00 (3 sore) sampai 21:00 (9 malam)
             return hour >= 15 && hour < 21; 
         };
+        
+        // --- Fungsi Pengecekan Cooldown (NEW) ---
+        const checkCooldownStatus = () => {
+            const lastPurchaseTime = parseInt(localStorage.getItem(LAST_PURCHASE_KEY));
+            if (!lastPurchaseTime) return 0;
+
+            const currentTime = new Date().getTime();
+            const expirationTime = lastPurchaseTime + COOLDOWN_DURATION;
+            
+            if (currentTime >= expirationTime) return 0;
+
+            return expirationTime - currentTime; // Waktu sisa dalam milidetik
+        };
 
         // Fungsi untuk Menghitung dan Memperbarui Total Harga
         const calculateTotal = () => {
@@ -356,6 +371,17 @@
                 });
                 return;
             }
+             if (checkCooldownStatus() > 0) { // NEW: Cek cooldown
+                 Swal.fire({ 
+                    icon: 'warning', 
+                    title: 'Cooldown Aktif', 
+                    text: 'Anda hanya bisa membeli item dari toko ini setiap 30 menit sekali.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                return;
+            }
             
             const id = String(productId);
             if (cart[id]) {
@@ -373,6 +399,17 @@
                     icon: 'warning', 
                     title: 'Toko Tutup', 
                     text: 'Toko beroperasi pukul 15:00 - 21:00 WIB. Perubahan pesanan di luar jam ini tidak dapat dilakukan.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                return;
+            }
+             if (checkCooldownStatus() > 0) { // NEW: Cek cooldown
+                 Swal.fire({ 
+                    icon: 'warning', 
+                    title: 'Cooldown Aktif', 
+                    text: 'Anda hanya bisa mengubah pesanan setiap 30 menit sekali.', 
                     background: '#1a1a1a', 
                     color: '#fff',
                     confirmButtonColor: '#a855f7'
@@ -416,6 +453,7 @@
             const checkoutButton = document.getElementById('checkout-button');
             const messageDiv = document.getElementById('checkout-message');
             const isOperating = checkOperatingHours();
+            const remainingCooldown = checkCooldownStatus(); // NEW: Cek cooldown
             
             let cartContent = '';
             const itemsInCart = Object.keys(cart).map(id => {
@@ -436,9 +474,9 @@
                             <p class="text-purple-accent text-sm">${formatCurrency(item.price)} x ${item.quantity}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas" ${isOperating ? '' : 'disabled'} >-</button>
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas" ${isOperating && remainingCooldown === 0 ? '' : 'disabled'} >-</button>
                             <span class="text-lg font-bold">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas" ${isOperating ? '' : 'disabled'} >+</button>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas" ${isOperating && remainingCooldown === 0 ? '' : 'disabled'} >+</button>
                         </div>
                     </div>
                 `).join('');
@@ -447,19 +485,34 @@
             cartItemsDiv.innerHTML = cartContent;
             calculateTotal();
 
-            // Kontrol Tombol dan Pesan Berdasarkan Jam Operasional dan Isi Keranjang
-            if (!isOperating) {
+            // Kontrol Tombol dan Pesan Berdasarkan Jam Operasional, Cooldown, dan Isi Keranjang
+            
+            if (remainingCooldown > 0) { // NEW: COOLDOWN ACTIVE
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+                
+                const nextPurchaseDate = new Date(new Date().getTime() + remainingCooldown);
+                const dateString = nextPurchaseDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                const timeString = nextPurchaseDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.textContent = `Toko cooldown. Beli lagi pada: ${dateString}, ${timeString} WIB.`;
+                messageDiv.classList.remove('text-yellow-400');
+                messageDiv.classList.add('text-red-400');
+                
+            } else if (!isOperating) {
                 checkoutButton.classList.add('btn-disabled');
                 checkoutButton.disabled = true;
                 messageDiv.textContent = "Toko TUTUP. Jam operasional: 15:00 - 21:00 WIB.";
                 messageDiv.classList.remove('text-yellow-400', 'text-green-400');
                 messageDiv.classList.add('text-red-400');
+                
             } else if (itemsInCart.length === 0) {
                 checkoutButton.classList.add('btn-disabled');
                 checkoutButton.disabled = true;
                 messageDiv.textContent = "Keranjang kosong. Tambahkan item untuk membeli.";
                 messageDiv.classList.remove('text-red-400', 'text-green-400');
                 messageDiv.classList.add('text-yellow-400');
+                
             } else {
                 checkoutButton.classList.remove('btn-disabled');
                 checkoutButton.disabled = false;
@@ -476,6 +529,20 @@
             const messageDiv = document.getElementById('checkout-message');
             const checkoutButton = document.getElementById('checkout-button');
             const totalPriceText = document.getElementById('total-price').textContent;
+            
+            // Cek Cooldown Final
+            if (checkCooldownStatus() > 0) {
+                 Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Gagal', 
+                    text: 'Anda harus menunggu cooldown 30 menit sebelum membeli lagi.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+                renderCart();
+                return;
+            }
 
             // Pengecekan Jam Operasional Final
             if (!checkOperatingHours()) {
@@ -519,7 +586,7 @@
             const discordPayload = {
                 embeds: [{
                     title: `🛒 PESANAN PASAR GELAP BARU`,
-                    description: `Pesanan diterima melalui Toko Digital Glow.`,
+                    description: `Pesanan diterima dari **${buyerName}** (N9M).`,
                     color: 11031031, // Ungu Decimal
                     fields: [
                         { name: "👤 Pemesan", value: `**${buyerName}**`, inline: false },
@@ -554,11 +621,15 @@
                     }
                 }
 
+                // --- START COOLDOWN ON SUCCESS ---
+                localStorage.setItem(LAST_PURCHASE_KEY, new Date().getTime());
+                // --- END COOLDOWN ---
+                
                 // 4. Sukses
                 Swal.fire({ 
                     icon: 'success', 
                     title: 'Pesanan Terkirim!', 
-                    text: `Pesanan atas nama ${buyerName} berhasil dikirim ke Discord Admin.`, 
+                    text: `Pesanan atas nama ${buyerName} berhasil dikirim ke Discord Admin. Anda tidak bisa memesan lagi selama 30 menit.`, 
                     background: '#1a1a1a', 
                     color: '#fff',
                     confirmButtonColor: '#a855f7'
@@ -590,7 +661,7 @@
         const initializeShop = () => {
             renderProducts();
             renderCart();
-            // Atur timer untuk refresh status setiap 1 menit
+            // Atur timer untuk refresh status setiap 1 menit (untuk update jam dan cooldown)
             setInterval(renderCart, 60000); 
         };
 
