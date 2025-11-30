@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil TGSF - Grove Street</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Poppins dan tema gelap-HIJAU */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #051500; /* Hitam kehijauan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Definisi Warna Tema TGSF (HIJAU NEON & HITAM) */
+        :root {
+            --primary-green: #00FF00; /* Hijau Utama */
+            --green-highlight: #66FF66; /* Hijau Terang (Glow) */
+            --green-border: #008800; /* Hijau Gelap (Border) */
+        }
+
+        .card-bg {
+            background-color: #1a1a1a; /* Hitam gelap untuk card */
+            border: 2px solid var(--green-border); /* Border Hijau gelap */
+        }
+        .text-green-highlight {
+            color: var(--green-highlight); /* Hijau terang untuk highlight */
+        }
+        /* Style untuk bayangan pada tombol dan elemen interaktif */
+        .shadow-green {
+            box-shadow: 0 10px 15px -3px rgba(0, 255, 0, 0.5), 0 4px 6px -2px rgba(0, 255, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .shadow-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(0, 255, 0, 0.7), 0 6px 8px -3px rgba(0, 255, 0, 0.4);
+        }
+        /* Style untuk menyesuaikan layout di perangkat kecil */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom di HP */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-4xl card-bg rounded-2xl p-6 sm:p-10 shadow-2xl">
+
+        <!-- Header dan Nama Karakter -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-green-highlight tracking-wider uppercase">
+                TGSF Family
+            </h1>
+            <p class="text-xl sm:text-2xl font-light text-gray-300 mt-2">
+                <span class="font-semibold">THE GROVE STREET</span> SQUAD
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Foto Karakter Mr04 (Sekarang TGSF) -->
+            <div class="md:col-span-1 flex justify-center items-start">
+                <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-xl overflow-hidden shadow-green">
+                    <!-- Gambar TGSF -->
+                    <img 
+                        src=TGSF.jpeg 
+                        alt="Foto Profil TGSF (Grove Street)" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Detail Karakter (Data Operasional dan Bio) -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- Judul Bagian: Data Operasional -->
+                <h2 class="text-3xl font-bold text-white border-b-2 border-green-highlight pb-2">
+                    Kode Operasi & Kekuatan
+                </h2>
+
+                <!-- Kartu Detail Kekuatan -->
+                <div class="bg-[#003300] p-4 rounded-lg shadow-inner border border-green-border">
+                    <p class="text-lg font-semibold text-green-highlight mb-1">Keahlian Inti Geng:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-200">
+                        <li><span class="font-medium">Kontrol Wilayah (Territory):</span> Mengamankan dan mempertahankan setiap jengkal Grove Street dari invasi.</li>
+                        <li><span class="font-medium">Jaringan Distribusi:</span> Mengoperasikan jalur aman untuk penyebaran barang dagangan di area kota.</li>
+                        <li><span class="font-medium">Taktik Jalanan (Street Tactics):</span> Memiliki kecerdasan tempur dan kecepatan tinggi dalam operasi jalanan.</li>
+                    </ul>
+                </div>
+
+                <!-- Bio Singkat -->
+                <div>
+                    <p class="text-lg font-semibold text-green-highlight mb-2">Profil Singkat Geng:</p>
+                    <p class="text-gray-100 leading-relaxed">
+                        TGSF (The Grove Street Family) adalah simbol perlawanan dan persaudaraan di jalanan kota. Geng ini bergerak berdasarkan loyalitas mutlak, dengan fokus utama pada dominasi wilayah. Kekuatan kami terletak pada jumlah anggota yang solid dan kemampuan untuk bergerak cepat tanpa terdeteksi oleh faksi lain. Kami tidak mencari konflik, tetapi siap menghancurkan siapa pun yang mengancam Grove Street.
+                    </p>
+                </div>
+
+                <!-- Status dan Cepat Lacak -->
+                <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-700">
+                    <span class="bg-green-800 text-green-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Status: AKTIF / Mengontrol Grove Street
+                    </span>
+                    <span class="bg-yellow-800 text-yellow-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Prioritas: Memperluas Pengaruh
+                    </span>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- BAGIAN BARU: DAFTAR ANGGOTA (Kru Inti TGSF) -->
+        <section class="mt-10">
+            <h2 class="text-3xl font-bold text-white border-b-2 border-green-highlight pb-2 mb-6">
+                Daftar Anggota Keluarga (Kru Inti TGSF)
+            </h2>
+
+            <!-- Grid untuk Anggota (Diatur menjadi 6 kolom di desktop, 3 di tablet, 2 di HP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 member-grid gap-4">
+
+                <!-- Kartu 1: KETUA (Lamskuyy) -->
+                <div class="bg-[#004d00] p-3 rounded-xl text-center shadow-green hover:shadow-2xl border-2 border-yellow-400">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=TGSF.jpeg 
+                            alt="Lammskuy Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-extrabold text-white text-md">Lamskuyy</p>
+                    <p class="text-xs text-yellow-300 font-bold">KETUA (OG)</p>
+                </div>
+                
+                <!-- Kartu 2: WAKIL KETUA (13Blisya) -->
+                <div class="bg-[#003300] p-3 rounded-xl text-center shadow-green hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=TGSF.jpeg 
+                            alt="13Blisya Wakil Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">13Blisya</p>
+                    <p class="text-xs text-green-highlight">WAKIL KETUA</p>
+                </div>
+
+                <!-- Kartu 3: Penasehat (Hara) -->
+                <div class="bg-[#003300] p-3 rounded-xl text-center shadow-green hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="TGSF.jpeg"
+                            alt="Hara Penasehat" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Hara</p>
+                    <p class="text-xs text-green-highlight">PENASEHAT</p>
+                </div>
+
+                <!-- Kartu 4: GANG MEMBER (Anggota C) -->
+                <div class="bg-[#003300] p-3 rounded-xl text-center shadow-green hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="TGSF.jpeg" 
+                            alt="Anggota C" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota C</p>
+                    <p class="text-xs text-green-highlight">KRU JALANAN</p>
+                </div>
+
+                <!-- Kartu 5: GANG MEMBER (Anggota D) -->
+                <div class="bg-[#003300] p-3 rounded-xl text-center shadow-green hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="TGSF.jpeg" 
+                            alt="Anggota D" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota D</p>
+                    <p class="text-xs text-green-highlight">OPERATOR JALUR</p>
+                </div>
+                
+                <!-- Kartu 6: GANG MEMBER (Anggota E) -->
+                <div class="bg-[#003300] p-3 rounded-xl text-center shadow-green hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                         <img 
+                            src="TGSF.jpeg" 
+                            alt="Anggota E" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota E</p>
+                    <p class="text-xs text-green-highlight">INTELIJEN</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer atau Tautan Terkait (Opsional) -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 TGSF The Grove Street Family. Semua hak cipta dilindungi. Dokumen Profil Geng.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
