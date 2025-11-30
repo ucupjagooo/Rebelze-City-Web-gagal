@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hood Profile CSS Cassano - Pusat Kekuatan</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Poppins dan tema gelap-MERAH */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #150000; /* Hitam kemerahan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Definisi Warna Tema CSS CASSANO (MERAH & HITAM) */
+        :root {
+            --primary-red: #FF0000; /* Merah Utama */
+            --red-highlight: #FF4444; /* Merah Terang (Glow) */
+            --red-border: #990000; /* Merah Gelap (Border) */
+        }
+
+        .container-card {
+            background-color: #1a1a1a; /* Hitam gelap untuk card */
+            border: 2px solid var(--red-border); /* Border Merah gelap */
+        }
+        .text-red-highlight {
+            color: var(--red-highlight); /* Merah terang untuk highlight */
+        }
+        /* Style untuk efek visual pada gambar dan card */
+        .shadow-red-heavy {
+            box-shadow: 0 20px 25px -5px rgba(255, 0, 0, 0.4), 0 10px 10px -5px rgba(255, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-5xl container-card rounded-xl p-6 sm:p-10 shadow-red-heavy">
+
+        <!-- Header Area -->
+        <header class="text-center mb-10">
+            <p class="text-2xl font-light text-gray-300">Zona Operasional Utama</p>
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-red-highlight tracking-wider uppercase mt-2">
+                CSS CASSANO HOOD
+            </h1>
+            <p class="text-xl sm:text-2xl font-semibold text-white mt-4">
+                "Bukan Sekadar Wilayah, Ini adalah Markas Sindikat Kejahatan"
+            </p>
+        </header>
+
+        <!-- Bagian Foto dan Deskripsi Utama -->
+        <main class="space-y-10">
+
+            <!-- Blok Gambar Utama -->
+            <div class="relative rounded-lg overflow-hidden shadow-red-heavy">
+                <img 
+                    src=hoodcss.jpeg
+                    alt="Pemandangan area Hood CSS Cassano" 
+                    class="w-full h-auto object-cover opacity-90"
+                >
+                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+            </div>
+
+            <!-- Blok Deskripsi Hood -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Kolom 1: Status dan Kekuatan -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-red-highlight pb-2">
+                        Nexus Kekuatan
+                    </h2>
+                    <p class="text-gray-200 leading-relaxed">
+                        Hood **CSS Cassano** adalah jantung operasional dari sindikat kejahatan utama ini. Secara geografis, area ini sangat strategis—dirancang untuk memiliki akses dan pertahanan yang optimal, menjadikannya benteng yang sulit ditembus oleh LSPD atau geng rival. Inilah tempat di mana strategi pasar gelap dan *cold-blooded decision* dibuat oleh para pimpinan.
+                    </p>
+                    <div class="bg-[#330000] p-4 rounded-lg border border-red-border">
+                        <p class="text-xl font-semibold text-red-highlight mb-2">Mengapa Hood Ini Penting?</p>
+                        <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100">
+                            <li><span class="font-medium">Benteng Pertahanan:</span> Lokasi yang terisolasi atau mudah dipertahankan memberikan keunggulan defensif total.</li>
+                            <li><span class="font-medium">Jalur Logistik Kriminal:</span> Pusat distribusi cepat untuk senjata dan narkoba ke seluruh penjuru kota.</li>
+                            <li><span class="font-medium">Pusat Komando:</span> Markas bagi para petinggi sindikat untuk merencanakan operasi besar.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Sumber Daya dan Keuntungan -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-red-highlight pb-2">
+                        Sumber Keuntungan Finansial
+                    </h2>
+                    <p class="text-gray-200 leading-relaxed">
+                        Kawasan ini adalah *cash cow* bagi CSS Cassano, menjadi pusat segala aktivitas ilegal yang menghasilkan profit besar. Keuntungan diperoleh dari mengontrol perdagangan, memeras, dan mengoperasikan fasilitas tersembunyi yang menjaga keuangan sindikat tetap stabil dan jauh dari pantauan otoritas.
+                    </p>
+                    
+                    <div class="bg-[#330000] p-4 rounded-lg border border-red-border">
+                        <p class="text-xl font-semibold text-red-highlight mb-2">Aktivitas Utama di Hood:</p>
+                        <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100">
+                            <li><span class="font-medium">Kasino dan Arena Ilegal:</span> Pusat judi dan taruhan eksklusif dengan keamanan ketat.</li>
+                            <li><span class="font-medium">Money Laundering Hub:</span> Fasilitas pencucian uang melalui bisnis-bisnis *front* properti dan logistik.</li>
+                            <li><span class="font-medium">Armory Bawah Tanah:</span> Gudang rahasia senjata api kualitas tinggi dan penyimpanan narkotika.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesan Peringatan RP -->
+            <div class="mt-10 p-5 bg-red-900 bg-opacity-50 rounded-lg text-center border border-red-500">
+                <p class="text-lg font-bold text-red-300">PERINGATAN OPERASIONAL</p>
+                <p class="text-sm text-gray-300 mt-1">Area Hood CSS Cassano sangat dikendalikan. Akses tanpa izin dan tanpa persetujuan dari pimpinan Sindikat dapat berakibat fatal.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>Dokumen Klasifikasi: Sangat Rahasia | Dibuat oleh CSS Cassano Intel</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
