@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padel Court Arena - Rebelze City</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-ungu */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Hitam keunguan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-card {
+            background-color: #2a094e; /* Ungu gelap untuk card */
+            border: 2px solid #6c47ff; /* Border ungu terang */
+        }
+        .text-purple-highlight {
+            color: #bd93f9; /* Ungu lavender untuk highlight */
+        }
+        /* Style untuk efek visual pada card */
+        .shadow-purple-heavy {
+            box-shadow: 0 20px 25px -5px rgba(108, 71, 255, 0.4), 0 10px 10px -5px rgba(108, 71, 255, 0.1);
+        }
+        .input-style {
+            background-color: #3e1f76; /* Ungu gelap untuk input */
+            color: white;
+            border: 1px solid #6c47ff;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .btn-wa-glow {
+            background-color: #25d366; /* Hijau WhatsApp */
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.7);
+            transition: all 0.3s ease;
+        }
+        .btn-wa-glow:hover {
+            background-color: #128c7e;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 1);
+        }
+        .btn-default {
+            background-color: #6c47ff;
+        }
+        .btn-default:hover {
+            background-color: #5533ee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-5xl container-card rounded-xl p-6 sm:p-10 shadow-purple-heavy">
+
+        <!-- Header Arena -->
+        <header class="text-center mb-10">
+            <p class="text-2xl font-light text-gray-300">Pusat Olahraga Elit Rebelze City</p>
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-purple-highlight tracking-wider uppercase mt-2">
+                REBELZE PADEL ARENA
+            </h1>
+            <p class="text-xl sm:text-2xl font-semibold text-white mt-4">
+                "Kesehatan dan Jaringan, Semua Dimulai di Lapangan"
+            </p>
+        </header>
+
+        <!-- Bagian Foto dan Detail Padel -->
+        <main class="space-y-10">
+
+            <!-- Blok Gambar Lapangan Padel (Placeholder) -->
+            <div class="relative rounded-lg overflow-hidden shadow-purple-heavy h-64 md:h-80 flex items-center justify-center bg-[#1e073a]">
+                <!-- Placeholder untuk Gambar Lapangan Padel -->
+                <img 
+                    src=lapvadel.png
+                    alt="Lapel Padel yang mewah" 
+                    class="w-full h-full object-cover opacity-70"
+                >
+                <div class="absolute text-3xl font-bold text-white tracking-widest pointer-events-none">
+                     
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Kolom 1: Tarif dan Penyewaan -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Reservasi & Tarif Sewa
+                    </h2>
+                    <p class="text-gray-200 leading-relaxed">
+                        Nikmati fasilitas Padel terbaik di kota. Lapangan kami menggunakan rumput sintetis premium dan pencahayaan kelas turnamen, terbuka untuk reservasi tim.
+                    </p>
+
+                    <!-- Detail Harga -->
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-xl font-semibold text-purple-highlight mb-2">Tarif Per Jam (Penyewaan Lapangan)</p>
+                        <ul class="space-y-3">
+                            <!-- Siang Hari -->
+                            <li class="flex justify-between items-center">
+                                <span class="text-gray-100 font-medium">Senin - Jumat (Siang, 08:00 - 17:00)</span>
+                                <span class="text-white font-bold text-lg">$25 / Jam</span>
+                            </li>
+                            <!-- Malam Hari -->
+                            <li class="flex justify-between items-center">
+                                <span class="text-gray-100 font-medium">Senin - Jumat (Malam, 17:00 - Selesai)</span>
+                                <span class="text-white font-bold text-lg text-yellow-300">$40 / Jam</span>
+                            </li>
+                            <!-- Akhir Pekan -->
+                            <li class="flex justify-between items-center border-t border-gray-600 pt-3">
+                                <span class="text-purple-highlight font-semibold">Akhir Pekan & Hari Libur</span>
+                                <span class="text-purple-highlight font-bold text-lg">$50 / Jam</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Fasilitas dan Reservasi Cepat -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Reservasi Cepat via WhatsApp
+                    </h2>
+                    
+                    <!-- Formulir Reservasi Cepat -->
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-lg font-semibold text-purple-highlight mb-4">Pilih Waktu dan Durasi</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Input Tanggal & Waktu -->
+                            <div>
+                                <label for="time-slot" class="block text-gray-300 mb-1">Tanggal dan Waktu Main:</label>
+                                <input type="datetime-local" id="time-slot" class="input-style w-full" value="" required>
+                            </div>
+
+                            <!-- Pilih Jenis Tarif (Siang/Malam/Akhir Pekan) -->
+                            <div>
+                                <label for="rate-type" class="block text-gray-300 mb-1">Jenis Tarif / Hari:</label>
+                                <select id="rate-type" class="input-style w-full" onchange="updateTotalEstimate()">
+                                    <option value="SIANG">Senin - Jumat (Siang, $25/Jam)</option>
+                                    <option value="MALAM">Senin - Jumat (Malam, $40/Jam)</option>
+                                    <option value="AKHIR_PEKAN">Akhir Pekan & Libur ($50/Jam)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Input Durasi -->
+                            <div>
+                                <label for="duration" class="block text-gray-300 mb-1">Durasi (Jam):</label>
+                                <input type="number" id="duration" class="input-style w-full" min="1" max="5" value="1" oninput="updateTotalEstimate()" required>
+                            </div>
+                        </div>
+
+                        <!-- Estimasi Total -->
+                        <div class="flex justify-between items-center mt-6 p-3 rounded-md bg-[#4c2a84]">
+                            <span class="text-purple-highlight font-semibold">ESTIMASI TOTAL:</span>
+                            <span id="total-estimate" class="text-2xl font-extrabold text-white">$25</span>
+                        </div>
+                        
+                        <!-- Tombol WA -->
+                        <button onclick="sendWhatsappOrder()" class="btn-default w-full py-3 mt-4 rounded-lg text-white font-semibold uppercase tracking-wider transition duration-200">
+                            Pesan via WhatsApp
+                        </button>
+
+                        <a id="wa-link-button" href="#" target="_blank" class="hidden btn-wa-glow w-full py-3 mt-3 rounded-lg text-center text-white font-semibold uppercase tracking-wider transition duration-200" role="button">
+                            Lanjut Kirim Pesan WA
+                        </a>
+                        
+                        <p id="reservation-message" class="text-center mt-3 text-sm text-yellow-400 hidden">
+                            <!-- Pesan akan muncul di sini setelah validasi -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detail Fasilitas dan Tujuan RP (dipindahkan ke bawah form agar fokus pada booking) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Fasilitas & Keuntungan
+                    </h2>
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-xl font-semibold text-purple-highlight mb-2">Fasilitas yang Disediakan</p>
+                        <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100">
+                            <li>Penyewaan Raket dan Bola Padel Premium.</li>
+                            <li>Area Duduk VIP untuk pengamat.</li>
+                            <li>Ruang Ganti dan Shower Pribadi yang Bersih.</li>
+                            <li>Kafe/Lounge Eksklusif (Khusus Anggota).</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Tujuan Roleplay (RP)
+                    </h2>
+                    <div>
+                        <p class="text-gray-100 leading-relaxed pt-2">
+                            Arena ini adalah titik temu yang netral bagi para petinggi kota. Selain olahraga, tempat ini sering digunakan untuk *meeting* rahasia, membangun aliansi bisnis (legal atau ilegal), dan sebagai tempat *showcase* kekuatan finansial. Tempat yang sempurna untuk bersantai sambil mengamankan kesepakatan besar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>Rebelze Padel Arena | Dikelola oleh Divisi Rekreasi Rebelze City.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Nomor WhatsApp tujuan
+        const WA_NUMBER = "6285352002602";
+
+        // Tarif tetap untuk referensi
+        const RATES = {
+            'SIANG': { price: 25, label: 'Senin - Jumat (Siang, 08:00-17:00)' },
+            'MALAM': { price: 40, label: 'Senin - Jumat (Malam, 17:00-Selesai)' },
+            'AKHIR_PEKAN': { price: 50, label: 'Akhir Pekan & Hari Libur' }
+        };
+
+        // Fungsi Format Mata Uang USD (Dolar Amerika)
+        const formatCurrency = (number) => {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+
+        // Fungsi untuk mengupdate estimasi total biaya
+        const updateTotalEstimate = () => {
+            const duration = parseInt(document.getElementById('duration').value) || 0;
+            const rateType = document.getElementById('rate-type').value;
+
+            const rate = RATES[rateType];
+            let totalCost = 0;
+
+            if (rate && duration > 0) {
+                totalCost = rate.price * duration;
+            }
+
+            document.getElementById('total-estimate').textContent = formatCurrency(totalCost);
+        };
+
+        // Fungsi Checkout: Membuat dan mengarahkan ke link WhatsApp
+        const sendWhatsappOrder = () => {
+            const timeSlot = document.getElementById('time-slot').value;
+            const duration = parseInt(document.getElementById('duration').value);
+            const rateType = document.getElementById('rate-type').value;
+
+            const messageDiv = document.getElementById('reservation-message');
+            const waLinkButton = document.getElementById('wa-link-button');
+            const defaultButton = document.querySelector('.btn-default');
+            
+            // Basic Validation
+            if (!timeSlot || isNaN(duration) || duration <= 0 || !rateType) {
+                messageDiv.textContent = "Mohon lengkapi semua detail reservasi (Tanggal, Waktu, Durasi minimal 1 jam).";
+                messageDiv.className = 'text-center mt-3 text-sm text-red-400';
+                waLinkButton.classList.add('hidden');
+                setTimeout(() => messageDiv.classList.add('hidden'), 5000);
+                return;
+            }
+            
+            // Hitung total biaya
+            const rate = RATES[rateType];
+            const totalCost = rate.price * duration;
+            const formattedTime = new Date(timeSlot).toLocaleString('id-ID', {
+                dateStyle: 'full',
+                timeStyle: 'short'
+            });
+
+            // Construct the message
+            let reservationMessage = `*RESERVASI LAPANGAN PADEL*\n\n`;
+            reservationMessage += `Halo, saya ingin memesan lapangan Padel dengan detail berikut:\n\n`;
+            reservationMessage += `*Waktu Pilihan:* ${formattedTime}\n`;
+            reservationMessage += `*Durasi Sewa:* ${duration} Jam\n`;
+            reservationMessage += `*Jenis Tarif:* ${rate.label}\n`;
+            reservationMessage += `\n*ESTIMASI TOTAL BIAYA:* ${formatCurrency(totalCost)}\n\n`;
+            reservationMessage += `Mohon konfirmasi ketersediaan slot dan instruksi pembayarannya. Terima kasih.`;
+
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(reservationMessage);
+            const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodedMessage}`;
+
+            // Update tombol dan tampilkan pesan
+            waLinkButton.href = whatsappUrl;
+            waLinkButton.classList.remove('hidden');
+            defaultButton.classList.add('hidden'); // Sembunyikan tombol default setelah siap
+
+            messageDiv.textContent = `Reservasi Anda siap! Klik tombol di bawah untuk mengirim detail ke WhatsApp.`;
+            messageDiv.className = 'text-center mt-3 text-sm text-green-400';
+        };
+
+        // Inisialisasi: set tanggal default ke hari ini dan hitung estimasi awal
+        window.onload = () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('time-slot').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+            updateTotalEstimate();
+        };
+    </script>
+</body>
+</html>

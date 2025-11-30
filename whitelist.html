@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RebelSMP - Whitelist Registration</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 untuk Pop up keren -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Menggunakan Style yang SAMA dengan Web Utama (Neon Retro) */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #050510;
+            color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --neon-pink: #ff0099;
+            --neon-cyan: #00f3ff;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 5px; }
+
+        .glass-panel {
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Form Styling */
+        label {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-glow {
+            width: 100%;
+            background-color: #0d0d0d;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .input-glow:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 153, 0.3);
+        }
+        
+        /* Kelas input-locked dihapus, tapi tetap ada di CSS sebagai fallback styling */
+        .input-locked {
+            background-color: #222 !important;
+            color: #999 !important;
+            cursor: default;
+            border-color: #555 !important;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--neon-pink);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 0 var(--neon-pink);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            background: var(--neon-pink);
+            color: #fff;
+            font-weight: 800;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-submit:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        .btn-disabled {
+            background: #333 !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+
+    <div class="container max-w-3xl mx-auto my-10 relative z-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-10" data-aos="fade-down">
+            <h1 class="text-5xl font-black text-white italic tracking-tighter" style="text-shadow: 3px 3px 0 #ff0099;">WHITELIST FORM</h1>
+            <p class="text-cyan-400 tracking-[0.3em] mt-2">REBEL STATE ROLEPLAY</p>
+        </div>
+
+        <!-- Notification Area (Jika sudah daftar) -->
+        <div id="already-registered-alert" class="hidden glass-panel p-8 text-center mb-6 border-red-500">
+            <h2 class="text-2xl font-bold text-red-500 mb-2">AKSES DITOLAK</h2>
+            <p class="text-gray-300">Kamu sudah mengirimkan formulir whitelist sebelumnya. Mohon tunggu konfirmasi dari Admin di Discord.</p>
+            <a href="index.html" class="inline-block mt-4 text-cyan-400 hover:text-white underline">Kembali ke Web Utama</a>
+        </div>
+
+        <!-- Form Area -->
+        <form id="whitelistForm" class="glass-panel p-8 md:p-12 rounded-lg" data-aos="zoom-in" data-aos-delay="200">
+            
+            <p class="text-gray-400 text-sm mb-6 text-center italic">Mohon isi semua kolom di bawah ini dengan jawabanmu sendiri.</p>
+
+            <!-- 1. IDENTITAS PEMAIN -->
+            <h3 class="section-title">1. Identitas Pemain (OOC) 🧩</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label>Nama Minecraft (IGN) 1️⃣</label>
+                    <input type="text" id="ign" class="input-glow" placeholder="Contoh: WollyProw" required>
+                </div>
+                <div>
+                    <label>Umur 2️⃣</label>
+                    <input type="number" id="umur" class="input-glow" placeholder="Contoh: 23" required>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label>Discord Tag 3️⃣</label>
+                <input type="text" id="discord_tag" class="input-glow" placeholder="Contoh: Wolly_alias_46092" required>
+            </div>
+
+            <!-- 2. ROLEPLAY & GAMEMODE -->
+            <h3 class="section-title">2. Roleplay & Gamemode 🎭</h3>
+            <div class="space-y-4">
+                <div>
+                    <label>Kenapa kamu ingin bermain di server semi roleplay ini? 4️⃣</label>
+                    <textarea id="alasan" class="input-glow h-24" placeholder="Tulis jawabanmu di sini..." required></textarea>
+                </div>
+                <div>
+                    <label>Jelaskan menurutmu apa arti *semi-roleplay* dan bagaimana kamu akan berperan di dalamnya. 5️⃣</label>
+                    <textarea id="arti_rp" class="input-glow h-24" placeholder="Tulis jawabanmu di sini..." required></textarea>
+                </div>
+                <h4 class="text-gray-400 mt-6 mb-2">6️⃣ Karakter Roleplay:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label>Nama Karakter</label>
+                        <input type="text" id="char_name" class="input-glow" placeholder="Contoh: wollyAs" required>
+                    </div>
+                    <div>
+                        <label>Asal / Fraksi Tujuan</label>
+                        <input type="text" id="char_origin" class="input-glow" placeholder="Contoh: USA" required>
+                    </div>
+                </div>
+                <div>
+                    <label>Latar Belakang Singkat (2-3 kalimat)</label>
+                    <textarea id="char_lore" class="input-glow h-24" placeholder="Tulis latar belakang karaktermu di sini..." required></textarea>
+                </div>
+            </div>
+
+            <!-- 3. PENGETAHUAN DASAR SERVER -->
+            <h3 class="section-title">3. Pengetahuan Dasar Server ⚙️</h3>
+            <div>
+                <label>Apakah kamu paham aturan Looting, Raid, & Ekonomi? 7️⃣</label>
+                <!-- Dropdown aktif, user harus memilih sendiri -->
+                <select id="paham_aturan" class="input-glow" required>
+                    <option value="" disabled selected>-- Pilih Jawaban --</option>
+                    <option value="PAHAM">PAHAM ✋</option>
+                    <option value="TIDAK_PAHAM">Belum paham</option>
+                </select>
+                <!-- Hidden input dihapus karena nilai diambil langsung dari select -->
+            </div>
+
+            <!-- 4. PERATURAN ROLEPLAY -->
+            <h3 class="section-title">4. Peraturan Roleplay ⚖️</h3>
+            <div class="bg-black/50 p-4 border border-gray-700 rounded mb-4 text-xs text-gray-400">
+                <p>8️⃣ **Setuju bahwa:**</p>
+                <ul class="list-disc pl-5 space-y-1 mt-2">
+                    <li>Tidak boleh *metagaming*, *RDM*, *VDM*, atau *powergaming*.</li>
+                    <li>RP dan interaksi lebih penting dari sekadar membunuh.</li>
+                    <li>Menghormati semua pemain.</li>
+                </ul>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Checkbox persetujuan harus dicentang -->
+                <input type="checkbox" id="agree_rules_check" class="w-5 h-5 accent-[#ff0099]" required>
+                <span class="text-sm text-gray-300">Saya setuju dan siap bermain dengan niat.</span>
+            </div>
+
+
+            <!-- 5. KOMITMEN BERMAIN -->
+            <h3 class="section-title">5. Komitmen Bermain 💬</h3>
+            <div>
+                <label>Seberapa sering kamu aktif main Minecraft per minggu? 9️⃣</label>
+                <input type="text" id="activity" class="input-glow" placeholder="Contoh: Hampir setiap hari" required>
+            </div>
+
+            <!-- TOMBOL KIRIM -->
+            <button type="submit" id="submitBtn" class="btn-submit">
+                KIRIM FORMULIR
+            </button>
+            <p class="text-center text-xs text-gray-500 mt-4">Pemain yang diterima WL harus: Bermain dengan niat, siap menerima konsekuensi RP, dan menjaga atmosfer RP. 🔟</p>
+
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // --- KONFIGURASI PENTING ---
+        // GANTI INI DENGAN LINK WEBHOOK DISCORD KAMU
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1444524075241312257/8tdtMaxvDH942OoGUSY9HrCIHOqelqLdrtIMbNP-u8QVRFz4cWQMej1d_AgIpYLRXFVk"; 
+        
+        // NAMA FILE WEB UTAMA
+        const MAIN_WEB_URL = "index.html"; 
+        const WHITELIST_STORAGE_KEY = 'rebel_whitelist_submitted';
+
+        const form = document.getElementById('whitelistForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const alreadyRegisteredAlert = document.getElementById('already-registered-alert');
+
+        // 1. CEK APAKAH SUDAH PERNAH DAFTAR
+        const checkRegistrationStatus = () => {
+            if (localStorage.getItem(WHITELIST_STORAGE_KEY) === 'true') {
+                form.style.display = 'none'; // Sembunyikan form
+                alreadyRegisteredAlert.classList.remove('hidden'); // Munculkan pesan
+            }
+        };
+
+        checkRegistrationStatus();
+
+        // 2. LOGIKA PENGIRIMAN DATA
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Cek checkbox persetujuan
+            if (!document.getElementById('agree_rules_check').checked) {
+                 Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Anda harus mencentang kotak persetujuan untuk melanjutkan.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#ff0099',
+                });
+                return;
+            }
+            
+            // Ambil semua data input
+            const data = {
+                ign: document.getElementById('ign').value,
+                umur: document.getElementById('umur').value,
+                discord: document.getElementById('discord_tag').value,
+                alasan: document.getElementById('alasan').value,
+                arti_rp: document.getElementById('arti_rp').value,
+                char_name: document.getElementById('char_name').value,
+                char_origin: document.getElementById('char_origin').value,
+                char_lore: document.getElementById('char_lore').value,
+                paham: document.getElementById('paham_aturan').value, // Mengambil nilai dari dropdown
+                activity: document.getElementById('activity').value,
+                setuju_teks: "Saya setuju dan siap bermain dengan niat." // Teks persetujuan
+            };
+
+            // Ubah tombol jadi Loading
+            submitBtn.innerHTML = "MENGIRIM DATA...";
+            submitBtn.classList.add('btn-disabled');
+            submitBtn.disabled = true;
+
+            // Format Pesan Discord Embed
+            const discordPayload = {
+                embeds: [{
+                    title: `📜 Whitelist dari ${data.ign}`,
+                    color: 16711833, // Neon Pink Decimal
+                    description: `**Data ID:**\nIGN: ${data.ign} | DC: ${data.discord} | Umur: ${data.umur}`,
+                    fields: [
+                        { name: "1. Alasan Ingin Bermain (4️⃣)", value: data.alasan, inline: false },
+                        { name: "2. Arti Semi-RP (5️⃣)", value: data.arti_rp, inline: false },
+                        { name: "3. Karakter RP (6️⃣)", value: `Nama: ${data.char_name}\nAsal/Fraksi: ${data.char_origin}\nLore: ${data.char_lore}`, inline: false },
+                        { name: "4. Pengetahuan Dasar (7️⃣)", value: `Loot/Raid/Ekonomi: **${data.paham}**`, inline: true },
+                        { name: "5. Komitmen Aktivitas (9️⃣)", value: data.activity, inline: true },
+                        { name: "6. Persetujuan Aturan (8️⃣)", value: data.setuju_teks, inline: false }
+                    ],
+                    footer: { text: "RebelSMP System • " + new Date().toLocaleString() }
+                }]
+            };
+
+            // Kirim ke Discord
+            try {
+                if(!DISCORD_WEBHOOK_URL.includes("LINK_WEBHOOK")) {
+                    await fetch(DISCORD_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(discordPayload)
+                    });
+                } else {
+                    console.warn("Simulasi Kirim: Webhook URL belum diset. Data tidak terkirim.");
+                }
+
+                // SUKSES
+                localStorage.setItem(WHITELIST_STORAGE_KEY, 'true'); // Kunci browser
+                
+                // NOTIFIKASI KUSTOM
+                Swal.fire({
+                    icon: 'success',
+                    title: 'BERHASIL REGISTRASI!',
+                    text: 'Silahkan menunggu untuk disetujui. Kamu akan otomatis kembali ke halaman utama.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#ff0099',
+                    timer: 5000 
+                }).then(() => {
+                    window.location.href = MAIN_WEB_URL;
+                });
+
+            } catch (error) {
+                console.error("Gagal mengirim ke Discord:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Mengirim',
+                    text: 'Terjadi kesalahan koneksi. Pastikan Webhook URL sudah benar.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#ff0099',
+                });
+                submitBtn.innerHTML = "KIRIM FORMULIR";
+                submitBtn.classList.remove('btn-disabled');
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

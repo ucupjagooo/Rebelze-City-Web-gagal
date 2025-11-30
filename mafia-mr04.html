@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Mr04 - Mafia Rebelze</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-ungu */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Hitam keunguan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card-bg {
+            background-color: #2a094e; /* Ungu gelap untuk card */
+            border: 2px solid #6c47ff; /* Border ungu terang */
+        }
+        .text-purple-highlight {
+            color: #bd93f9; /* Ungu lavender untuk highlight */
+        }
+        /* Style untuk bayangan pada tombol dan elemen interaktif */
+        .shadow-purple {
+            box-shadow: 0 10px 15px -3px rgba(108, 71, 255, 0.5), 0 4px 6px -2px rgba(108, 71, 255, 0.2);
+            transition: transform 0.2s;
+        }
+        .shadow-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(108, 71, 255, 0.6), 0 6px 8px -3px rgba(108, 71, 255, 0.3);
+        }
+        /* Style untuk menyesuaikan layout di perangkat kecil */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom di HP */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-4xl card-bg rounded-2xl p-6 sm:p-10 shadow-2xl">
+
+        <!-- Header dan Nama Karakter -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-purple-highlight tracking-wider uppercase">
+                Mr04
+            </h1>
+            <p class="text-xl sm:text-2xl font-light text-gray-300 mt-2">
+                <span class="font-semibold">MAFIA</span> REBELZE CITY RP
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Foto Karakter Mr04 -->
+            <div class="md:col-span-1 flex justify-center items-start">
+                <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-xl overflow-hidden shadow-purple">
+                    <!-- Gambar Mr04 yang pertama -->
+                    <img 
+                        src=mr04.jpeg 
+                        alt="Foto Profil Mr04 (Skin Minecraft Style)" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Detail Karakter (Data Operasional dan Bio) -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- Judul Bagian: Data Operasional -->
+                <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                    Data Operasional
+                </h2>
+
+                <!-- Kartu Detail Kekuatan -->
+                <div class="bg-[#3e1f76] p-4 rounded-lg shadow-inner border border-[#6c47ff]">
+                    <p class="text-lg font-semibold text-purple-highlight mb-1">Keahlian Inti:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-200">
+                        <li><span class="font-medium">Pasar Gelap & Logistik:</span> Ahli dalam mengoperasikan rantai pasok ilegal dengan efisiensi tingkat tinggi.</li>
+                        <li><span class="font-medium">Bisnis Kasino:</span> Menguasai manajemen dan manipulasi operasional kasino untuk keuntungan maksimal.</li>
+                        <li><span class="font-medium">Negosiasi Cerdas:</span> Memiliki kecerdasan tinggi dalam strategi pasar gelap dan kesepakatan rahasia.</li>
+                    </ul>
+                </div>
+
+                <!-- Bio Singkat -->
+                <div>
+                    <p class="text-lg font-semibold text-purple-highlight mb-2">Profil Singkat:</p>
+                    <p class="text-gray-100 leading-relaxed">
+                        Mr04 dikenal di Rebelze City sebagai operator pasar gelap paling cerdik. Dia bukan sekadar otot, melainkan otak di balik operasi finansial organisasi. Dengan keahliannya di dunia kasino dan manajemen risiko, ia memastikan arus kas ilegal selalu mengalir deras, menjadikannya aset tak ternilai bagi keluarga Mafia.
+                    </p>
+                </div>
+
+                <!-- Status dan Cepat Lacak -->
+                <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-700">
+                    <span class="bg-yellow-800 text-yellow-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Status: AKTIF / Beroperasi
+                    </span>
+                    <span class="bg-red-800 text-red-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Prioritas Target: KASINO
+                    </span>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- BAGIAN BARU: DAFTAR ANGGOTA (Kotak ke-7) -->
+        <section class="mt-10">
+            <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2 mb-6">
+                Daftar Anggota Keluarga (Kru Inti)
+            </h2>
+
+            <!-- Grid untuk Anggota (Diatur menjadi 6 kolom di desktop, 3 di tablet, 2 di HP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 member-grid gap-4">
+
+                <!-- Kartu 1: KETUA (Menggunakan Gambar Mr04 yang Pertama) -->
+                <div class="bg-[#5a189a] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl border-2 border-yellow-400">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=pahwiw.png   
+                            alt="Mr04 Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-extrabold text-white text-md">PAHWIW</p>
+                    <p class="text-xs text-yellow-300 font-bold">KETUA</p>
+                </div>
+                
+                <!-- Kartu 2: WAKIL KETUA (Menggunakan Gambar Anggota Kedua) -->
+                <div class="bg-[#3e1f76] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=yannzy.png 
+                            alt="Anggota Wakil Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">yannzy</p>
+                    <p class="text-xs text-purple-highlight">WAKIL KETUA</p>
+                </div>
+
+                <!-- Kartu 3: ANGGOTA (Anggota B) -->
+                <div class="bg-[#3e1f76] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=divin.png
+                            alt="Anggota Mafia 1" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">divinx1</p>
+                    <p class="text-xs text-purple-highlight">ANGGOTA</p>
+                </div>
+
+                <!-- Kartu 4: ANGGOTA (Anggota C) -->
+                <div class="bg-[#3e1f76] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="uploaded:Screenshot 2025-11-27 194730.png-dee51195-60b8-4962-98a6-378cb60caff1" 
+                            alt="Anggota Mafia 2" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota C</p>
+                    <p class="text-xs text-purple-highlight">ANGGOTA</p>
+                </div>
+
+                <!-- Kartu 5: ANGGOTA (Anggota D) -->
+                <div class="bg-[#3e1f76] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="uploaded:Screenshot 2025-11-27 194730.png-dee51195-60b8-4962-98a6-378cb60caff1" 
+                            alt="Anggota Mafia 3" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota D</p>
+                    <p class="text-xs text-purple-highlight">ANGGOTA</p>
+                </div>
+                
+                <!-- Kartu 6: ANGGOTA (Anggota E) -->
+                <div class="bg-[#3e1f76] p-3 rounded-xl text-center shadow-purple hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                         <img 
+                            src="uploaded:Screenshot 2025-11-27 194730.png-dee51195-60b8-4962-98a6-378cb60caff1" 
+                            alt="Anggota Mafia 4" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota E</p>
+                    <p class="text-xs text-purple-highlight">ANGGOTA</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer atau Tautan Terkait (Opsional) -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 Rebelze City RP. Semua hak cipta dilindungi. File Profil Mr04.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>     

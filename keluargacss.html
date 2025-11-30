@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Mr04 - CSS Cassano</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-MERAH */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #150000; /* Hitam kemerahan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Definisi Warna Tema CSS CASSANO (MERAH & HITAM) */
+        :root {
+            --primary-red: #FF0000; /* Merah Utama */
+            --red-highlight: #FF4444; /* Merah Terang (Glow) */
+            --red-border: #990000; /* Merah Gelap (Border) */
+        }
+
+        .card-bg {
+            background-color: #1a1a1a; /* Hitam gelap untuk card */
+            border: 2px solid var(--red-border); /* Border Merah gelap */
+        }
+        .text-red-highlight {
+            color: var(--red-highlight); /* Merah terang untuk highlight */
+        }
+        /* Style untuk bayangan pada tombol dan elemen interaktif */
+        .shadow-red {
+            box-shadow: 0 10px 15px -3px rgba(255, 0, 0, 0.5), 0 4px 6px -2px rgba(255, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .shadow-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(255, 0, 0, 0.7), 0 6px 8px -3px rgba(255, 0, 0, 0.4);
+        }
+        /* Style untuk menyesuaikan layout di perangkat kecil */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom di HP */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-4xl card-bg rounded-2xl p-6 sm:p-10 shadow-2xl">
+
+        <!-- Header dan Nama Karakter -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-red-highlight tracking-wider uppercase">
+                CSS
+            </h1>
+            <p class="text-xl sm:text-2xl font-light text-gray-300 mt-2">
+                <span class="font-semibold">OPERATOR KRIMINAL</span> CSS CASSANO
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Foto Karakter Mr04 -->
+            <div class="md:col-span-1 flex justify-center items-start">
+                <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-xl overflow-hidden shadow-red">
+                    <!-- Gambar Mr04 yang pertama -->
+                    <img 
+                        src=CSS.jpeg 
+                        alt="Foto Profil Mr04 (CSS Cassano)" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Detail Karakter (Data Operasional dan Bio) -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- Judul Bagian: Data Operasional -->
+                <h2 class="text-3xl font-bold text-white border-b-2 border-red-highlight pb-2">
+                    Operasi & Pengaruh di Kota
+                </h2>
+
+                <!-- Kartu Detail Kekuatan -->
+                <div class="bg-[#330000] p-4 rounded-lg shadow-inner border border-red-border">
+                    <p class="text-lg font-semibold text-red-highlight mb-1">Keahlian Inti:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-200">
+                        <li><span class="font-medium">Harta Kekayaan (Finansial):</span> Mengelola arus kas, investasi ilegal, dan pencucian uang skala besar.</li>
+                        <li><span class="font-medium">Hubungan Antar Geng:</span> Negosiator utama untuk kesepakatan dan gencatan senjata dengan faksi kriminal lain.</li>
+                        <li><span class="font-medium">Rampok:</span> geng kita ini tukang rampok ajg</li>
+                    </ul>
+                </div>
+
+                <!-- Bio Singkat -->
+                <div>
+                    <p class="text-lg font-semibold text-red-highlight mb-2">Profil Singkat:</p>
+                    <p class="text-gray-100 leading-relaxed">
+                        CSS adalah poros keuangan dan politik CSS Cassano. Perannya melampaui kekerasan; ia adalah otak yang memastikan organisasi memiliki pengaruh ekonomi di seluruh kota, sekaligus menjaga aliansi strategis yang rapuh dengan kelompok seperti N9M dan T8H. Keahliannya dalam negosiasi menjadikannya target bernilai tinggi bagi LSPD dan Pemerintahan Kota.
+                    </p>
+                </div>
+
+                <!-- Status dan Cepat Lacak -->
+                <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-700">
+                    <span class="bg-yellow-800 text-yellow-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Status: AKTIF / Mengontrol Keuangan Geng
+                    </span>
+                    <span class="bg-red-800 text-red-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Hubungan: Aliansi tidak stabil dengan T8H
+                    </span>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- BAGIAN BARU: DAFTAR ANGGOTA (Kru Inti CSS CASSANO) -->
+        <section class="mt-10">
+            <h2 class="text-3xl font-bold text-white border-b-2 border-red-highlight pb-2 mb-6">
+                Daftar Anggota Keluarga (Kru Inti CSS Cassano)
+            </h2>
+
+            <!-- Grid untuk Anggota (Diatur menjadi 6 kolom di desktop, 3 di tablet, 2 di HP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 member-grid gap-4">
+
+                <!-- Kartu 1: KETUA (PAHWIW) -->
+                <div class="bg-[#5a0000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl border-2 border-yellow-400">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=CSS.jpeg 
+                            alt="Lammskuy Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-extrabold text-white text-md">Lamskuyy</p>
+                    <p class="text-xs text-yellow-300 font-bold">BOS (KETUA)</p>
+                </div>
+                
+                <!-- Kartu 2: WAKIL KETUA (yannzy) -->
+                <div class="bg-[#330000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src=CSS.jpeg 
+                            alt="13Blisya Wakil Ketua" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">13Blisya</p>
+                    <p class="text-xs text-red-highlight">WAKIL KETUA</p>
+                </div>
+
+                <!-- Kartu 3: ANGGOTA (divinx1) -->
+                <div class="bg-[#330000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="CSS.jpeg"
+                            alt="Hara Anggota" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Hara</p>
+                    <p class="text-xs text-red-highlight">Penasehat</p>
+                </div>
+
+                <!-- Kartu 4: ANGGOTA (Anggota C) -->
+                <div class="bg-[#330000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="CSS.jpeg" 
+                            alt="Anggota C" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota C</p>
+                    <p class="text-xs text-red-highlight">PENGAWAS KASINO</p>
+                </div>
+
+                <!-- Kartu 5: ANGGOTA (Anggota D) -->
+                <div class="bg-[#330000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="CSS.jpeg" 
+                            alt="Anggota D" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota D</p>
+                    <p class="text-xs text-red-highlight">OPERATOR PASAR GELAP</p>
+                </div>
+                
+                <!-- Kartu 6: ANGGOTA (Anggota E) -->
+                <div class="bg-[#330000] p-3 rounded-xl text-center shadow-red hover:shadow-2xl">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                         <img 
+                            src="CSS.jpeg" 
+                            alt="Anggota E" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">Anggota E</p>
+                    <p class="text-xs text-red-highlight">INTELIJEN</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer atau Tautan Terkait (Opsional) -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 CSS Cassano. Semua hak cipta dilindungi. File Profil Mr04.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

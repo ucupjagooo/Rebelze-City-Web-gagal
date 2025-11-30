@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Cassano</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 dihapus karena tidak digunakan di versi N9M ini -->
+
+    <style>
+        /* Konfigurasi Dasar dan Font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d0d0d; /* Hitam pekat */
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Definisi Warna Tema CSS CASSANO (MERAH & HITAM) */
+        :root {
+            --primary-red: #FF0000; /* Merah Utama */
+            --red-highlight: #FF4444; /* Merah Terang (Glow) */
+            --red-border: #990000; /* Merah Gelap (Border) */
+        }
+
+        /* Scrollbar Kustom */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-red);
+            border-radius: 5px;
+        }
+
+        /* Struktur Utama */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Navigasi */
+        .navbar {
+            background-color: rgba(13, 13, 13, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center; /* Menu tetap di tengah */
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--primary-red);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #f0f0f0;
+            padding: 0 5px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--red-highlight); /* Merah Highlight */
+            text-shadow: 0 0 5px var(--red-highlight);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary-red); /* Merah Utama */
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Shadow Merah */
+        }
+        .hero-logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--red-border); /* Merah Border */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Shadow Merah */
+        }
+        .hero-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-red); /* Merah Primer */
+            color: #0d0d0d;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .cta-button:hover {
+            background-color: var(--red-highlight); /* Merah Lebih Terang */
+            transform: scale(1.05);
+            color: #000;
+        }
+        .cta-disabled {
+            background-color: #333 !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--red-highlight); /* Merah Highlight */
+            border-bottom: 3px solid var(--red-border); /* Merah Border */
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .section-header p {
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        /* About Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .about-text {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--red-border); /* Merah Border */
+        }
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--red-highlight); /* Merah Highlight */
+            margin-bottom: 10px;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .portfolio-item {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+        }
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(255, 0, 0, 0.3); /* Shadow Merah */
+        }
+        .portfolio-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+        .portfolio-item:hover .portfolio-image {
+            opacity: 1;
+        }
+        .portfolio-item h3 {
+            padding: 15px 15px 5px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .portfolio-item p {
+            padding: 0 15px 15px;
+            color: var(--red-highlight); /* Merah Highlight */
+            font-style: italic;
+        }
+        .portfolio-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Kontak & Footer */
+        .contact-section {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #1a1a1a;
+            border-top: 5px solid var(--red-border); /* Merah Border */
+        }
+        .contact-section h2 {
+            color: var(--red-highlight); /* Merah Highlight */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #111;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ACCESS GATE (Tampilan Login) */
+        #access-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d0d0d;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .access-card {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid var(--red-border);
+        }
+        .access-card button {
+            background-color: var(--primary-red);
+            color: #0d0d0d;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        /* Media Queries untuk Responsif */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .navbar { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="access-gate">
+        <div class="access-card" data-aos="zoom-in">
+            <h2 class="text-3xl font-extrabold mb-6 text-red-highlight">Selamat Datang, Anggota CSS Cassano</h2>
+            <p class="mb-4 text-sm text-gray-400">Harap masukkan identitas Anda untuk mengakses database klan.</p>
+            
+            <form id="access-form">
+                <input type="text" id="nama-asli" placeholder="Nama Asli (OOC)" required>
+                <input type="text" id="nama-rp" placeholder="Nama RP (IC)" required>
+                <button type="submit" class="cta-button">Masuk ke Situs</button>
+            </form>
+            <p id="error-message" class="text-red-500 mt-3 hidden">Harap isi semua kolom!</p>
+        </div>
+    </div>
+    
+    <div id="main-content" class="hidden-content">
+
+        <nav class="navbar relative">
+            <div class="nav-links">
+                <a href="#beranda">Beranda</a>
+                <a href="#tentang">Tentang</a>
+                <a href="#aktivitas">Bisnis & Aktivitas</a>
+                <a href="#admin-panel">Panel Admin</a>
+                <a href="#kontak">Kontak</a>
+            </div>
+
+            <div id="user-badge" class="absolute right-5 flex items-center gap-3 hidden">
+                <div class="text-right hidden md:block"> 
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Anggota</p>
+                    <p id="display-nama-rp" class="text-sm font-bold text-red-highlight">Guest</p>
+                </div>
+                <div class="w-9 h-9 rounded-md bg-red-900 border border-red-border flex items-center justify-center shadow-[0_0_10px_rgba(255,0,0,0.5)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+        </nav>
+
+        <section id="beranda" class="hero">
+            <div class="hero-content">
+                <div class="hero-logo-container" data-aos="fade-down" data-aos-duration="1000">
+                    <!-- LOGO HERO -->
+                    <img src="CSS.jpeg" alt="CSS Cassano Logo" class="hero-logo">
+                </div>
+                
+                <h1 data-aos="fade-up" data-aos-delay="200">CSS Cassano</h1>
+                <p data-aos="fade-up" data-aos-delay="400">Keluarga mafia kegelapan. Kepercayaan, loyalitas, dan kekuatan adalah fondasi kami.</p>
+                <a href="#tentang" class="cta-button" data-aos="fade-up" data-aos-delay="600">Lebih Lanjut</a>
+            </div>
+        </section>
+
+        <section id="tentang" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Tentang Kami</h2>
+                <p>Kami bukan sekadar sebuah klan, kami adalah sebuah simbol kekuatan yang tak tergoyahkan di dunia bawah tanah.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text" data-aos="fade-right">
+                    <h3>Struktur Kaku</h3>
+                    <p>Setiap anggota memiliki peran dan tanggung jawab yang jelas. Dari pimpinan tertinggi hingga anggota inti, semua bergerak dalam satu kesatuan yang solid untuk menjaga dominasi kami.</p>
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h3>Lini Bisnis</h3>
+                    <p>Kekuatan kami didukung oleh berbagai lini bisnis, mulai dari casino, perdagangan senjata, hingga pengendalian pasar gelap. Setiap sektor adalah sumber kekayaan dan pengaruh kami.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="aktivitas" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Tentang Geng</h2>
+                <p>Berbagai operasi dan bisnis yang menjadi kekuatan inti klan kami.</p>
+            </div>
+            <div class="portfolio-grid">
+                
+                <a href="keluargacss.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="CSS.jpeg" alt="Mafia Mr 04" class="portfolio-image">
+                        <h3>LIST KELUARGA</h3>
+                        <p>->klik disini untuk detail<-</p>
+                    </div>
+                </a>
+
+                <a href="hood-n9m.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="CSS.jpeg" alt="Hood N9M" class="portfolio-image">
+                        <h3>Hood CSS</h3>
+                        <p>-> COMMING SOON JEMBUT <-</p>
+                    </div>
+                </a>
+
+
+            </div>
+        </section> 	
+
+        <section id="admin-panel" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="text-red-highlight">Panel Admin</h2>
+                <p>Akses cepat ke alat manajemen data dan Storyboard.</p>
+            </div>
+            
+            <div id="admin-content-area" class="flex justify-center" data-aos="fade-up" data-aos-delay="200">
+                </div>
+        </section>
+
+        <section id="kontak" class="contact-section">
+            <div class="container" data-aos="fade-up">
+                <h2 class="text-red-highlight">Bergabunglah dengan Kami</h2>
+                <p>Jika Anda merasa memiliki nyali dan ambisi, hubungi kami untuk menjadi bagian dari keluarga NightMare.</p>
+                <a href="https://wa.me/6289656226472?text=BANG%20SAYA%20MAU%20MASUK%20CLAN" target="_blank" class="cta-button">Hubungi Admin</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 CSS Cassano. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi AOS (Animasi Scroll)
+        AOS.init();
+
+        // --- KONFIGURASI ADMIN ---
+        const isAdmin = true; 
+        
+        // --- KONFIGURASI DISCORD (Webhook Log In, menggunakan webhook lama Anda) ---
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1444553037988495413/TF6wf81pGNfT9rhvvIAihBNVJdOpJTrjzelEqiW3vxeTH1NZ43J71EclySJ1RgJMiqYU" ; 
+
+        // Fungsi Kirim Log ke Discord (untuk Login)
+        const sendLoginLogToDiscord = async (namaAsli, namaRp) => {
+             // Cek jika URL Webhook kosong atau masih placeholder
+            if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.includes("LINK_WEBHOOK")) {
+                console.warn("Webhook URL is missing or still placeholder. Login log skipped.");
+                return;
+            }
+
+            const message = {
+                embeds: [{
+                    title: "🔔 Akses Situs Terdeteksi (CSS Cassano)",
+                    color: 16711680, // Merah Decimal
+                    fields: [
+                        { name: "Nama IC (RP)", value: `**${namaRp}**`, inline: true },
+                        { name: "Nama OOC", value: namaAsli, inline: true },
+                        { name: "Waktu Akses", value: new Date().toLocaleString('id-ID'), inline: false }
+                    ],
+                    footer: { text: "CSS Cassano Site System" }
+                }]
+            };
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(message)
+                });
+
+                if (!response.ok) {
+                    console.error(`Failed to send login log to Discord: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error("Error sending login log:", error);
+            }
+        };
+
+        // Fungsi Render Panel Admin
+        const renderAdminPanel = () => {
+            const adminArea = document.getElementById('admin-content-area');
+            // Menghapus logika if/else yang tidak relevan dengan konten N9M asli Anda.
+            adminArea.innerHTML = `
+                <a href="inputfotoa1.html" class="portfolio-link w-full max-w-sm">
+                    <div class="portfolio-item admin-panel-card text-center p-8">
+                        <h3 class="text-2xl font-extrabold text-white">Kelola Storyboard</h3>
+                        <p class="mt-2 text-lg">Tambah, Edit, dan Hapus Aktivitas Harian Clan.</p>
+                        <p class="mt-4 text-sm text-red-highlight font-bold">KLIK UNTUK MASUK DASHBOARD</p>
+                    </div>
+                </a>
+            `;
+        };
+
+        // --- LOGIKA SISTEM LOGIN, TAMPILAN NAMA & DISCORD ---
+
+        const accessGate = document.getElementById('access-gate');
+        const mainContent = document.getElementById('main-content');
+        const accessForm = document.getElementById('access-form');
+        const namaAsliInput = document.getElementById('nama-asli');
+        const namaRpInput = document.getElementById('nama-rp');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Elemen Tampilan Nama di Navbar
+        const userBadge = document.getElementById('user-badge');
+        const displayNamaRp = document.getElementById('display-nama-rp');
+        
+        // Kunci sesi
+        const CSS_ACCESS_KEY = 'css_cassano_session';
+
+        // Fungsi Update Tampilan Nama di Navbar
+        const updateNavbarProfile = (namaRp) => {
+            if (namaRp) {
+                displayNamaRp.innerText = namaRp; 
+                userBadge.classList.remove('hidden'); 
+            }
+        };
+
+        // Fungsi Memberikan Akses
+        const grantAccess = async (namaAsli, namaRp, isNewLogin = false) => {
+            sessionStorage.setItem(CSS_ACCESS_KEY, JSON.stringify({ 
+                namaAsli, 
+                namaRp, 
+                timestamp: new Date().getTime() 
+            }));
+
+            // Kirim log jika ini login baru
+            if (isNewLogin) {
+                await sendLoginLogToDiscord(namaAsli, namaRp);
+            }
+
+            // Update Tampilan
+            updateNavbarProfile(namaRp);
+
+            // Animasi Buka Gerbang
+            accessGate.style.opacity = '0';
+            setTimeout(() => {
+                accessGate.style.display = 'none';
+                mainContent.classList.remove('hidden-content');
+                AOS.refresh(); 
+                renderAdminPanel();
+            }, 500);
+        };
+
+        // Handler saat form disubmit
+        accessForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const namaAsli = namaAsliInput.value.trim();
+            const namaRp = namaRpInput.value.trim();
+
+            if (namaAsli === '' || namaRp === '') {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            errorMessage.classList.add('hidden');
+            // Tandai sebagai login baru
+            grantAccess(namaAsli, namaRp, true); 
+        });
+
+        // Fungsi inisialisasi saat halaman dimuat
+        const initializeSite = () => {
+            // Cek sessionStorage
+            const userData = sessionStorage.getItem(CSS_ACCESS_KEY);
+            
+            if (userData) {
+                // Jika data ada (artinya cuma refresh halaman), langsung masuk 
+                const user = JSON.parse(userData);
+                updateNavbarProfile(user.namaRp);
+                
+                // Bypass login screen
+                accessGate.style.display = 'none'; 
+                mainContent.classList.remove('hidden-content');
+                renderAdminPanel();
+            } else {
+                // Jika tidak ada data, minta login
+                mainContent.classList.add('hidden-content');
+                accessGate.style.display = 'flex';
+                renderAdminPanel(); 
+            }
+        };
+
+        window.onload = initializeSite;
+    </script>
+</body>
+</html>

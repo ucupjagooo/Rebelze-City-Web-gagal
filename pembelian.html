@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Digital Glow - Pembelian & Penjualan</title>
+    <!-- Memuat Tailwind CSS CDN untuk styling cepat dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Tailwind untuk tema custom dan animasi glow -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0a0a0a',
+                        'purple-accent': '#a855f7', // Warna ungu terang
+                        'purple-glow': '#c084fc', // Warna ungu untuk glow
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(192, 132, 252, 0.7), 0 0 5px rgba(168, 85, 247, 0.5)',
+                        'glow-sm': '0 0 5px rgba(192, 132, 252, 0.5)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Menggunakan font Inter dan memastikan latar belakang gelap */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+        }
+
+        /* Styling untuk efek glow pada kartu produk dan tombol */
+        .card-glow {
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+            background: linear-gradient(145deg, #1f1f1f, #141414);
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
+            border-color: #a855f7;
+        }
+
+        .btn-glow {
+            background-color: #a855f7;
+            box-shadow: 0 0 8px rgba(192, 132, 252, 0.8);
+            transition: all 0.2s ease;
+        }
+        .btn-glow:hover {
+            background-color: #9333ea;
+            box-shadow: 0 0 15px rgba(192, 132, 252, 1);
+        }
+
+        /* Scrollbar styling untuk tampilan gelap */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c084fc;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-100 p-4 md:p-8">
+
+    <!-- Header Aplikasi -->
+    <header class="text-center mb-8 border-b-2 border-purple-accent/50 pb-4">
+        <h1 class="4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-glow to-purple-accent">
+            <span class="shadow-glow-sm">Pasar Gelap</span>
+        </h1>
+        <p class="text-gray-400 mt-2 text-lg">Siapkan diri Anda dengan perlengkapan terbaik!</p>
+    </header>
+
+    <!-- Konten Utama: Daftar Produk dan Keranjang Belanja -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
+        <!-- Kiri: Daftar Produk -->
+        <section class="lg:col-span-2">
+            <h2 class="text-2xl font-bold mb-4 text-purple-glow">Daftar Perlengkapan</h2>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Kartu produk akan di-render di sini oleh JavaScript -->
+            </div>
+        </section>
+
+        <!-- Kanan: Keranjang Belanja & Total -->
+        <aside class="lg:col-span-1 sticky top-8">
+            <div class="card-glow p-6 rounded-xl shadow-lg border-purple-accent/30">
+                <h2 class="text-2xl font-bold mb-4 text-purple-glow border-b border-gray-700 pb-2">Keranjang Belanja</h2>
+
+                <!-- Daftar Item di Keranjang -->
+                <div id="cart-items" class="min-h-24 max-h-96 overflow-y-auto mb-4 space-y-3">
+                    <p class="text-gray-500 text-center py-4">Keranjang Anda kosong.</p>
+                </div>
+
+                <!-- Total Harga -->
+                <div class="border-t border-purple-accent/50 pt-4 mt-4">
+                    <div class="flex justify-between items-center text-xl font-bold mb-4">
+                        <span class="text-purple-glow">Total Harga:</span>
+                        <span id="total-price" class="text-3xl font-extrabold text-purple-accent shadow-glow-sm">$0</span>
+                    </div>
+
+                    <!-- Area Tombol Checkout -->
+                    <div id="checkout-area">
+                        <!-- Tombol "Pesan via WhatsApp" (muncul saat jam operasional) -->
+                        <button id="checkout-button" onclick="checkout()" class="btn-glow w-full py-3 rounded-lg text-white font-semibold uppercase tracking-wider transition duration-200 hidden">
+                            Pesan via WhatsApp
+                        </button>
+                        
+                        <!-- Tombol untuk membuka link WA (muncul setelah validasi) -->
+                        <a id="wa-link-button" href="#" target="_blank" class="hidden btn-glow w-full py-3 mt-3 rounded-lg text-center text-white font-semibold uppercase tracking-wider transition duration-200 bg-green-600 hover:bg-green-700 hover:shadow-green-500/50" role="button">
+                            Lanjut ke WhatsApp
+                        </a>
+
+                        <!-- Pesan Jam Tutup atau Pesan Validasi -->
+                        <p id="checkout-message" class="text-center mt-3 text-sm text-yellow-400">
+                            <!-- Pesan akan muncul di sini (termasuk pesan jam tutup) -->
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        // Nomor WhatsApp tujuan
+        const WA_NUMBER = "6285352002602";
+        
+        // Data Produk Baru Sesuai Permintaan
+        const products = [
+            { id: 1, name: "M4a1", price: 20000, description: "Senjata Kelas Berat." },
+            { id: 2, name: "M4a4", price: 20000, description: "Senjata Kelas Berat." },
+            { id: 3, name: "Ak47", price: 25000, description: "Senjata Kelas Berat." },
+            { id: 4, name: "All Type Pistol", price: 10000, description: "Senjata Kelas Menengah." },
+            { id: 5, name: "AWP", price: 60000, description: "Senjata Kelas Berat (Sniper)." },
+            { id: 6, name: "Vest II", price: 30000, description: "Armor Kelas Berat (Perlindungan Maksimal)." },
+            { id: 7, name: "Vest I", price: 10000, description: "Armor Kelas Menengah." },
+            { id: 8, name: "Tobaco", price: 1000, description: "Item Konsumsi Kelas Bawah (Simulasi Rokok/Stimulan)." },
+            { id: 9, name: "Bandage", price: 5000, description: "Item Healing untuk mengobati luka." },
+            { id: 10, name: "Robbery Tools", price: 20000, description: "Peralatan lengkap untuk aktivitas 'Maling'." },
+            { id: 11, name: "Peluru Apapun", price: 40000, description: "Kotak amunisi universal untuk semua jenis senjata." },
+        ];
+
+        // State Keranjang Belanja
+        // Format: { productId: quantity, ... }
+        let cart = {};
+
+        // Fungsi Format Mata Uang USD (Dolar Amerika)
+        const formatCurrency = (number) => {
+            // Mengubah format mata uang ke USD (United States Dollar)
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+        
+        // 0. Fungsi Pengecekan Jam Operasional
+        const checkOperatingHours = () => {
+            const now = new Date();
+            const hour = now.getHours(); 
+            // Jam operasional: 15:00 (3 sore) sampai 21:00 (9 malam)
+            // Jam 21:00 sudah tutup, jadi harus kurang dari 21
+            return hour >= 15 && hour < 21; 
+        };
+
+        // 1. Fungsi untuk Menghitung dan Memperbarui Total Harga
+        const calculateTotal = () => {
+            let total = 0;
+            for (const id in cart) {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    total += product.price * cart[id];
+                }
+            }
+            // Menggunakan formatCurrency
+            document.getElementById('total-price').textContent = formatCurrency(total);
+            return total; // Mengembalikan total untuk digunakan di fungsi checkout
+        };
+
+        // 2. Fungsi untuk Menambah Item ke Keranjang
+        const addToCart = (productId) => {
+            const id = String(productId);
+            if (cart[id]) {
+                cart[id]++;
+            } else {
+                cart[id] = 1;
+            }
+            renderCart();
+        };
+
+        // 3. Fungsi untuk Mengubah Kuantitas Item (Digunakan oleh tombol + dan - di keranjang)
+        const updateQuantity = (productId, change) => {
+            const id = String(productId);
+            if (cart[id]) {
+                cart[id] += change;
+
+                if (cart[id] <= 0) {
+                    delete cart[id]; // Hapus jika kuantitas mencapai 0 atau kurang
+                }
+            }
+            renderCart();
+        };
+
+        // 4. Fungsi untuk Merender Daftar Produk
+        const renderProducts = () => {
+            const productListDiv = document.getElementById('product-list');
+            productListDiv.innerHTML = products.map(product => `
+                <div class="card-glow p-5 rounded-xl flex flex-col justify-between shadow-glow-sm cursor-pointer" onclick="addToCart(${product.id})">
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-accent mb-2">${product.name}</h3>
+                        <p class="text-gray-400 text-sm mb-3">${product.description}</p>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-gray-700">
+                        <span class="text-2xl font-extrabold text-white">${formatCurrency(product.price)}</span>
+                        <button class="btn-glow px-4 py-1.5 text-sm rounded-full text-white hover:scale-105" title="Klik untuk menambah ke keranjang">
+                            + Tambah
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // 5. Fungsi untuk Merender Isi Keranjang Belanja & Mengontrol Tombol Checkout
+        const renderCart = () => {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const waLinkButton = document.getElementById('wa-link-button');
+            const checkoutButton = document.getElementById('checkout-button');
+            const messageDiv = document.getElementById('checkout-message');
+            
+            let cartContent = '';
+
+            const itemsInCart = Object.keys(cart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    return { ...product, quantity: cart[id] };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            if (itemsInCart.length === 0) {
+                cartContent = `<p class="text-gray-500 text-center py-4">Keranjang Anda kosong.</p>`;
+                waLinkButton.classList.add('hidden'); 
+            } else {
+                cartContent = itemsInCart.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-dark-bg rounded-lg border border-gray-700">
+                        <div class="flex-grow">
+                            <p class="text-white font-semibold">${item.name}</p>
+                            <p class="text-purple-400 text-sm">${formatCurrency(item.price)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas">-</button>
+                            <span class="text-lg font-bold">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            cartItemsDiv.innerHTML = cartContent;
+            calculateTotal(); // Selalu hitung ulang total
+
+            // LOGIKA PENGENDALIAN JAM OPERASIONAL
+            if (checkOperatingHours() && itemsInCart.length > 0) {
+                checkoutButton.classList.remove('hidden');
+                messageDiv.textContent = "";
+            } else if (!checkOperatingHours()) {
+                // Sembunyikan semua tombol order jika di luar jam kerja
+                checkoutButton.classList.add('hidden');
+                waLinkButton.classList.add('hidden');
+                messageDiv.textContent = "Toko tutup. Jam operasional: 15:00 - 21:00.";
+                messageDiv.classList.remove('hidden', 'text-green-400');
+                messageDiv.classList.add('text-red-400');
+            } else {
+                 // Hanya keranjang kosong
+                checkoutButton.classList.add('hidden');
+                waLinkButton.classList.add('hidden');
+                messageDiv.textContent = "";
+            }
+        };
+
+        // 6. Fungsi Checkout: Membuat dan mengarahkan ke link WhatsApp
+        const checkout = () => {
+            const messageDiv = document.getElementById('checkout-message');
+            const waLinkButton = document.getElementById('wa-link-button');
+            const checkoutButton = document.getElementById('checkout-button');
+            const totalAmount = calculateTotal();
+            const totalPriceText = document.getElementById('total-price').textContent;
+
+            // Pengecekan jam operasional kedua (redundansi untuk keamanan)
+            if (!checkOperatingHours()) {
+                messageDiv.textContent = "Toko tutup. Jam operasional: 15:00 - 21:00.";
+                messageDiv.classList.remove('hidden', 'text-green-400');
+                messageDiv.classList.add('text-red-400');
+                checkoutButton.classList.add('hidden');
+                waLinkButton.classList.add('hidden');
+                return;
+            }
+
+            if (Object.keys(cart).length === 0) {
+                messageDiv.textContent = "Keranjang Anda masih kosong. Silakan pilih item dulu.";
+                messageDiv.classList.remove('hidden', 'text-green-400');
+                messageDiv.classList.add('text-red-400');
+                waLinkButton.classList.add('hidden');
+
+                setTimeout(() => {
+                    messageDiv.classList.add('hidden');
+                }, 5000);
+                return;
+            }
+
+            // 1. Buat List Pesanan
+            let orderList = "Halo, saya ingin memesan item berikut:\n\n";
+            let itemsInCart = Object.keys(cart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    return { ...product, quantity: cart[id], subtotal: product.price * cart[id] };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            itemsInCart.forEach((item, index) => {
+                orderList += `${index + 1}. ${item.name} (${formatCurrency(item.price)}/item) x ${item.quantity} = ${formatCurrency(item.subtotal)}\n`;
+            });
+
+            // 2. Tambahkan Total
+            orderList += `\n------------------------\n`;
+            orderList += `Total Keseluruhan: ${totalPriceText}\n`;
+            orderList += `\nMohon konfirmasi ketersediaan dan proses pembayarannya. Terima kasih!`;
+
+            // 3. Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(orderList);
+
+            // 4. Buat URL WhatsApp
+            const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodedMessage}`;
+
+            // 5. Update tombol dan tampilkan pesan
+            waLinkButton.href = whatsappUrl;
+            waLinkButton.classList.remove('hidden');
+            checkoutButton.classList.add('hidden'); // Sembunyikan tombol utama
+            
+            messageDiv.textContent = `List pesanan siap! Klik tombol di bawah untuk mengirim via WhatsApp.`;
+            messageDiv.classList.remove('hidden', 'text-red-400');
+            messageDiv.classList.add('text-green-400');
+        };
+
+
+        // Inisialisasi Aplikasi saat memuat halaman
+        window.onload = () => {
+            renderProducts();
+            renderCart(); // Render keranjang awal (kosong) dan cek jam operasional
+            
+            // Atur timer untuk refresh setiap 1 menit untuk update jam operasional secara otomatis
+            setInterval(renderCart, 60000); 
+        };
+    </script>
+</body>
+</html>

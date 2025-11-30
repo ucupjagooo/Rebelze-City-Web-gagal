@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Canopy - Ladang Ganja Rahasia</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-ungu */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Hitam keunguan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-card {
+            background-color: #2a094e; /* Ungu gelap untuk card */
+            border: 2px solid #6c47ff; /* Border ungu terang */
+        }
+        .text-purple-highlight {
+            color: #bd93f9; /* Ungu lavender untuk highlight */
+        }
+        /* Style untuk efek visual pada card */
+        .shadow-purple-heavy {
+            box-shadow: 0 20px 25px -5px rgba(108, 71, 255, 0.4), 0 10px 10px -5px rgba(108, 71, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-5xl container-card rounded-xl p-6 sm:p-10 shadow-purple-heavy">
+
+        <!-- Header Ladang -->
+        <header class="text-center mb-10">
+            <p class="text-2xl font-light text-gray-300">Zona Agrikultur Terlarang</p>
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-purple-highlight tracking-wider uppercase mt-2">
+                THE HIDDEN CANOPY
+            </h1>
+            <p class="text-xl sm:text-2xl font-semibold text-white mt-4">
+                "Pusat Panen Unggul, Sumber Nafas Ekonomi Bawah Tanah"
+            </p>
+        </header>
+
+        <!-- Bagian Foto dan Detail Ladang -->
+        <main class="space-y-10">
+
+            <!-- Blok Gambar Ladang (Placeholder) -->
+            <div class="relative rounded-lg overflow-hidden shadow-purple-heavy h-64 md:h-80 flex items-center justify-center bg-[#1e073a]">
+                <!-- Placeholder untuk Gambar Ladang Ganja -->
+                <img 
+                    src=ganjar.png
+                    alt="Pemandangan Ladang Ganja yang tersembunyi" 
+                    class="w-full h-full object-cover opacity-70"
+                >
+                <div class="absolute text-3xl font-bold text-white tracking-widest pointer-events-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Kolom 1: Operasi dan Kualitas -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Operasi & Kontrol Kualitas
+                    </h2>
+                    <p class="text-gray-200 leading-relaxed">
+                        Ladang ini dijalankan dengan sistem hidroponik dan pencahayaan khusus yang dikendalikan secara digital untuk memastikan hasil panen yang konsisten dan kualitas THC tertinggi. Akses ke fasilitas ini sangat dibatasi dan dijaga oleh personel bersenjata yang terlatih.
+                    </p>
+
+                    <!-- Detail Kualitas -->
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-xl font-semibold text-purple-highlight mb-2">Spesifikasi Panen</p>
+                        <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100">
+                            <li><span class="font-medium">Strain Utama:</span> Nightmare OG (Potensi tinggi).</li>
+                            <li><span class="font-medium">Siklus Panen:</span> Sangat cepat berkat teknologi canggih.</li>
+                            <li><span class="font-medium">Metode Budidaya:</span> Indoor, bebas hama, dan terkontrol iklim.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Tujuan RP dan Distribusi -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Distribusi & Tujuan Roleplay (RP)
+                    </h2>
+                    
+                    <!-- Tujuan RP -->
+                    <div>
+                        <p class="text-lg font-semibold text-purple-highlight mb-2">Pentingnya Ladang (RP):</p>
+                        <p class="text-gray-100 leading-relaxed">
+                            Ladang ini adalah pilar ekonomi bawah tanah, menyediakan barang dagangan utama untuk jaringan distribusi Rebelze. Titik ini digunakan untuk:
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100 mt-2">
+                            <li><span class="font-medium">Logistik:</span> Tempat kargo disiapkan dan dipaketkan untuk pengiriman skala besar.</li>
+                            <li><span class="font-medium">Perekrutan:</span> Pintu masuk yang ideal bagi anggota baru untuk membuktikan loyalitas dan efisiensi kerja.</li>
+                            <li><span class="font-medium">Hukuman:</span> Tempat yang sering digunakan untuk interogasi atau "mengasingkan" rival.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Harga Jual (Mock Pricing) -->
+                    <div class="bg-red-800 p-4 rounded-lg border border-red-500 bg-opacity-30">
+                        <p class="text-xl font-semibold text-red-300 mb-2">Harga Jual Grosir (Mock)</p>
+                        <p class="text-white text-3xl font-extrabold">$1000 / stack</p>
+                        <p class="text-sm text-gray-300 mt-1">Hanya melayani transaksi volume besar dan anggota tepercaya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesan Peringatan -->
+            <div class="mt-10 p-5 bg-yellow-900 bg-opacity-50 rounded-lg text-center border border-yellow-500">
+                <p class="text-lg font-bold text-yellow-300">PERHATIAN: ZONA LARANGAN</p>
+                <p class="text-sm text-gray-300 mt-1">Semua yang memasuki area ini tanpa izin akan dianggap penyusup dan ditangani sesuai protokol keamanan tingkat tinggi.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>The Hidden Canopy | Dikelola oleh Divisi Agronomi Rahasia Rebelze City.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

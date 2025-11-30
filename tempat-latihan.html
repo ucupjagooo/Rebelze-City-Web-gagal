@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebelze Shooting Range - Latihan Taktis</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-ungu */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Hitam keunguan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-card {
+            background-color: #2a094e; /* Ungu gelap untuk card */
+            border: 2px solid #6c47ff; /* Border ungu terang */
+        }
+        .text-purple-highlight {
+            color: #bd93f9; /* Ungu lavender untuk highlight */
+        }
+        /* Style untuk efek visual pada card */
+        .shadow-purple-heavy {
+            box-shadow: 0 20px 25px -5px rgba(108, 71, 255, 0.4), 0 10px 10px -5px rgba(108, 71, 255, 0.1);
+        }
+        .price-tag {
+            background-color: #bd93f9;
+            color: #1a1a2e;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+        .input-style {
+            background-color: #3e1f76;
+            color: white;
+            border: 1px solid #6c47ff;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .btn-wa-glow {
+            background-color: #25d366; /* Hijau WhatsApp */
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.7);
+            transition: all 0.3s ease;
+        }
+        .btn-wa-glow:hover {
+            background-color: #128c7e;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 1);
+        }
+        .btn-default {
+            background-color: #a855f7; /* Ungu */
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            transition: all 0.3s ease;
+        }
+        .btn-default:hover {
+            background-color: #9333ea;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-5xl container-card rounded-xl p-6 sm:p-10 shadow-purple-heavy">
+
+        <!-- Header Range -->
+        <header class="text-center mb-10">
+            <p class="text-2xl font-light text-gray-300">Fasilitas Latihan Tertutup & Eksklusif</p>
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-purple-highlight tracking-wider uppercase mt-2">
+                REBELZE SHOOTING RANGE
+            </h1>
+            <p class="text-xl sm:text-2xl font-semibold text-white mt-4">
+                "Asah Akurasi, Jaga Keunggulan Taktis"
+            </p>
+        </header>
+
+        <!-- Bagian Foto dan Detail Range -->
+        <main class="space-y-10">
+
+            <!-- Blok Gambar Range (Placeholder) -->
+            <div class="relative rounded-lg overflow-hidden shadow-purple-heavy h-64 md:h-80 flex items-center justify-center bg-[#1e073a]">
+                <!-- Placeholder untuk Gambar Lapangan Tembak -->
+                <img 
+                    src=latihannembak.png
+                    alt="Interior Lapangan Tembak yang mewah" 
+                    class="w-full h-full object-cover opacity-70"
+                    onerror="this.onerror=null; this.src='https://placehold.co/1200x400/3e1f76/ffffff?text=REBELZE+SHOOTING+RANGE';"
+                >
+                <div class="absolute text-3xl font-bold text-white tracking-widest pointer-events-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Kolom 1: Tarif dan Akses -->
+                <div class="space-y-6 md:col-span-1">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Akses & Biaya Operasi
+                    </h2>
+                    <p class="text-gray-200 leading-relaxed">
+                        Rebelze Shooting Range menawarkan fasilitas latihan menembak tertutup dengan privasi maksimal. Tempat ini dirancang untuk latihan taktis tingkat lanjut.
+                    </p>
+
+                    <!-- Detail Harga -->
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-xl font-semibold text-purple-highlight mb-2">Tarif Sewa Lane Per Jam</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-white text-4xl font-extrabold">$100</span>
+                            <span class="text-xl text-gray-300">/ Jam</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mt-2">
+                            *Tarif tidak termasuk amunisi dan penyewaan senjata. Berlaku untuk satu Lane Tembak.
+                        </p>
+                    </div>
+
+                    <!-- Layanan Tambahan -->
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                         <p class="text-lg font-semibold text-white mb-2">Layanan Opsional</p>
+                         <ul class="list-disc list-inside space-y-1 ml-4 text-gray-200 text-sm">
+                            <li>Instruktur Taktis (Tambahan biaya).</li>
+                            <li>Penyewaan Senjata Khusus (Biaya bervariasi).</li>
+                            <li>Target Dinamis dan Reaktif.</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Form Reservasi (Baru) -->
+                <div class="space-y-6 md:col-span-2">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Reservasi Lane & Status
+                    </h2>
+
+                    <!-- Status Operasional -->
+                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                        <p class="text-xl font-semibold text-purple-highlight mb-2">Jam & Status Operasional</p>
+                        <div class="flex justify-between items-center text-lg font-bold">
+                            <span class="text-white">Jam Buka:</span>
+                            <span id="operating-hours" class="text-white">06:00 (6 Pagi) - 18:00 (6 Sore)</span>
+                        </div>
+                        <p id="status-indicator" class="text-sm font-semibold mt-2 pt-2 border-t border-gray-600">
+                            <!-- Status BUKA/TUTUP akan di-render di sini -->
+                        </p>
+                    </div>
+
+                    <!-- Formulir Reservasi -->
+                    <div class="bg-gray-900 p-5 rounded-lg border border-purple-accent/50 space-y-4">
+                        <p class="text-lg font-semibold text-purple-highlight">Detail Pemesanan</p>
+
+                        <div>
+                            <label for="rp-id" class="block text-gray-300 mb-1">Nama Karakter / RP ID:</label>
+                            <input type="text" id="rp-id" class="input-style w-full" placeholder="Cth: Mike_Tactic / ID#007" required>
+                        </div>
+
+                        <div>
+                            <label for="duration" class="block text-gray-300 mb-1">Durasi Sewa Lane (Jam):</label>
+                            <input type="number" id="duration" class="input-style w-full" min="1" max="8" value="1" oninput="updateTotalEstimate()" required>
+                        </div>
+                        
+                        <!-- Estimasi Total -->
+                        <div class="flex justify-between items-center mt-6 p-3 rounded-md bg-[#1a1a2e]">
+                            <span class="text-purple-highlight font-semibold">ESTIMASI TOTAL:</span>
+                            <span id="total-estimate" class="text-2xl font-extrabold text-white">$100</span>
+                        </div>
+                        
+                        <!-- Area Tombol WA -->
+                        <div id="reservation-action-area">
+                            <button id="checkout-button" onclick="sendWhatsappReservation()" class="btn-default w-full py-3 rounded-lg text-white font-semibold uppercase tracking-wider transition duration-200 hidden">
+                                Pesan via WhatsApp
+                            </button>
+                            <a id="wa-link-button" href="#" target="_blank" class="hidden btn-wa-glow w-full py-3 mt-3 rounded-lg text-center text-white font-semibold uppercase tracking-wider transition duration-200" role="button">
+                                Lanjut Kirim Pesan WA
+                            </a>
+                            <p id="reservation-message" class="text-center mt-3 text-sm text-yellow-400 hidden">
+                                <!-- Pesan validasi akan muncul di sini -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kolom 3: Tujuan RP (Dipindahkan ke bawah agar form lebih menonjol) -->
+                <div class="space-y-6 md:col-span-3">
+                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                        Keamanan & Tujuan Taktis
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Fasilitas Range -->
+                        <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
+                            <p class="text-xl font-semibold text-purple-highlight mb-2">Fitur Utama Range</p>
+                            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-100">
+                                <li>Dinding Peredam Suara dan Anti-Peluru Kelas Berat.</li>
+                                <li>Sistem Ventilasi Udara Canggih.</li>
+                                <li>Lane Menembak Jarak Pendek dan Jarak Jauh.</li>
+                                <li>Area Kalibrasi Senjata Pribadi.</li>
+                            </ul>
+                        </div>
+                        <!-- Tujuan RP -->
+                        <div>
+                             <p class="text-lg font-semibold text-purple-highlight mb-2">Tujuan Roleplay (RP):</p>
+                             <p class="text-gray-100 leading-relaxed">
+                                Bukan sekadar tempat untuk menembak target, ini adalah area di mana anggota inti geng mengasah kemampuan bertahan hidup dan serangan. Range ini sering menjadi lokasi penyerahan senjata ilegal, uji coba modifikasi senjata baru, dan penentuan siapa yang layak memegang peran tempur utama.
+                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesan Penutup -->
+            <div class="mt-10 text-center text-gray-400 text-lg italic">
+                Selalu utamakan keselamatan.
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>Rebelze Shooting Range | Dikelola oleh Divisi Taktis Rebelze City.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Data Operasional
+        const WA_NUMBER = "6285352002602"; // Nomor WhatsApp tujuan
+        const HOURLY_RATE = 100;           // Harga per jam
+        const START_HOUR = 6;              // 6 Pagi
+        const END_HOUR = 18;               // 6 Sore (eksklusif, jam < 18)
+
+        // Fungsi Format Mata Uang USD (Dolar Amerika)
+        const formatCurrency = (number) => {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+        
+        // Fungsi Pengecekan Jam Operasional
+        const checkOperatingHours = () => {
+            const now = new Date();
+            const hour = now.getHours(); 
+            // Cek apakah jam saat ini >= 6 (pagi) DAN jam saat ini < 18 (sore)
+            return hour >= START_HOUR && hour < END_HOUR;
+        };
+
+        // Fungsi untuk mengupdate estimasi total biaya
+        const updateTotalEstimate = () => {
+            const duration = parseInt(document.getElementById('duration').value) || 1;
+            const totalCost = HOURLY_RATE * Math.max(1, duration); // Minimal 1 jam
+
+            document.getElementById('total-estimate').textContent = formatCurrency(totalCost);
+        };
+
+        // Fungsi untuk mengupdate status BUKA/TUTUP dan kontrol tombol
+        const updateRangeStatus = () => {
+            const is_open = checkOperatingHours();
+            const statusIndicator = document.getElementById('status-indicator');
+            const checkoutButton = document.getElementById('checkout-button');
+            const waLinkButton = document.getElementById('wa-link-button');
+
+            waLinkButton.classList.add('hidden'); // Sembunyikan link WA saat update status
+
+            if (is_open) {
+                // Range BUKA
+                statusIndicator.innerHTML = '<span class="text-green-400 font-bold">STATUS: BUKA</span> - Slot reservasi tersedia!';
+                checkoutButton.classList.remove('hidden');
+                document.getElementById('reservation-message').classList.add('hidden');
+            } else {
+                // Range TUTUP
+                statusIndicator.innerHTML = '<span class="text-red-400 font-bold">STATUS: TUTUP</span> - Silakan pesan antara 06:00 - 18:00.';
+                checkoutButton.classList.add('hidden');
+                
+                document.getElementById('reservation-message').textContent = 'Range tutup. Reservasi hanya dilayani pada jam operasional.';
+                document.getElementById('reservation-message').classList.remove('hidden', 'text-green-500');
+                document.getElementById('reservation-message').classList.add('text-red-500');
+            }
+            updateTotalEstimate(); // Update total saat status berubah
+        };
+
+
+        // Fungsi Reservasi: Membuat dan mengarahkan ke link WhatsApp
+        const sendWhatsappReservation = () => {
+            const rpId = document.getElementById('rp-id').value.trim();
+            const duration = parseInt(document.getElementById('duration').value);
+
+            const messageDiv = document.getElementById('reservation-message');
+            const waLinkButton = document.getElementById('wa-link-button');
+            const checkoutButton = document.getElementById('checkout-button');
+            
+            // Validasi Dasar
+            if (!checkOperatingHours()) {
+                messageDiv.textContent = "Gagal: Range sudah tutup. Jam operasional: 06:00 - 18:00.";
+                messageDiv.classList.remove('hidden', 'text-green-500');
+                messageDiv.classList.add('text-red-500');
+                waLinkButton.classList.add('hidden');
+                checkoutButton.classList.remove('hidden'); // Biarkan tombol utama muncul untuk info
+                return;
+            }
+
+            if (!rpId || isNaN(duration) || duration <= 0) {
+                messageDiv.textContent = "Mohon lengkapi RP ID dan Durasi sewa minimal 1 jam.";
+                messageDiv.classList.remove('hidden', 'text-green-500');
+                messageDiv.classList.add('text-red-500');
+                waLinkButton.classList.add('hidden');
+                checkoutButton.classList.remove('hidden');
+                setTimeout(() => messageDiv.classList.add('hidden'), 5000);
+                return;
+            }
+            
+            const totalCost = HOURLY_RATE * duration;
+            const totalCostFormatted = formatCurrency(totalCost);
+
+            // Construct the message
+            let reservationMessage = `*RESERVASI REBELZE SHOOTING RANGE*\n\n`;
+            reservationMessage += `*RP ID / Pemesan:* ${rpId}\n`;
+            reservationMessage += `*Durasi Sewa Lane:* ${duration} Jam\n`;
+            reservationMessage += `\n*TOTAL BIAYA ESTIMASI:* ${totalCostFormatted}\n`;
+            reservationMessage += `\nMohon konfirmasi slot dan instruksi pembayaran. Terima kasih.`;
+
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(reservationMessage);
+            const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodedMessage}`;
+
+            // Update tombol dan tampilkan pesan
+            waLinkButton.href = whatsappUrl;
+            waLinkButton.classList.remove('hidden');
+            checkoutButton.classList.add('hidden'); // Sembunyikan tombol utama
+            
+            messageDiv.textContent = `Reservasi Anda siap! Klik tombol di bawah untuk mengirim detail ke WhatsApp.`;
+            messageDiv.classList.remove('hidden', 'text-red-500');
+            messageDiv.classList.add('text-green-500');
+        };
+
+        // Inisialisasi saat memuat halaman
+        window.onload = () => {
+            // Set input durasi default ke 1 jam dan update total
+            document.getElementById('duration').value = 1;
+            updateRangeStatus();
+            
+            // Atur timer untuk refresh status setiap 1 menit (jika waktu berubah)
+            setInterval(updateRangeStatus, 60000); 
+        };
+    </script>
+</body>
+</html>

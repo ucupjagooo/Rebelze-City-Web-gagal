@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Mr04 - Mafia Rebelze</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter dan tema gelap-ungu */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Hitam keunguan tua */
+            color: #ffffff; /* Teks putih */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card-bg {
+            background-color: #2a094e; /* Ungu gelap untuk card */
+            border: 2px solid #6c47ff; /* Border ungu terang */
+        }
+        .text-purple-highlight {
+            color: #bd93f9; /* Ungu lavender untuk highlight */
+        }
+        /* Style untuk bayangan pada tombol dan elemen interaktif */
+        .shadow-purple {
+            box-shadow: 0 10px 15px -3px rgba(108, 71, 255, 0.5), 0 4px 6px -2px rgba(108, 71, 255, 0.2);
+            transition: transform 0.2s;
+        }
+        .shadow-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(108, 71, 255, 0.6), 0 6px 8px -3px rgba(108, 71, 255, 0.3);
+        }
+        /* Style untuk menyesuaikan layout di perangkat kecil */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom di HP */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-4xl card-bg rounded-2xl p-6 sm:p-10 shadow-2xl">
+
+        <!-- Header dan Nama Karakter -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-purple-highlight tracking-wider uppercase">
+                Mr04
+            </h1>
+            <p class="text-xl sm:text-2xl font-light text-gray-300 mt-2">
+                <span class="font-semibold">MAFIA</span> REBELZE CITY RP
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Foto Karakter Mr04 -->
+            <div class="md:col-span-1 flex justify-center items-start">
+                <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-xl overflow-hidden shadow-purple">
+                    <!-- Gambar Mr04 yang pertama -->
+                    <img 
+                        src=mr03.jpeg 
+                        alt="Foto Profil Mr04 (Skin Minecraft Style)" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Detail Karakter (Data Operasional dan Bio) -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- Judul Bagian: Data Operasional -->
+                <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                    Data Operasional
+                </h2>
+
+                <!-- Kartu Detail Kekuatan -->
+                <div class="bg-[#3e1f76] p-4 rounded-lg shadow-inner border border-[#6c47ff]">
+                    <p class="text-lg font-semibold text-purple-highlight mb-1">Keahlian Inti:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-200">
+                        <li><span class="font-medium">- Operasi Bayangan & Distribusi:</span>hli dalam mengatur jaringan rahasia dengan efisiensi tingkat tinggi.
+- Bisnis Kasino: Menguasai manajemen dan manipulasi operasional hiburan gelap untuk keuntungan maksimal.
+- Negosiasi Cerdas: Memiliki kecerdasan tinggi dalam strategi dunia bawah tanah dan kesepakatan tersembunyi.
+Kalau kamu ingin nuansa lebih “badside” untuk karakter atau cerita, kita bisa pakai istilah seperti:
+- “Rantai pasok bayangan”
+- “Perdagangan rahasia”
+- “Ekonomi bawah tanah”
+- “Operasi clandestine”
+👉 Jadi tetap terdengar keren, misterius, dan berbahaya, tapi aman untuk dipakai dalam konteks fiksi atau game.
+Mau aku bikin versi lengkap yang lebih bergaya profil karakter dunia bawah tanah biar cocok untuk lore game atau cerita yang kamu bangun?
+</li>
+                    </ul>
+                </div>
+
+                <!-- Bio Singkat -->
+                <div>
+                    <p class="text-lg font-semibold text-purple-highlight mb-2">Profil Singkat:</p>
+                    <p class="text-gray-100 leading-relaxed">
+                        Mr03 dikenal di Rebelze City sebagai operator pasar gelap paling cerdik sama seperti Mr04. Dia bukan sekadar otot, melainkan otak di balik operasi finansial organisasi. Dengan keahliannya di dunia Senjata dan manajemen risiko, ia memastikan arus kas ilegal selalu mengalir deras, menjadikannya aset tak ternilai bagi keluarga Mafia.
+                    </p>
+                </div>
+
+                <!-- Status dan Cepat Lacak -->
+                <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-700">
+                    <span class="bg-yellow-800 text-yellow-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Status: AKTIF / Beroperasi
+                    </span>
+                    <span class="bg-red-800 text-red-200 text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Prioritas Target: SELL Senjata
+                    </span>
+                </div>
+
+            </div>
+        </main>
+        
+
+
+        <!-- Footer atau Tautan Terkait (Opsional) -->
+        <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 Rebelze City RP. Semua hak cipta dilindungi. File Profil Mr04.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>     
