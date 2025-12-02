@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The High Roller Casino - Rebelze City</title>
-    <!-- Memuat Tailwind CSS dari CDN -->
+    <title>The High Roller Casino - Penukaran Chip</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Mengatur font Inter dan tema gelap-ungu */
+        /* Mengatur font Poppins dan tema gelap-ungu */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #1a1a2e; /* Hitam keunguan tua */
             color: #ffffff; /* Teks putih */
             display: flex;
@@ -18,32 +19,86 @@
             min-height: 100vh;
             padding: 20px;
         }
+        
+        /* Definisi Warna Tema Casino Ungu */
+        :root {
+            --purple-accent: #a855f7;
+            --purple-glow: #c084fc;
+            --purple-dark: #2a094e;
+            --purple-border: #6c47ff;
+            --dark-card: #2a094e;
+        }
+        
         .container-card {
-            background-color: #2a094e; /* Ungu gelap untuk card */
-            border: 2px solid #6c47ff; /* Border ungu terang */
+            background-color: var(--purple-dark);
+            border: 2px solid var(--purple-border);
+            border-radius: 1.5rem !important; /* Membuat wadah utama lebih bulat */
         }
         .text-purple-highlight {
-            color: #bd93f9; /* Ungu lavender untuk highlight */
+            color: var(--purple-glow);
         }
         /* Style untuk efek visual pada card */
         .shadow-purple-heavy {
             box-shadow: 0 20px 25px -5px rgba(108, 71, 255, 0.4), 0 10px 10px -5px rgba(108, 71, 255, 0.1);
         }
-        /* Style untuk chip taruhan */
-        .chip {
-            padding: 4px 12px;
-            font-weight: bold;
-            border-radius: 9999px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-        .btn-casino-action {
-            background-color: #6c47ff; /* Ungu */
-            box-shadow: 0 0 10px rgba(108, 71, 255, 0.5);
+        
+        /* Styling untuk efek glow pada kartu produk dan tombol */
+        .chip-card {
             transition: all 0.3s ease;
+            border: 1px solid #333;
+            /* EFEK GRADIENT UNGU BIAS YANG LEBIH TERANG */
+            background: linear-gradient(145deg, #442a6b, #331f5f);
+            border-radius: 1.5rem; /* Membuat kartu chip lebih bulat */
         }
-        .btn-casino-action:hover {
-            background-color: #5a3ee0;
-            box-shadow: 0 0 15px rgba(108, 71, 255, 0.8);
+        .chip-card:hover {
+            transform: translateY(-5px);
+            /* Box shadow ungu lebih terang saat hover */
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.6);
+            border-color: var(--purple-accent);
+        }
+
+        .btn-action {
+            background-color: var(--purple-accent);
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.8);
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            background-color: #9333ea;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 1);
+        }
+        .btn-disabled {
+            background-color: #555 !important;
+            color: #ccc !important;
+            cursor: not-allowed;
+            box-shadow: none !important;
+        }
+        
+        /* Class khusus untuk warna chip */
+        .chip-color-1 { background-color: #f3f4f6; color: #1f2937; } /* Putih */
+        .chip-color-10 { background-color: #1e3a8a; color: #ffffff; } /* Biru Tua */
+        .chip-color-25 { background-color: #b91c1c; color: #ffffff; } /* Merah */
+        .chip-color-50 { background-color: #059669; color: #ffffff; } /* Hijau */
+        .chip-color-100 { background-color: #000000; color: #ffffff; border: 1px solid #4b5563; } /* Hitam */
+        .chip-color-250 { background-color: #6d28d9; color: #ffffff; } /* Ungu */
+        .chip-color-500 { background-color: #fcd34d; color: #1f2937; } /* Kuning */
+        .chip-color-1000 { background-color: #78350f; color: #ffffff; } /* Coklat */
+        .chip-color-10000 { background-color: #38bdf8; color: #1f2937; } /* Biru Muda */
+        
+        .chip-value {
+             font-size: 1.5rem;
+             font-weight: 800;
+             padding: 5px 10px;
+             border-radius: 4px;
+        }
+        /* Style tambahan untuk tombol penarikan */
+        .btn-cashout {
+            background-color: #eab308; /* Kuning/Amber */
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+            transition: all 0.2s ease;
+        }
+        .btn-cashout:hover {
+            background-color: #d97706;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 1);
         }
     </style>
 </head>
@@ -52,7 +107,7 @@
     <div class="w-full max-w-5xl container-card rounded-xl p-6 sm:p-10 shadow-purple-heavy">
 
         <!-- Header Casino -->
-        <header class="text-center mb-10">
+        <header class="text-center mb-8">
             <p class="text-2xl font-light text-gray-300">Pusat Judi Tersembunyi di Nightmare</p>
             <h1 class="text-5xl sm:text-6xl font-extrabold text-purple-highlight tracking-wider uppercase mt-2">
                 THE HIGH ROLLER CASINO
@@ -62,123 +117,206 @@
             </p>
         </header>
 
-        <!-- Bagian Foto dan Aturan Permainan -->
         <main class="space-y-10">
-
-            <!-- Blok Gambar Casino -->
-            <div class="relative rounded-lg overflow-hidden shadow-purple-heavy">
-                <!-- Placeholder untuk Gambar Casino -->
-                <img 
-                    src=casino.png  
-                    alt="Interior Casino dengan meja judi dan peti-peti" 
-                    class="w-full h-auto object-cover opacity-90"
-                    onerror="this.onerror=null; this.src='https://placehold.co/1200x400/3e1f76/ffffff?text=HIGH+ROLLER+CASINO+FLOOR';"
-                >
-                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                <!-- Kolom 1: Aturan Permainan (Merah/Hitam/Hijau) -->
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
-                        Aturan Utama: RODA KEBERUNTUNGAN
-                    </h2>
-                    <p class="text-gray-200 leading-relaxed">
-                        Permainan dasar di *The High Roller Casino* adalah putaran roda sederhana dengan tiga opsi taruhan. Semua transaksi menggunakan mata uang City Rebelze ($).
-                    </p>
-
-                    <!-- Detail Taruhan -->
-                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
-                        <p class="text-xl font-semibold text-purple-highlight mb-2">Pilihan Taruhan & Risiko</p>
-                        <ul class="space-y-3">
-                            <!-- Opsi Merah -->
-                            <li class="flex justify-between items-center">
-                                <div>
-                                    <span class="chip bg-red-700 text-white mr-3">MERAH</span>
-                                    <span class="text-gray-100 font-medium">Taruhan Default</span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-white font-bold">Payout: x2</p>
-                                    <p class="text-sm text-gray-400">Peluang Menang: 50%</p>
-                                </div>
-                            </li>
-                            <!-- Opsi Hitam -->
-                            <li class="flex justify-between items-center">
-                                <div>
-                                    <span class="chip bg-gray-900 text-white mr-3">HITAM</span>
-                                    <span class="text-gray-100 font-medium">Taruhan Default</span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-white font-bold">Payout: x2</p>
-                                    <p class="text-sm text-gray-400">Peluang Menang: 50%</p>
-                                </div>
-                            </li>
-                            <!-- Opsi Hijau (Jackpot) -->
-                            <li class="flex justify-between items-center border-t border-gray-600 pt-3">
-                                <div>
-                                    <span class="chip bg-green-700 text-white mr-3">HIJAU</span>
-                                    <span class="text-purple-highlight font-medium">Jackpot Langka</span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-purple-highlight font-bold">Payout: x10</p>
-                                    <p class="text-sm text-red-400">Peluang Menang: 10%</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+        
+            <!-- BAGIAN 1: ATURAN DAN STATUS KASINO RODA KEBERUNTUNGAN -->
+            <section>
+                <div class="relative rounded-2xl overflow-hidden shadow-purple-heavy mb-8">
+                    <!-- Placeholder untuk Gambar Casino -->
+                    <img 
+                        src=casino.png  
+                        alt="Interior Casino dengan meja judi dan peti-peti" 
+                        class="w-full h-auto object-cover opacity-90"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x400/3e1f76/ffffff?text=HIGH+ROLLER+CASINO+FLOOR';"
+                    >
+                    <div class="absolute inset-0 bg-black bg-opacity-30"></div>
                 </div>
 
-                <!-- Kolom 2: Regulasi dan Info RP -->
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
-                        Regulasi & Jam Operasional
-                    </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
-                    <!-- Batasan Taruhan -->
-                    <div class="bg-[#3e1f76] p-4 rounded-lg border border-[#6c47ff]">
-                        <div class="flex justify-between items-center mb-2">
-                            <p class="text-xl font-semibold text-purple-highlight">Minimal Bet</p>
-                            <p class="text-white text-3xl font-extrabold">$10</p>
-                        </div>
-                        <div class="border-t border-gray-600 pt-3 mt-3">
-                            <p class="text-xl font-semibold text-purple-highlight mb-1">Jam Operasional:</p>
-                            <p id="operating-hours" class="text-white text-lg font-bold">15:00 (3 Sore) - 24:00 (12 Malam)</p>
-                            <p id="status-indicator" class="text-sm font-semibold mt-1">
-                                <!-- Status buka/tutup akan di-render di sini -->
-                            </p>
+                    <!-- Kolom 1: Aturan Permainan -->
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                            Aturan Utama: RODA KEBERUNTUNGAN
+                        </h2>
+                        <p class="text-gray-200 leading-relaxed">
+                            Permainan dasar di *The High Roller Casino* adalah putaran roda sederhana dengan tiga opsi taruhan. Semua transaksi menggunakan chip casino.
+                        </p>
+
+                        <!-- Detail Taruhan -->
+                        <div class="bg-[#3e1f76] p-4 rounded-2xl border border-[#6c47ff]">
+                            <p class="text-xl font-semibold text-purple-highlight mb-2">Pilihan Taruhan & Risiko</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-center">
+                                    <div>
+                                        <span class="chip bg-red-700 text-white mr-3">MERAH</span>
+                                        <span class="text-gray-100 font-medium">Taruhan Default</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-white font-bold">Payout: x2</p>
+                                        <p class="text-sm text-gray-400">Peluang Menang: 50%</p>
+                                    </div>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <div>
+                                        <span class="chip bg-gray-900 text-white mr-3">HITAM</span>
+                                        <span class="text-gray-100 font-medium">Taruhan Default</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-white font-bold">Payout: x2</p>
+                                        <p class="text-sm text-gray-400">Peluang Menang: 50%</p>
+                                    </div>
+                                </li>
+                                <li class="flex justify-between items-center border-t border-gray-600 pt-3">
+                                    <div>
+                                        <span class="chip bg-green-700 text-white mr-3">HIJAU</span>
+                                        <span class="text-purple-highlight font-medium">Jackpot Langka</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-purple-highlight font-bold">Payout: x10</p>
+                                        <p class="text-sm text-red-400">Peluang Menang: 10%</p>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Tombol Aksi Casino (Deposit/Taruhan) -->
-                    <div id="casino-action-area" class="space-y-3">
-                         <!-- Tombol ini akan disembunyikan/ditampilkan oleh JS -->
-                        <button id="action-button" onclick="promptCasinoAction()" class="btn-casino-action w-full py-3 rounded-lg text-white font-semibold uppercase tracking-wider hidden">
-                            Lanjutkan Taruhan & Deposit
-                        </button>
+                    <!-- Kolom 2: Regulasi & Status Casino -->
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2">
+                            Regulasi & Jam Operasional
+                        </h2>
                         
-                        <!-- Peringatan RP -->
-                        <div>
-                            <p class="text-lg font-semibold text-purple-highlight mb-2">Catatan Operasional:</p>
-                            <p class="text-gray-100 leading-relaxed">
-                                Casino ini beroperasi di bawah perlindungan Mr04 dan Mafia Rebelze. Segala bentuk kecurangan atau upaya perampokan akan ditangani dengan cepat dan tanpa toleransi. Kami menjamin kerahasiaan dan keamanan dana Anda—selama Anda bermain sesuai aturan.
-                            </p>
+                        <div class="bg-[#3e1f76] p-4 rounded-2xl border border-[#6c47ff]">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-xl font-semibold text-purple-highlight">Minimal Bet</p>
+                                <p class="text-white text-3xl font-extrabold">$10</p>
+                            </div>
+                            <div class="border-t border-gray-600 pt-3 mt-3">
+                                <p class="text-xl font-semibold text-purple-highlight mb-1">Jam Operasional:</p>
+                                <p id="operating-hours-display" class="text-white text-lg font-bold">15:00 (3 Sore) - 24:00 (12 Malam)</p>
+                                <p id="status-indicator" class="text-sm font-semibold mt-1">
+                                    <!-- Status buka/tutup akan di-render di sini -->
+                                </p>
+                            </div>
                         </div>
 
-                        <!-- Kontak -->
-                        <div class="p-4 bg-yellow-800 bg-opacity-30 rounded-lg border border-yellow-500">
-                            <p class="font-bold text-yellow-300">Hubungi Dealer:</p>
-                            <p class="text-sm text-gray-200">Untuk Deposit / Penarikan, harap hubungi staf berizin di lokasi atau operator Mr04 melalui saluran rahasia.</p>
+                        <!-- Tombol Aksi Casino (Deposit/Taruhan) -->
+                        <div id="casino-action-area" class="space-y-3">
+                            <button id="action-button" onclick="promptCasinoAction()" class="btn-casino-action w-full py-3 rounded-xl text-white font-semibold uppercase tracking-wider hidden">
+                                Lanjutkan Taruhan & Deposit
+                            </button>
+                            
+                            <div>
+                                <p class="text-lg font-semibold text-purple-highlight mb-2">Catatan Operasional:</p>
+                                <p class="text-gray-100 leading-relaxed">
+                                    Casino ini beroperasi di bawah perlindungan Mr04 dan Mafia Rebelze. Kami menjamin kerahasiaan dan keamanan dana Anda—selama Anda bermain sesuai aturan.
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-yellow-800 bg-opacity-30 rounded-xl border border-yellow-500">
+                                <p class="font-bold text-yellow-300">Hubungi Dealer:</p>
+                                <p class="text-sm text-gray-200">Untuk Deposit / Penarikan, harap hubungi staf berizin di lokasi atau operator Mr04 melalui saluran rahasia.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+            
+            <!-- BAGIAN 2: MESIN CHIP INTERAKTIF (TOKO) -->
+            <section class="lg:col-span-3 mt-10 border-t border-purple-border pt-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- KIRI: Daftar CHIP PENUKARAN UANG (BELI CHIP) -->
+                    <div class="lg:col-span-2">
+                        <h2 class="text-3xl font-bold text-white border-b-2 border-purple-highlight pb-2 mb-4">
+                            Mesin Penukar Chip Tunai (Beli Chip)
+                        </h2>
+                        <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+                            <!-- Kartu chip di-render di sini oleh JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- KANAN: Keranjang Chip & Checkout Penukaran Chip -->
+                    <aside class="lg:col-span-1">
+                        <div class="container-card p-6 rounded-2xl shadow-lg mb-8">
+                            <h2 class="text-2xl font-bold mb-4 text-purple-highlight border-b border-gray-700 pb-2">Keranjang Chip (Beli Chip)</h2>
 
-            <!-- Pesan Penutup -->
-            <div class="mt-10 text-center text-gray-400 text-lg italic">
-                Semoga Lady Luck tersenyum pada Anda.
-            </div>
+                            <div id="cart-items" class="min-h-24 max-h-96 overflow-y-auto mb-4 space-y-3">
+                                <p class="text-gray-500 text-center py-4">Keranjang Anda kosong.</p>
+                            </div>
+
+                            <div class="border-t border-purple-accent/50 pt-4 mt-4">
+                                <div class="flex justify-between items-center text-xl font-bold mb-4">
+                                    <span class="text-purple-highlight">Total Uang Ditukar:</span>
+                                    <span id="total-price" class="text-3xl font-extrabold text-purple-accent">$0</span>
+                                </div>
+
+                                <div id="checkout-area">
+                                    <input type="text" id="buyer-name" placeholder="Nama IC Penukar (Wajib)" class="w-full p-3 mb-3 bg-gray-900 border border-purple-accent rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-highlight">
+                                    <button id="checkout-button-buy" onclick="checkoutToDiscord('buy')" class="btn-action w-full py-3 rounded-xl text-white font-semibold uppercase tracking-wider transition duration-200">
+                                        Kirim Pesanan Penukaran
+                                    </button>
+                                    <p id="checkout-message-buy" class="text-center mt-3 text-sm text-yellow-400">
+                                        Pesanan chip akan dikirim ke Dealer Casino.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+            
+            <!-- BAGIAN 3: MESIN CHIP PENARIKAN (CASH OUT) -->
+            <section class="lg:col-span-3 pt-4 border-t border-purple-border">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <!-- KIRI: Daftar Chip Penarikan -->
+                    <div class="lg:col-span-2">
+                        <h2 class="text-3xl font-bold text-yellow-400 border-b-2 border-yellow-400 pb-2 mb-4">
+                            Penarikan Chip (Tukar Uang)
+                        </h2>
+                        <p class="text-gray-400 mb-4">Pilih chip yang ingin Anda tukarkan kembali menjadi uang tunai.</p>
+                        <div id="cashout-product-list" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+                             <!-- Kartu chip di-render di sini oleh JavaScript (untuk penarikan) -->
+                        </div>
+                    </div>
+
+                    <!-- KANAN: Keranjang Penarikan & Checkout -->
+                    <aside class="lg:col-span-1">
+                        <div class="container-card p-6 rounded-2xl shadow-lg">
+                            <h2 class="text-2xl font-bold mb-4 text-yellow-400 border-b border-gray-700 pb-2">Keranjang Penarikan</h2>
+                            
+                            <div id="cashout-cart-items" class="min-h-24 max-h-96 overflow-y-auto mb-4 space-y-3">
+                                <p class="text-gray-500 text-center py-4">Keranjang penarikan kosong.</p>
+                            </div>
+
+                            <div class="border-t border-yellow-400/50 pt-4 mt-4">
+                                <div class="flex justify-between items-center text-xl font-bold mb-4">
+                                    <span class="text-yellow-400">Total Uang Diterima:</span>
+                                    <span id="total-cashout" class="text-3xl font-extrabold text-yellow-400">$0</span>
+                                </div>
+
+                                <div id="cashout-checkout-area">
+                                    <input type="text" id="cashout-name" placeholder="Nama IC Penarik (Wajib)" class="w-full p-3 mb-3 bg-gray-900 border border-yellow-400 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-highlight">
+                                    <button id="checkout-button-cashout" onclick="checkoutToDiscord('cashout')" class="btn-cashout w-full py-3 rounded-xl text-white font-semibold uppercase tracking-wider transition duration-200">
+                                        Tukarkan Uang
+                                    </button>
+                                    <p id="checkout-message-cashout" class="text-center mt-3 text-sm text-gray-400">
+                                        Permintaan penarikan akan dikirim ke Dealer.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
         </main>
+
+        <!-- Pesan Penutup -->
+        <div class="mt-10 text-center text-gray-400 text-lg italic">
+            Semoga Lady Luck tersenyum pada Anda.
+        </div>
 
         <!-- Footer -->
         <footer class="mt-10 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
@@ -188,55 +326,382 @@
     </div>
 
     <script>
-        // Jam operasional: 15 (3 sore) sampai 23 (sebelum 24:00/00:00)
+        // --- KONFIGURASI KHUSUS ---
+        const DISCORD_ORDER_WEBHOOK = "https://discord.com/api/webhooks/1445425716589236338/CdQyWCbs6hAGWwYWJWZI2w5-xR6dlbDQtd3ztFO7OluWM8kzAZttcOUCr12nhKob58Lo";
         const START_HOUR = 15; // 3 sore
-        const END_HOUR = 24;   // 12 malam (diatur menjadi 24 agar mencakup jam 23:xx)
+        const END_HOUR = 24;   // 12 malam (00:00)
+        
+        // Data Chip Produk (Chip Merah diubah nilainya menjadi 30)
+        const products = [
+            { id: 1, name: "Chip Putih", value: 1, color_class: "chip-color-1" },
+            { id: 2, name: "Chip Biru Tua", value: 10, color_class: "chip-color-10" },
+            { id: 3, name: "Chip Merah", value: 30, color_class: "chip-color-25" }, // DIUBAH DARI $25 MENJADI $30
+            { id: 4, name: "Chip Hijau", value: 50, color_class: "chip-color-50" },
+            { id: 5, name: "Chip Hitam", value: 100, color_class: "chip-color-100" },
+            { id: 6, name: "Chip Ungu", value: 100, color_class: "chip-color-250" }, 
+            { id: 7, name: "Chip Kuning", value: 500, color_class: "chip-color-500" },
+            { id: 8, name: "Chip Coklat", value: 1000, color_class: "chip-color-1000" },
+            { id: 9, name: "Chip Biru Muda", value: 10000, color_class: "chip-color-10000" },
+        ];
+
+        let buyCart = {}; // Keranjang untuk pembelian (Uang -> Chip)
+        let cashoutCart = {}; // Keranjang untuk penarikan (Chip -> Uang)
+
+        // Fungsi Format Mata Uang USD
+        const formatCurrency = (number) => {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+        
+        // --- LOGIKA CASINO LAMA & TOKO CHIP ---
 
         // Fungsi untuk memeriksa jam operasional
         const checkOperatingHours = () => {
             const now = new Date();
-            const hour = now.getHours(); 
-            // Cek apakah jam saat ini >= 15 DAN jam saat ini < 24 (mencakup 15:00 hingga 23:59)
+            const hour = now.getHours();
             return hour >= START_HOUR && hour < END_HOUR;
         };
 
-        // Fungsi untuk mengupdate status casino dan tombol
+        // Fungsi untuk mengupdate status casino dan tombol aksi (Bagian 1)
         const updateCasinoStatus = () => {
             const is_open = checkOperatingHours();
             const statusIndicator = document.getElementById('status-indicator');
             const actionButton = document.getElementById('action-button');
+            const cashoutButton = document.getElementById('checkout-button-cashout'); // NEW
 
             if (is_open) {
-                // Kasino BUKA
                 statusIndicator.innerHTML = '<span class="text-green-400">STATUS: BUKA</span> - Segera bergabung di meja!';
                 actionButton.classList.remove('hidden');
+                cashoutButton.disabled = false;
+                cashoutButton.classList.remove('btn-disabled'); 
             } else {
-                // Kasino TUTUP
                 statusIndicator.innerHTML = '<span class="text-red-400">STATUS: TUTUP</span> - Silakan datang kembali di jam operasional.';
                 actionButton.classList.add('hidden');
+                cashoutButton.disabled = true;
+                cashoutButton.classList.add('btn-disabled'); 
             }
         };
 
-        // Fungsi yang dipanggil saat tombol aksi diklik (Placeholder)
+        // Fungsi yang dipanggil saat tombol aksi (Lanjutkan Taruhan) diklik (Bagian 1)
         const promptCasinoAction = () => {
-            // Ini adalah placeholder, karena tidak ada fungsionalitas taruhan penuh.
-            // Anda bisa mengganti ini dengan tautan WA/Discord/In-game command jika perlu.
             const statusIndicator = document.getElementById('status-indicator');
             statusIndicator.innerHTML = '<span class="text-yellow-400">Anda siap bertaruh!</span> Harap lanjutkan komunikasi di dalam game.';
             statusIndicator.classList.remove('hidden');
             
-            // Sembunyikan pesan setelah beberapa detik
             setTimeout(() => {
-                 updateCasinoStatus();
+                updateCasinoStatus();
             }, 5000);
         };
 
+
+        // --- LOGIKA TOKO CHIP (Bagian 2 & 3) ---
+        
+        // Fungsi untuk Menghitung Total Uang yang Dikeluarkan
+        const calculateTotal = (cartData, totalElementId) => {
+            let total = 0;
+            for (const id in cartData) {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    total += product.value * cartData[id];
+                }
+            }
+            document.getElementById(totalElementId).textContent = formatCurrency(total);
+            return total;
+        };
+
+        // Menambah item (chip) ke keranjang pembelian
+        const addToBuyCart = (productId) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ icon: 'warning', title: 'Toko Tutup', text: 'Kasino beroperasi pukul 15:00 - 24:00 WIB.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#a855f7' });
+                return;
+            }
+            
+            const id = String(productId);
+            buyCart[id] = (buyCart[id] || 0) + 1;
+            renderBuyCart();
+        };
+
+         // Menambah item (chip) ke keranjang penarikan
+        const addToCashoutCart = (productId) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ icon: 'warning', title: 'Toko Tutup', text: 'Kasino beroperasi pukul 15:00 - 24:00 WIB.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#a855f7' });
+                return;
+            }
+            
+            const id = String(productId);
+            cashoutCart[id] = (cashoutCart[id] || 0) + 1;
+            renderCashoutCart();
+        };
+
+        // Mengubah kuantitas item (chip) di keranjang pembelian
+        const updateBuyQuantity = (productId, change) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ icon: 'warning', title: 'Toko Tutup', text: 'Kasino beroperasi pukul 15:00 - 24:00 WIB.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#a855f7' });
+                return;
+            }
+
+            const id = String(productId);
+            buyCart[id] += change;
+
+            if (buyCart[id] <= 0) {
+                delete buyCart[id];
+            }
+            renderBuyCart();
+        };
+        
+        // Mengubah kuantitas item (chip) di keranjang penarikan
+        const updateCashoutQuantity = (productId, change) => {
+            if (!checkOperatingHours()) {
+                Swal.fire({ icon: 'warning', title: 'Toko Tutup', text: 'Kasino beroperasi pukul 15:00 - 24:00 WIB.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#a855f7' });
+                return;
+            }
+
+            const id = String(productId);
+            cashoutCart[id] += change;
+
+            if (cashoutCart[id] <= 0) {
+                delete cashoutCart[id];
+            }
+            renderCashoutCart();
+        };
+
+
+        // Merender Daftar Chip Pembelian
+        const renderProducts = () => {
+            const productListDiv = document.getElementById('product-list');
+            const cashoutProductListDiv = document.getElementById('cashout-product-list');
+
+            const mapChips = (onClickFn) => products.map(chip => `
+                <div class="chip-card p-4 rounded-xl flex flex-col justify-between shadow-sm cursor-pointer" onclick="${onClickFn}(${chip.id})">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-xl font-bold text-white">${chip.name}</h3>
+                        <span class="chip-value ${chip.color_class}">${formatCurrency(chip.value)}</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-gray-700">
+                        <p class="text-sm text-gray-400">Nilai Chip: ${formatCurrency(chip.value)}</p>
+                        <button class="btn-action px-3 py-1 text-sm rounded-full text-white hover:scale-105" title="Tukar 1 Chip">
+                            + Pilih
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            productListDiv.innerHTML = mapChips('addToBuyCart');
+            cashoutProductListDiv.innerHTML = mapChips('addToCashoutCart');
+        };
+
+
+        // Merender Keranjang Pembelian & Mengontrol Tombol
+        const renderBuyCart = () => {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const checkoutButton = document.getElementById('checkout-button-buy');
+            const isOperating = checkOperatingHours();
+            
+            let cartContent = '';
+            const itemsInCart = Object.keys(buyCart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                return { ...product, quantity: buyCart[id], subtotal: product.value * buyCart[id] };
+            });
+
+            if (itemsInCart.length === 0) {
+                cartContent = `<p class="text-gray-500 text-center py-4">Keranjang Anda kosong.</p>`;
+            } else {
+                cartContent = itemsInCart.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-[#1f1f1f] rounded-2xl border border-gray-700">
+                        <div class="flex-grow">
+                            <p class="text-white font-semibold">${item.name}</p>
+                            <p class="text-purple-accent text-sm">${formatCurrency(item.value)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateBuyQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas" ${isOperating ? '' : 'disabled'} >-</button>
+                            <span class="text-lg font-bold">${item.quantity}</span>
+                            <button onclick="updateBuyQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas" ${isOperating ? '' : 'disabled'} >+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            cartItemsDiv.innerHTML = cartContent;
+            calculateTotal(buyCart, 'total-price');
+
+            // Kontrol Tombol Checkout Pembelian
+            if (isOperating && itemsInCart.length > 0) {
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+            } else {
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+            }
+        };
+
+
+        // Merender Keranjang Penarikan & Mengontrol Tombol
+        const renderCashoutCart = () => {
+            const cartItemsDiv = document.getElementById('cashout-cart-items');
+            const checkoutButton = document.getElementById('checkout-button-cashout');
+            const isOperating = checkOperatingHours();
+            
+            let cartContent = '';
+            const itemsInCart = Object.keys(cashoutCart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                return { ...product, quantity: cashoutCart[id], subtotal: product.value * cashoutCart[id] };
+            });
+
+            if (itemsInCart.length === 0) {
+                cartContent = `<p class="text-gray-500 text-center py-4">Keranjang penarikan kosong.</p>`;
+            } else {
+                cartContent = itemsInCart.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-[#1f1f1f] rounded-2xl border border-gray-700">
+                        <div class="flex-grow">
+                            <p class="text-white font-semibold">${item.name}</p>
+                            <p class="text-yellow-400 text-sm">Jumlah Chip: ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateCashoutQuantity(${item.id}, -1)" class="text-gray-300 hover:text-red-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-red-500 transition duration-150" title="Kurangi Kuantitas" ${isOperating ? '' : 'disabled'} >-</button>
+                            <span class="text-lg font-bold">${item.quantity}</span>
+                            <button onclick="updateCashoutQuantity(${item.id}, 1)" class="text-gray-300 hover:text-green-500 font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-green-500 transition duration-150" title="Tambah Kuantitas" ${isOperating ? '' : 'disabled'} >+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            cartItemsDiv.innerHTML = cartContent;
+            calculateTotal(cashoutCart, 'total-cashout'); // Menghitung total cashout
+
+            // Kontrol Tombol Checkout Penarikan
+            if (isOperating && itemsInCart.length > 0) {
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+            } else {
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+            }
+        };
+
+
+        // Fungsi Checkout: Mengirim ke Discord Webhook
+        const checkoutToDiscord = async (type) => {
+            const buyerNameInput = document.getElementById(type === 'buy' ? 'buyer-name' : 'cashout-name');
+            const buyerName = buyerNameInput.value.trim();
+            const checkoutButton = document.getElementById(type === 'buy' ? 'checkout-button-buy' : 'checkout-button-cashout');
+            
+            // Tentukan Cart, Total ID, dan Warna Embed
+            const currentCart = type === 'buy' ? buyCart : cashoutCart;
+            const totalElementId = type === 'buy' ? 'total-price' : 'total-cashout';
+            const totalTitle = type === 'buy' ? 'UANG KELUAR' : 'UANG DITERIMA';
+            const embedColor = type === 'buy' ? 9444390 : 16766720; // Ungu atau Kuning Emas
+
+            // 1. Validasi Awal
+            if (!checkOperatingHours()) {
+                 Swal.fire({ icon: 'error', title: 'Gagal', text: 'Kasino tutup. Pemesanan hanya bisa dilakukan pukul 15:00 - 24:00 WIB.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#a855f7' });
+                 return;
+            }
+            if (Object.keys(currentCart).length === 0) {
+                Swal.fire({ icon: 'warning', title: 'Keranjang Kosong', text: `Silakan pilih chip yang ingin ${type === 'buy' ? 'ditukar' : 'ditarik'}.`, background: '#1a1a1a', color: '#fff' });
+                return;
+            }
+            if (!buyerName) {
+                Swal.fire({ icon: 'error', title: 'Nama Wajib Diisi', text: 'Mohon masukkan Nama IC (RP) Anda.', background: '#1a1a1a', color: '#fff' });
+                buyerNameInput.focus();
+                return;
+            }
+
+            // 2. Persiapan Data untuk Discord
+            const totalPriceText = document.getElementById(totalElementId).textContent;
+            const itemsInCart = Object.keys(currentCart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                return { ...product, quantity: currentCart[id], subtotal: product.value * currentCart[id] };
+            });
+
+            const itemDescription = itemsInCart.map(item => 
+                `${item.name} (${formatCurrency(item.value)}/Chip) x ${item.quantity} = **${formatCurrency(item.subtotal)}**`
+            ).join('\n');
+
+            const discordPayload = {
+                embeds: [{
+                    title: `${type === 'buy' ? '♦️ PERMINTAAN PENUKARAN CHIP' : '💰 PERMINTAAN PENARIKAN CHIP'}`,
+                    description: `Permintaan ${type === 'buy' ? 'pembelian chip' : 'pencairan chip'} dari kasino.`,
+                    color: embedColor, 
+                    fields: [
+                        { name: "👤 Penukar/Penarik (IC)", value: `**${buyerName}**`, inline: false },
+                        { name: "🃏 Detail Chip", value: itemDescription, inline: false },
+                        { name: `💵 TOTAL ${totalTitle}`, value: `**${totalPriceText}**`, inline: true },
+                        { name: "🕒 Waktu", value: new Date().toLocaleString('id-ID'), inline: true }
+                    ],
+                    footer: { text: "High Roller Casino Exchange System" }
+                }]
+            };
+
+            // 3. Kirim ke Discord
+            checkoutButton.innerHTML = "MENGIRIM DATA...";
+            checkoutButton.classList.add('btn-disabled');
+            checkoutButton.disabled = true;
+
+            try {
+                 if (DISCORD_ORDER_WEBHOOK.includes("https://discord.com/api/webhooks/1445437735899762819/nG4A71hgjBc3KyIOtBKmYV2jz8CHtkzwFTgZY3q2txPkHMKkuKkRjp6ljKCJbD3quZ8Y")) {
+                     console.warn("Webhook URL belum diatur. Simulasi sukses.");
+                } else {
+                    const response = await fetch(DISCORD_ORDER_WEBHOOK, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(discordPayload)
+                    });
+                    if (!response.ok) throw new Error(`Discord API responded with status ${response.status}`);
+                }
+
+                // 4. Sukses
+                Swal.fire({ 
+                    icon: 'success', 
+                    title: 'Berhasil!', 
+                    text: `Permintaan ${type === 'buy' ? 'penukaran chip' : 'penarikan chip'} berhasil dikirim. Staf Casino akan segera melayani Anda.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+
+                // Reset keranjang
+                if (type === 'buy') buyCart = {}; else cashoutCart = {};
+                renderBuyCart();
+                renderCashoutCart();
+                buyerNameInput.value = '';
+
+            } catch (error) {
+                console.error("Error saat mengirim pesanan:", error);
+                 Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Gagal Mengirim', 
+                    text: `Terjadi kesalahan: ${error.message}. Cek konsol.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#a855f7'
+                });
+            } finally {
+                checkoutButton.innerHTML = (type === 'buy' ? "Kirim Pesanan Penukaran" : "Tukarkan Uang");
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+            }
+        };
+
+
         // Inisialisasi saat memuat halaman
         window.onload = () => {
-            updateCasinoStatus();
+            // Pasang event listener untuk formulir penarikan (tidak lagi dibutuhkan karena tombol di luar form)
+            // Namun, pastikan tombol penarikan memanggil checkoutToDiscord('cashout')
             
+            renderProducts();
+            renderBuyCart();
+            renderCashoutCart();
+            updateCasinoStatus(); // Panggil pertama kali untuk inisialisasi status
+
             // Atur timer untuk refresh status setiap 1 menit (jika waktu berubah)
-            setInterval(updateCasinoStatus, 60000); 
+            setInterval(() => {
+                 renderBuyCart(); // Perbarui kedua keranjang
+                 renderCashoutCart();
+                 updateCasinoStatus();
+            }, 60000); 
         };
     </script>
 </body>
