@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebel State Roleplay</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 untuk notifikasi keren (WAJIB ADA) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Konfigurasi Dasar dan Font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #050510; /* Hitam Kebiruan Gelap */
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Definisi Warna Tema Rebel (Pink & Cyan) */
+        :root {
+            --neon-pink: #ff0099; /* Warna Utama Pink */
+            --neon-glow: #ff66cc; /* Pink Terang */
+            --neon-cyan: #00f3ff; /* Aksen Biru Cyan */
+            --dark-bg: #0d0d0d;
+        }
+
+        /* Scrollbar Kustom */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-pink);
+            border-radius: 5px;
+        }
+
+        /* Struktur Utama */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Navigasi */
+        .navbar {
+            background-color: rgba(5, 5, 16, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 153, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            padding: 5px 10px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(0deg, #050510 0%, rgba(255, 0, 153, 0.1) 100%);
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        /* Efek Grid Retro di Background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(transparent 50%, rgba(0, 243, 255, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 153, 0.1) 50%, transparent 50%);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            z-index: -1;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px var(--neon-pink), -2px -2px 0px var(--neon-cyan);
+            font-style: italic;
+        }
+
+        /* NEW CLOCK STYLE */
+        .neon-clock {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            font-weight: 700;
+            font-family: monospace;
+            line-height: 1.2;
+        }
+
+
+        .hero-logo-container {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 20px var(--neon-pink);
+            transition: transform 0.5s;
+        }
+        
+        .hero-logo-container:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .hero-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: transparent;
+            color: var(--neon-cyan);
+            padding: 12px 40px;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            letter-spacing: 2px;
+        }
+        .cta-button:hover {
+            background-color: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-cyan);
+            transform: translateY(-3px);
+        }
+        .cta-disabled {
+            border-color: #555 !important; color: #555 !important; box-shadow: none !important; cursor: not-allowed !important;
+            background: none !important;
+        }
+        .cta-disabled:hover {
+            background: none !important; color: #555 !important; box-shadow: none !important;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-pink);
+            border-bottom: 4px solid var(--neon-pink);
+            display: inline-block;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+        .section-header p {
+            color: #bbb;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+
+        /* About Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .about-text {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0d0d1a 100%);
+            padding: 30px;
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 5px 5px 0px var(--neon-pink);
+            transition: transform 0.3s;
+        }
+        .about-text:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px var(--neon-pink);
+        }
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .portfolio-item {
+            background-color: #111;
+            border: 2px solid #333;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+            border-radius: 8px; /* Added slight rounding */
+        }
+        .portfolio-item:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 153, 0.4);
+            transform: translateY(-5px);
+        }
+        .portfolio-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(80%);
+            transition: filter 0.3s;
+        }
+        .portfolio-item:hover .portfolio-image {
+            filter: grayscale(0%) contrast(1.2);
+        }
+        .portfolio-item h3 {
+            padding: 15px 15px 5px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase; /* Ensure titles are capitalized */
+        }
+        .portfolio-item p {
+            padding: 0 15px 15px;
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+        .portfolio-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Footer Style */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 0, 153, 0.2);
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* ACCESS GATE (Tampilan Login) */
+        #access-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050510;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 0, 153, 0.1), transparent 70%);
+        }
+        
+        .access-card {
+            background-color: rgba(20, 20, 30, 0.9);
+            padding: 40px;
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 40px rgba(255, 0, 153, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+        }
+        
+        .access-card h2 {
+            color: #fff;
+            text-shadow: 2px 2px 0 var(--neon-pink);
+        }
+
+        .access-card input {
+            background-color: #000;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 12px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-family: monospace;
+            outline: none;
+            border-radius: 4px;
+        }
+        .access-card input:focus {
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .access-card button {
+            background: var(--neon-pink);
+            color: #fff;
+            font-weight: 800;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            border-radius: 4px;
+        }
+        .access-card button:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .hidden-content {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .navbar { flex-direction: column; gap: 10px; }
+            #user-badge { position: static !important; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="access-gate">
+        <div class="access-card" data-aos="zoom-in">
+            <div class="mb-6">
+                <!-- LOGO LOGIN -->
+                <img src="image.png" onerror="this.onerror=null; this.src='https://placehold.co/100x100/ff0099/ffffff?text=REBEL';" alt="Rebel Logo" class="w-24 h-24 mx-auto rounded-full border-2 border-[#ff0099] object-cover shadow-[0_0_15px_#ff0099]">
+            </div>
+            <h2 class="text-3xl font-extrabold mb-2 uppercase italic">Citizens Access</h2>
+            <p class="mb-6 text-xs text-cyan-400 tracking-widest">REBEL STATE DATABASE</p>
+            
+            <form id="access-form">
+                <input type="text" id="nama-asli" placeholder="NAMA OOC" required autocomplete="off">
+                <input type="text" id="nama-rp" placeholder="NAMA IC (Warga)" required autocomplete="off">
+                <button type="submit">ENTER CITY</button>
+            </form>
+            <p id="error-message" class="text-red-500 text-sm mt-3 hidden font-mono">DATA TIDAK LENGKAP!</p>
+        </div>
+    </div>
+    
+    <div id="main-content" class="hidden-content">
+
+        <nav class="navbar relative">
+            <div class="nav-links">
+                <a href="#beranda">Home</a>
+                <a href="#whitelist">Whitelist</a> 
+                <a href="#rules">Rules</a>
+                <a href="#factions">Factions</a>
+                <a href="#badside">BadSide</a> <!-- Link Baru untuk BadSide -->
+                <a href="#store">Store</a>
+                <a href="#admin">Panel</a>
+            </div>
+
+            <div id="user-badge" class="absolute right-5 flex items-center gap-3 hidden">
+                <div class="text-right hidden md:block"> 
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Citizen</p>
+                    <p id="display-nama-rp" class="text-sm font-bold text-[#00f3ff] drop-shadow-[0_0_5px_rgba(0,243,255,0.8)]">Guest</p>
+                </div>
+                <div class="w-9 h-9 bg-black border border-[#ff0099] flex items-center justify-center shadow-[0_0_10px_#ff0099]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#ff0099]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+            </div>
+        </nav>
+
+        <section id="beranda" class="hero">
+            <div class="hero-content">
+                <div class="hero-logo-container" data-aos="flip-left" data-aos-duration="1500">
+                    <img src="image.png" onerror="this.onerror=null; this.src='https://placehold.co/220x220/ff0099/ffffff?text=REBEL+STATE';" alt="Rebel Logo" class="hero-logo">
+                </div>
+                
+                <h1 data-aos="fade-up" data-aos-delay="200">REBEL STATE</h1>
+                <p data-aos="fade-up" data-aos-delay="400" class="text-xl text-cyan-300 tracking-widest">ROLEPLAY • COMMUNITY • LEGACY</p>
+                
+                <!-- NEW CLOCK DISPLAY -->
+                <div id="current-datetime" data-aos="fade-up" data-aos-delay="500" class="mt-4 text-lg neon-clock">
+                    <!-- Clock content inserted by JS -->
+                </div>
+
+                <!-- Tombol ini sekarang mengarah ke Whitelist Section dan memicu SweetAlert -->
+                <a href="#whitelist" id="hero-join-btn" class="cta-button" data-aos="fade-up" data-aos-delay="600" onclick="showManualRegistrationInfo(event)">JOIN THE CHAOS</a>
+            </div>
+        </section>
+
+        <!-- WHITELIST SECTION -->
+        <section id="whitelist" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="color: var(--neon-pink);">STATUS WHITELIST</h2>
+                <p>Pendaftaran sedang dimoderasi secara manual di Discord.</p>
+            </div>
+
+            <div class="max-w-sm mx-auto"> 
+                <!-- Link ke Discord, memicu SweetAlert -->
+                <a href="https://dsc.gg/rebelsmp" target="_blank" id="card-join-link" class="portfolio-link block" onclick="showManualRegistrationInfo(event)">
+                    <div class="portfolio-item rounded-lg border-2 border-red-500 bg-red-900/30" data-aos="zoom-in" data-aos-delay="200">
+                        <!-- Placeholder Merah untuk status ditutup -->
+                        <img src="image.png" onerror="this.onerror=null; this.src='https://placehold.co/400x200/990000/ffffff?text=CLOSED'" alt="Registrasi Ditutup" class="portfolio-image opacity-30">
+                        <h3 id="card-join-title" class="text-red-400">PENDAFTARAN DITUTUP SEMENTARA</h3>
+                        <p id="card-join-desc" class="text-red-300 font-bold">Wajib daftar melalui Discord.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="rules" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Server Info</h2>
+                <p>Membangun cerita di tengah kota yang tak pernah tidur.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text" data-aos="fade-right">
+                    <h3>Hard Roleplay</h3>
+                    <p class="text-gray-400 text-sm">Kami mengutamakan kualitas roleplay. Setiap interaksi, dari warga sipil hingga kriminal kelas kakap, harus memiliki cerita yang mendalam dan realistis.</p>
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h3>Ekonomi Seimbang</h3>
+                    <p class="text-gray-400 text-sm">Sistem ekonomi yang dirancang agar uang memiliki nilai. Kerja keras sebagai mekanik, polisi, atau pedagang pasar gelap sangat dihargai.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FACTIONS GOOD SIDE -->
+        <section id="factions" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Faksi & Pekerjaan (Legal)</h2>
+                <p>Pilih jalan hidupmu di Rebel State.</p>
+            </div>
+            
+            <div class="portfolio-grid">
+                
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="https://placehold.co/400x200/003366/00f3ff?text=LSPD" onerror="this.onerror=null; this.src='https://placehold.co/400x200/003366/00f3ff?text=LSPD';" alt="Police" class="portfolio-image">
+                        <h3>LSPD</h3>
+                        <p>To Protect and Serve</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="https://placehold.co/400x200/004488/00f3ff?text=SWAT" onerror="this.onerror=null; this.src='https://placehold.co/400x200/004488/00f3ff?text=SWAT';" alt="SWAT" class="portfolio-image">
+                        <h3>SWAT</h3>
+                        <p>Elite Response</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="https://placehold.co/400x200/336600/00f3ff?text=EMS" onerror="this.onerror=null; this.src='https://placehold.co/400x200/336600/00f3ff?text=EMS';" alt="Medic" class="portfolio-image">
+                        <h3>EMS</h3>
+                        <p>Save Lives, Stay Alive</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="https://placehold.co/400x200/663300/00f3ff?text=PEMERINTAHAN" onerror="this.onerror=null; this.src='https://placehold.co/400x200/663300/00f3ff?text=PEMERINTAHAN';" alt="Pemerintahan" class="portfolio-image">
+                        <h3>Pemerintahan</h3>
+                        <p>Mengelola Kota</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- FACTIONS BAD SIDE (DIPISAHKAN DARI SEBELUMNYA) -->
+        <section id="badside" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="border-color: var(--neon-cyan);">BadSide Di City</h2>
+                <p>Kelompok-kelompok kriminal yang beroperasi di Rebel State.</p>
+            </div>
+            
+            <div class="portfolio-grid mb-12">
+                
+                <a href="N9M.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="N9M.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x200/330000/ff66cc?text=N9M';" alt="Gang N9M" class="portfolio-image">
+                        <h3>N9M</h3>
+                        <p>Nightmare</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="https://placehold.co/400x200/440022/ff66cc?text=T8H" onerror="this.onerror=null; this.src='https://placehold.co/400x200/440022/ff66cc?text=T8H';" alt="Gang T8H" class="portfolio-image">
+                        <h3>T8H</h3>
+                        <p>Street Crew</p>
+                    </div>
+                </a>
+
+                <a href="CSS.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="CSS.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x200/550011/ff66cc?text=CSS';" alt="Gang CSS" class="portfolio-image">
+                        <h3>CSS</h3>
+                        <p>CASSANO</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="400">
+                        <img src="https://placehold.co/400x200/660000/ff66cc?text=YAKUZA" onerror="this.onerror=null; this.src='https://placehold.co/400x200/660000/ff66cc?text=YAKUZA';" alt="Gang Yakuza" class="portfolio-image">
+                        <h3>Yakuza</h3>
+                        <p>Japanese Mob</p>
+                    </div>
+                </a>
+                
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="500">
+                        <img src="https://placehold.co/400x200/550033/ff66cc?text=VOLDIGOD" onerror="this.onerror=null; this.src='https://placehold.co/400x200/550033/ff66cc?text=VOLDIGOD';" alt="Gang VoldiGod" class="portfolio-image">
+                        <h3>VoldiGod</h3>
+                        <p>Unknown Gang</p>
+                    </div>
+                </a>
+
+                <a href="tgsf.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="600">
+                        <img src="TGSF.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x200/330000/ff66cc?text=TGSF';" alt="Gang TGSF" class="portfolio-image">
+                        <h3>TGSF</h3>
+                        <p>Unknown Gang</p>
+                    </div>
+                </a>
+
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="700">
+                        <img src="https://placehold.co/400x200/440044/ff66cc?text=ALL+STAR" onerror="this.onerror=null; this.src='https://placehold.co/400x200/440044/ff66cc?text=ALL+STAR';" alt="Gang All Star" class="portfolio-image">
+                        <h3>All Star</h3>
+                        <p>Gang Lainnya</p>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- START: NEW MAFIA INDIVIDUALS SECTION -->
+            <div class="section-header mt-16" data-aos="fade-up">
+                <h3 class="text-3xl font-extrabold uppercase" style="color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink);">MAFIA TOP RANK</h3>
+                <p class="text-base text-cyan-400 font-mono">Lima orang yang mengendalikan jaringan kriminal tertinggi (Mr. Role).</p>
+            </div>
+            
+            <div class="portfolio-grid">
+                
+                <!-- Mafia Member: MR01 -->
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item border-2 border-[#ff0099] shadow-[0_0_10px_rgba(255,0,153,0.3)]" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="https://placehold.co/400x200/ff0099/ffffff?text=MR01+ENCRYPTED" onerror="this.onerror=null; this.src='https://placehold.co/400x200/ff0099/ffffff?text=MR01+ENCRYPTED';" alt="Mafia Leader 01" class="portfolio-image filter-none opacity-80">
+                        <h3 class="text-[#ff0099] font-black">MR01</h3>
+                        <p class="text-white">The Underboss</p>
+                    </div>
+                </a>
+
+                <!-- Mafia Member: MR02 -->
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item border-2 border-[#ff0099] shadow-[0_0_10px_rgba(255,0,153,0.3)]" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="https://placehold.co/400x200/ff0099/ffffff?text=MR02+ENCRYPTED" onerror="this.onerror=null; this.src='https://placehold.co/400x200/ff0099/ffffff?text=MR02+ENCRYPTED';" alt="Mafia Leader 02" class="portfolio-image filter-none opacity-80">
+                        <h3 class="text-[#ff0099] font-black">MR02</h3>
+                        <p class="text-white">Consigliere</p>
+                    </div>
+                </a>
+
+                <!-- Mafia Member: MR03 -->
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item border-2 border-[#ff0099] shadow-[0_0_10px_rgba(255,0,153,0.3)]" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="mr03.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x200/ff0099/ffffff?text=MR03+ENCRYPTED';" alt="Mafia Leader 03" class="portfolio-image filter-none opacity-80">
+                        <h3 class="text-[#ff0099] font-black">MR03</h3>
+                        <p class="text-white">Capo Regime</p>
+                    </div>
+                </a>
+
+                <!-- Mafia Member: MR04 -->
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item border-2 border-[#ff0099] shadow-[0_0_10px_rgba(255,0,153,0.3)]" data-aos="zoom-in" data-aos-delay="400">
+                        <img src="mr04.jpeg" onerror="this.onerror=null; this.src='https://placehold.co/400x200/ff0099/ffffff?text=MR04+ENCRYPTED';" alt="Mafia Leader 04" class="portfolio-image filter-none opacity-80">
+                        <h3 class="text-[#ff0099] font-black">MR04</h3>
+                        <p class="text-white">Soldato</p>
+                    </div>
+                </a>
+
+                <!-- Mafia Member: MR05 -->
+                <a href="#" class="portfolio-link">
+                    <div class="portfolio-item border-2 border-[#ff0099] shadow-[0_0_10px_rgba(255,0,153,0.3)]" data-aos="zoom-in" data-aos-delay="500">
+                        <img src="https://placehold.co/400x200/ff0099/ffffff?text=MR05+ENCRYPTED" onerror="this.onerror=null; this.src='https://placehold.co/400x200/ff0099/ffffff?text=MR05+ENCRYPTED';" alt="Mafia Leader 05" class="portfolio-image filter-none opacity-80">
+                        <h3 class="text-[#ff0099] font-black">MR05</h3>
+                        <p class="text-white">Associate</p>
+                    </div>
+                </a>
+
+            </div>
+            <!-- END: NEW MAFIA INDIVIDUALS SECTION -->
+
+        </section>
+        
+        <!-- FASILITAS KOTA -->
+        <section id="store" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="color: var(--neon-pink);">FASILITAS KOTA</h2>
+                <p>Tempat yang bisa diakses oleh setiap warga Rebel State.</p>
+            </div>
+
+            <div class="max-w-sm mx-auto"> 
+                <!-- Link ke Aksara Studio -->
+                <a href="https://aksarastudio.vercel.app/" target="_blank" class="portfolio-link block">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="700">
+                        <img src="image.png" onerror="this.onerror=null; this.src='https://placehold.co/400x200/1e0a2e/ff0099?text=APARTMENT+LEASE'" alt="Apartemen" class="portfolio-image">
+                        <h3 class="text-[#ff0099]">Apartemen</h3>
+                        <p class="text-cyan-400 font-bold">Menyewa Tempat Tinggal</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="admin" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="border-color: #fff;">Staff Panel</h2>
+                <p>Akses khusus untuk pengurus kota.</p>
+            </div>
+            
+            <div id="admin-content-area" class="flex justify-center" data-aos="fade-up" data-aos-delay="200">
+            </div>
+        </section>
+
+        <section id="kontak" class="contact-section">
+            <div class="container text-center" data-aos="fade-up"> <!-- DITAMBAHKAN text-center DI SINI -->
+                <h2 class="text-3xl font-bold text-white mb-4">JOIN DISCORD</h2>
+                <p class="mb-8 text-cyan-200">Bergabunglah dengan komunitas kami untuk mendapatkan whitelist dan informasi terbaru.</p>
+                <a href="https://dsc.gg/rebelsmp" target="_blank" class="cta-button">DISCORD SERVER</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Rebel State Roleplay. Built with neon dreams.</p>
+        </footer>
+
+    </div>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // --- KONFIGURASI ADMIN ---
+        const isAdmin = true; 
+        
+        // --- KONFIGURASI DISCORD (Webhook untuk Log In) ---
+        // Peringatan: Pastikan URL Webhook Discord Anda benar. Ini adalah URL placeholder/contoh.
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1444548922239488091/gk65JSYLtNvbhJfpOIPesV2zyGC58GfYkr1fDJ2dO8juNFdPIQZB51vwkdZHNiOCO-3Q"; 
+
+        // Fungsi Render Panel Admin
+        const renderAdminPanel = () => {
+            const adminArea = document.getElementById('admin-content-area');
+            if (isAdmin) {
+                adminArea.innerHTML = `
+                    <a href="#" class="w-full max-w-sm group">
+                        <div class="bg-[#1a0b1a] border-2 border-[#ff0099] p-8 text-center transition hover:bg-[#ff0099] hover:text-black shadow-[0_0_15px_rgba(255,0,153,0.3)] group-hover:shadow-[0_0_30px_rgba(255,0,153,0.8)] rounded-lg">
+                            <h3 class="text-2xl font-black uppercase">Storyboard Manager</h3>
+                            <p class="mt-2 text-sm font-mono">Create/Edit City Events</p>
+                            <p class="mt-4 text-xs font-bold tracking-widest">[ ACCESS GRANTED ]</p>
+                        </div>
+                    </a>
+                `;
+            } else {
+                adminArea.innerHTML = `
+                    <div class="bg-black border border-gray-700 p-6 text-center rounded w-full max-w-sm">
+                        <p class="text-3xl font-black text-gray-600">LOCKED</p>
+                        <p class="text-xs text-gray-500 mt-2 font-mono">Restricted Access Area</p>
+                    </div>
+                `;
+            }
+        };
+        
+        // --- Fungsi Kirim Log Login ke Discord ---
+        const sendLoginLogToDiscord = async (namaAsli, namaRp) => {
+            if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.includes("LINK_WEBHOOK")) {
+                console.warn("Webhook URL is missing or still placeholder. Login log skipped.");
+                return;
+            }
+
+            const message = {
+                embeds: [{
+                    title: "🔔 Citizen Access Logged",
+                    color: 3840742, // Cyan Blue Decimal
+                    fields: [
+                        { name: "Nama IC (RP)", value: `**${namaRp}**`, inline: true },
+                        { name: "Nama OOC", value: namaAsli, inline: true },
+                        { name: "Waktu Akses", value: new Date().toLocaleString('id-ID'), inline: false }
+                    ],
+                    footer: { text: "Rebel State Login System" }
+                }]
+            };
+
+            try {
+                // Implementasi Exponential Backoff
+                const maxRetries = 5;
+                let delay = 1000; 
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(DISCORD_WEBHOOK_URL, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(message)
+                        });
+
+                        if (response.ok) {
+                            return; // Sukses, keluar dari loop
+                        }
+
+                        // Jika gagal tapi masih bisa di-retry (bukan error fatal)
+                        if (response.status === 429) { // Too Many Requests
+                            const retryAfter = response.headers.get('Retry-After') ? parseInt(response.headers.get('Retry-After')) * 1000 : delay;
+                            await new Promise(resolve => setTimeout(resolve, retryAfter));
+                            delay *= 2; // Peningkatan delay untuk backoff
+                            continue; // Coba lagi
+                        }
+
+                        // Jika gagal dengan status lain
+                        console.error(`[Discord Webhook] Failed: ${response.status} ${response.statusText}`);
+                        break; // Gagal, keluar
+                    } catch (error) {
+                        // Error jaringan
+                        console.error("[Discord Webhook] Network Error:", error);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2;
+                    }
+                }
+                
+            } catch (error) {
+                console.error("Error sending login log:", error);
+            }
+        };
+
+        // --- SISTEM PENDAFTARAN MANUAL (Pop-up SweetAlert2) ---
+        const showManualRegistrationInfo = (e) => {
+            e.preventDefault();
+            Swal.fire({
+                icon: 'info',
+                title: 'PENDAFTARAN SEMENTARA DITUTUP',
+                html: 'Pendaftaran dilakukan secara **manual** melalui Discord. Silakan gabung ke server kami untuk mengajukan Whitelist.',
+                background: '#1a1a1a',
+                color: '#fff',
+                showCancelButton: true,
+                confirmButtonText: 'JOIN DISCORD',
+                confirmButtonColor: '#00f3ff', // Cyan
+                cancelButtonText: 'Tutup',
+                cancelButtonColor: '#ff0099', // Pink
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('https://dsc.gg/rebelsmp', '_blank');
+                }
+            });
+        };
+        
+        // --- SISTEM LOGIN & DISPLAY NAMA ---
+        const accessGate = document.getElementById('access-gate');
+        const mainContent = document.getElementById('main-content');
+        const accessForm = document.getElementById('access-form');
+        const displayNamaRp = document.getElementById('display-nama-rp');
+        const userBadge = document.getElementById('user-badge');
+        
+        const REBEL_ACCESS_KEY = 'rebel_state_session';
+
+        const updateNavbarProfile = (namaRp) => {
+            const namaRpElement = document.getElementById('display-nama-rp');
+            const userBadgeElement = document.getElementById('user-badge');
+
+            if (namaRp) {
+                namaRpElement.innerText = namaRp; 
+                userBadgeElement.classList.remove('hidden'); 
+            }
+        };
+
+        // --- Fungsi CLOCK ---
+        const updateClock = () => {
+            const now = new Date();
+            
+            // Formatting options for date (Day, Date, Month, Year)
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('id-ID', dateOptions);
+            
+            // Formatting options for time (HH:MM:SS)
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const timeStr = now.toLocaleTimeString('id-ID', timeOptions);
+
+            const datetimeDiv = document.getElementById('current-datetime');
+            if (datetimeDiv) {
+                datetimeDiv.innerHTML = `${dateStr}<br>${timeStr} WIB`;
+            }
+        };
+
+
+        const initializeSite = () => {
+            const userData = sessionStorage.getItem(REBEL_ACCESS_KEY);
+            if (userData) {
+                const user = JSON.parse(userData);
+                updateNavbarProfile(user.namaRp);
+                accessGate.style.display = 'none'; 
+                mainContent.classList.remove('hidden-content');
+            } else {
+                // Biarkan Access Gate tampil
+            }
+            renderAdminPanel(); 
+
+            // Hubungkan tombol JOIN THE CHAOS ke showManualRegistrationInfo
+            const heroJoinBtn = document.getElementById('hero-join-btn');
+            if (heroJoinBtn) {
+                heroJoinBtn.href = "#";
+                heroJoinBtn.onclick = showManualRegistrationInfo;
+            }
+            
+            // Start the clock
+            setInterval(updateClock, 1000);
+            updateClock();
+        };
+        
+        // Logika Form Login
+        accessForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const namaAsli = document.getElementById('nama-asli').value.trim();
+            const namaRp = document.getElementById('nama-rp').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            if (namaAsli === '' || namaRp === '') {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            errorMessage.classList.add('hidden');
+            
+            // 1. Kirim Log Login ke Discord (ASYNCHRONOUS)
+            // Tidak perlu di-await, biarkan berjalan di background
+            sendLoginLogToDiscord(namaAsli, namaRp);
+
+            // 2. Simpan Sesi dan Lanjutkan ke Konten Utama
+            sessionStorage.setItem(REBEL_ACCESS_KEY, JSON.stringify({ namaAsli, namaRp }));
+
+            updateNavbarProfile(namaRp);
+            
+            // Animasi Transisi
+            accessGate.style.opacity = '0';
+            setTimeout(() => {
+                accessGate.style.display = 'none';
+                mainContent.classList.remove('hidden-content');
+                AOS.refresh(); 
+            }, 500);
+        });
+
+        window.onload = initializeSite;
+    </script>
+    
+    
+</body>
+</html>
+
