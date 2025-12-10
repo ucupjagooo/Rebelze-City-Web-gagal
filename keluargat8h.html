@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Operator T8H - The 8 Hands</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Definisi Warna Tema T8H (MONOKROM / HITAM PUTIH) */
+        :root {
+            --primary-white: #FFFFFF; /* Aksen Utama (Putih) */
+            --highlight-gray: #B0B0B0; /* Highlight Ringan */
+            --dark-border: #2C2C2C; /* Garis Gelap */
+            --card-bg: #0F0F0F;
+            --section-bg: #1A1A1A;
+        }
+
+        /* Mengatur font Roboto Mono dan tema gelap-putih */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #050505; /* Hitam pekat */
+            color: var(--highlight-gray); /* Teks abu-abu terang */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card-bg {
+            background-color: var(--card-bg); /* Hitam gelap untuk card */
+            border: 1px solid var(--dark-border); /* Border Gelap */
+        }
+        .text-highlight-t8h {
+            color: var(--primary-white); /* Putih untuk highlight */
+        }
+        /* Gaya untuk bayangan dan aura futuristik */
+        .shadow-t8h {
+            /* Aura Putih/Abu-abu */
+            box-shadow: 0 5px 15px -3px rgba(255, 255, 255, 0.1), 0 2px 4px -2px rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+        .shadow-t8h:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(255, 255, 255, 0.2), 0 4px 6px -3px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Mengganti warna list dan status */
+        .list-t8h li {
+            color: var(--highlight-gray);
+        }
+        .list-t8h li span {
+            color: var(--primary-white);
+        }
+        
+        /* Style untuk menyesuaikan layout di perangkat kecil */
+        @media (max-width: 768px) {
+            .member-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom di HP */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-4xl card-bg rounded-xl p-6 sm:p-10 shadow-t8h">
+
+        <!-- Header dan Nama Organisasi -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-highlight-t8h tracking-widest uppercase">
+                T8H
+            </h1>
+            <p class="text-xl sm:text-2xl font-light text-gray-500 mt-2">
+                <span class="font-semibold">OPERATOR KRIMINAL</span> THE 8 HANDS
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Foto Karakter Mr04 (diganti menjadi "ENTITAS-ALPHA") -->
+            <div class="md:col-span-1 flex justify-center items-start">
+                <div class="w-48 h-48 sm:w-60 sm:h-60 rounded-xl overflow-hidden shadow-t8h border-2 border-white">
+                    <!-- LOGO PLACEHOLDER T8H -->
+                    <img 
+                        src="mallow.png" 
+                        alt="Foto Profil ENTITAS-ALPHA (T8H)" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Detail Karakter (Data Operasional dan Bio) -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- Judul Bagian: Data Operasional -->
+                <h2 class="text-3xl font-bold text-white border-b-2 border-highlight-gray pb-2">
+                    Kredensial Akses Level 01
+                </h2>
+
+                <!-- Kartu Detail Kekuatan -->
+                <div class="bg-gray-900 p-4 rounded-lg shadow-inner border border-dark-border">
+                    <p class="text-lg font-semibold text-highlight-t8h mb-1">Fungsi Operasional Inti:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400 list-t8h">
+                        <li><span class="font-medium">Jalur Sumber Daya (Finansial):</span> Mengelola alokasi dana, logistik hitam, dan sistem pencucian data/uang.</li>
+                        <li><span class="font-medium">Protokol Negosiasi:</span> Menjadi antarmuka utama untuk aliansi sensitif dengan entitas eksternal (termasuk CSS).</li>
+                        <li><span class="font-medium">Infiltrasi & Kuantifikasi:</span> Mengawasi dan merampok target dengan presisi data tinggi.</li>
+                    </ul>
+                </div>
+
+                <!-- Bio Singkat -->
+                <div>
+                    <p class="text-lg font-semibold text-highlight-t8h mb-2">Entitas Profil (Alpha):</p>
+                    <p class="text-gray-400 leading-relaxed">
+                        Entitas Alpha bertindak sebagai poros stabilitas finansial dan politik The 8 Hands. Perannya adalah memastikan efisiensi ekonomi dan menjaga keseimbangan aliansi strategis di dunia bawah tanah. Keahliannya berfokus pada data, negosiasi yang dingin, dan pengamanan jalur sumber daya.
+                    </p>
+                </div>
+
+                <!-- Status dan Cepat Lacak -->
+                <div class="flex flex-wrap gap-4 pt-4 border-t border-dark-border">
+                    <span class="bg-gray-700 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Status: AKTIF / Koordinasi Operasi Data
+                    </span>
+                    <span class="bg-gray-700 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                        Aliansi: Dipantau (T8H menjaga aliansi tidak stabil dengan CSS Cassano)
+                    </span>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- BAGIAN BARU: DAFTAR ANGGOTA (Kru Inti T8H) -->
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-white border-b-2 border-highlight-gray pb-2 mb-6">
+                Operator Jaringan Inti (The 8 Hands)
+            </h2>
+
+            <!-- Grid untuk Anggota (Diatur menjadi 6 kolom di desktop, 3 di tablet, 2 di HP) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 member-grid gap-4">
+
+                <!-- Kartu 1: KETUA (ENTITAS-PRIME) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-white">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="https://placehold.co/100x100/333/FFF?text=PRIME"
+                            alt="ENTITAS-PRIME" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-extrabold text-white text-md">PRIME</p>
+                    <p class="text-xs text-white font-bold tracking-widest">KREATOR HIERARKI</p>
+                </div>
+                
+                <!-- Kartu 2: WAKIL KETUA (ENTITAS-BETA) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-gray-500">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="https://placehold.co/100x100/333/FFF?text=BETA" 
+                            alt="ENTITAS-BETA" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">BETA</p>
+                    <p class="text-xs text-highlight-gray">KOORDINATOR OPERASI</p>
+                </div>
+
+                <!-- Kartu 3: ANGGOTA (ENTITAS-GAMMA) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-gray-500">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="https://placehold.co/100x100/333/FFF?text=GAMMA"
+                            alt="ENTITAS-GAMMA" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">GAMMA</p>
+                    <p class="text-xs text-highlight-gray">ANALIS INTELIJEN</p>
+                </div>
+
+                <!-- Kartu 4: ANGGOTA (ENTITAS-DELTA) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-gray-500">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="https://placehold.co/100x100/333/FFF?text=DELTA" 
+                            alt="ENTITAS-DELTA" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">DELTA</p>
+                    <p class="text-xs text-highlight-gray">PENGAMAN NODE</p>
+                </div>
+
+                <!-- Kartu 5: ANGGOTA (ENTITAS-EPSILON) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-gray-500">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                        <img 
+                            src="https://placehold.co/100x100/333/FFF?text=EPSILON" 
+                            alt="ENTITAS-EPSILON" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">EPSILON</p>
+                    <p class="text-xs text-highlight-gray">JALUR LOGISTIK</p>
+                </div>
+                
+                <!-- Kartu 6: ANGGOTA (ENTITAS-ZETA) -->
+                <div class="bg-gray-800 p-3 rounded-xl text-center shadow-t8h hover:shadow-2xl border-2 border-gray-500">
+                    <div class="w-full h-24 overflow-hidden rounded-lg mb-2 mx-auto">
+                         <img 
+                            src="https://placehold.co/100x100/333/FFF?text=ZETA" 
+                            alt="ENTITAS-ZETA" 
+                            class="w-full h-full object-cover rounded-lg"
+                        >
+                    </div>
+                    <p class="font-bold text-white text-md">ZETA</p>
+                    <p class="text-xs text-highlight-gray">PROSESOR DATA</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer atau Tautan Terkait (Opsional) -->
+        <footer class="mt-10 pt-6 border-t border-dark-border text-center text-gray-600 text-sm">
+            <p>&copy; 2025 T8H - The 8 Hands. Dokumentasi Operator Jaringan Inti.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T8H - The 8 Hand's</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Konfigurasi Dasar dan Font */
+        body {
+            font-family: 'Roboto Mono', monospace; /* Font yang lebih tegas dan teknis */
+            background-color: #050505; /* Hitam pekat */
+            color: #E0E0E0;
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* Definisi Warna Tema T8H (MONOKROM / HITAM PUTIH) */
+        :root {
+            --primary-white: #FFFFFF; /* Aksen Utama (Putih) */
+            --highlight-gray: #B0B0B0; /* Highlight Ringan */
+            --dark-border: #2C2C2C; /* Garis Gelap */
+            --card-bg: #0F0F0F;
+        }
+
+        /* Scrollbar Kustom */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0D0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--highlight-gray);
+            border-radius: 5px;
+        }
+
+        /* Struktur Utama */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Navigasi */
+        .navbar {
+            background-color: rgba(5, 5, 5, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--dark-border);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--highlight-gray);
+            padding: 0 5px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.3s, text-shadow 0.3s;
+            letter-spacing: 1px;
+        }
+        .nav-links a:hover {
+            color: var(--primary-white);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh; /* Sedikit lebih tinggi */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 2px solid var(--dark-border);
+            margin-bottom: 0;
+        }
+        .hero-content {
+             /* Gaya latar belakang semi-transparan untuk teks yang lebih mudah dibaca */
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--dark-border);
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .hero-logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--highlight-gray); 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+        .hero-logo-container:hover {
+            transform: scale(1.05);
+        }
+        .hero-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-white); /* Tombol Putih */
+            color: #050505; /* Teks Hitam */
+            padding: 12px 35px;
+            border-radius: 5px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: all 0.3s;
+            border: 1px solid var(--primary-white);
+        }
+        .cta-button:hover {
+            background-color: transparent; 
+            color: var(--primary-white);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .cta-disabled {
+            background-color: #333 !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            border-bottom: 3px solid var(--highlight-gray); 
+            display: inline-block;
+            padding-bottom: 8px;
+            letter-spacing: 3px;
+        }
+        .section-header p {
+            color: var(--highlight-gray);
+            margin-top: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .about-text {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--highlight-gray);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .about-text h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            margin-bottom: 10px;
+        }
+        .about-text p {
+            color: var(--highlight-gray);
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .portfolio-item, .admin-panel-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--dark-border);
+        }
+        .portfolio-item:hover, .admin-panel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1); 
+        }
+        .portfolio-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .portfolio-item:hover .portfolio-image {
+            opacity: 1;
+        }
+        .portfolio-item h3 {
+            padding: 20px 20px 5px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-white);
+        }
+        .portfolio-item p {
+            padding: 0 20px 20px;
+            color: var(--highlight-gray);
+            font-style: italic;
+        }
+        .portfolio-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Kontak & Footer */
+        .contact-section {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--card-bg);
+            border-top: 3px solid var(--dark-border);
+        }
+        .contact-section h2 {
+            color: var(--primary-white);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #555;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        /* ACCESS GATE (Tampilan Login) */
+        #access-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 5, 5, 0.98);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.6s ease-in-out;
+        }
+        .access-card {
+            background-color: #111;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid var(--dark-border);
+        }
+        .access-card input {
+            background-color: #000;
+            color: var(--primary-white);
+            border: 1px solid var(--dark-border);
+            padding: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            border-radius: 5px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .access-card input:focus {
+            outline: none;
+            border-color: var(--highlight-gray);
+        }
+        .access-card button {
+            background-color: var(--primary-white);
+            color: #000;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+        .access-card button:hover {
+            background-color: var(--highlight-gray);
+        }
+
+        /* Utility untuk Konten Tersembunyi */
+        .hidden-content {
+            display: none;
+        }
+        
+        /* Media Queries untuk Responsif */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; letter-spacing: 2px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .navbar { flex-direction: column; gap: 15px; }
+            .user-badge { position: relative; right: auto; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ACCESS GATE / SCREEN LOGIN -->
+    <div id="access-gate">
+        <div class="access-card" data-aos="zoom-in">
+            <h2 class="text-3xl font-extrabold mb-6" style="color:var(--primary-white); letter-spacing: 2px;">T8H Access Protocol</h2>
+            <p class="mb-6 text-sm text-gray-400">Autentikasi diperlukan. Masukkan kredensial yang sah untuk mengakses database The 8 Hand's</p>
+            
+            <form id="access-form">
+                <input type="text" id="nama-asli" placeholder="Nama Operator (OOC)" required>
+                <input type="text" id="nama-rp" placeholder="ID Entitas (IC)" required>
+                <button type="submit" class="cta-button">INITIATE ACCESS</button>
+            </form>
+            <p id="error-message" class="text-gray-400 mt-5 hidden text-sm">Error: Semua kolom harus diisi sebelum akses diberikan!</p>
+        </div>
+    </div>
+    
+    <!-- KONTEN UTAMA -->
+    <div id="main-content" class="hidden-content">
+
+        <nav class="navbar relative">
+            <div class="nav-links">
+                <a href="#beranda">BERANDA</a>
+                <a href="#tentang">PROFIL</a>
+                <a href="#aktivitas">DATA LOG</a>
+                <a href="#kontak">KONTAK</a>
+            </div>
+
+            <div id="user-badge" class="user-badge absolute right-5 flex items-center gap-3 hidden">
+                <div class="text-right hidden md:block"> 
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest">Entitas Aktif</p>
+                    <p id="display-nama-rp" class="text-sm font-bold text-white">SYSTEM_GUEST</p>
+                </div>
+                <div class="w-9 h-9 rounded-md bg-gray-900 border border-gray-700 flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <!-- Icon User Monochrome -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+        </nav>
+
+        <section id="beranda" class="hero">
+            <div class="hero-content">
+                <div class="hero-logo-container" data-aos="fade-down" data-aos-duration="1000">
+                    <!-- LOGO PLACEHOLDER T8H -->
+                    <img src="t8h.jpg" alt="T8H Logo" class="hero-logo">
+                </div>
+                
+                <h1 data-aos="fade-up" data-aos-delay="200">The 8 Hand</h1>
+                <p class="text-lg text-gray-300" data-aos="fade-up" data-aos-delay="400">Kontrol tak terlihat. Kekuatan terorganisir. Kami adalah Hierarki Kedelapan.</p>
+                <a href="#tentang" class="cta-button" data-aos="fade-up" data-aos-delay="600">MASUKAN DATA</a>
+            </div>
+        </section>
+
+        <section id="tentang" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Struktur T8H</h2>
+                <p>Kami adalah entitas yang bekerja di balik layar, mengendalikan sistem dengan presisi dan tanpa emosi.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text" data-aos="fade-right">
+                    <h3>Protokol Operasi</h3>
+                    <p>Setiap operator tunduk pada protokol ketat dan rantai komando yang tidak boleh dilanggar. Disiplin adalah kunci kelangsungan hidup Hierarki.</p>
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h3>Jalur Sumber Daya</h3>
+                    <p>Penguasaan data, intelijen, dan jaringan logistik terlarang adalah sumber utama dominasi kami. Efisiensi adalah prioritas tertinggi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="aktivitas" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Log Operasi</h2>
+                <p>Dokumen arsip dan log aktivitas terbaru para Operator T8H.</p>
+            </div>
+            <div class="portfolio-grid">
+                
+                <a href="keluargat8h.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+                        <!-- Placeholder Monokrom -->
+                        <img src="keluargat8h.jpeg" alt="Operator Database" class="portfolio-image">
+                        <h3>List Keluarga</h3>
+                        <p>-> Akses daftar Operator dan Status Kredensial <-</p>
+                    </div>
+                </a>
+
+                <a href="hoodt8h.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <!-- Placeholder Monokrom -->
+                        <img src="hoodt8h.png" alt="Data Lokasi" class="portfolio-image">
+                        <h3>HOOD T8H</h3>
+                        <p>-> Akses koordinat dan status markas operasional <-</p>
+                    </div>
+                </a>
+
+                <a href="bisnist8h.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <!-- Placeholder Monokrom -->           
+                        <img src="bisnist8h.png" alt="Data Lokasi" class="portfolio-image">
+                        <h3>Ladang Ganja</h3>
+                        <p>-> Bisnis yang dimiliki T8H <-</p>
+                    </div>
+                </a>
+
+                <a href="t8h.html" class="portfolio-link">
+                    <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+                        <!-- Placeholder Monokrom -->           
+                        <img src="bisnist8h2.png" alt="Data Lokasi" class="portfolio-image">
+                        <h3>Cargo Ship</h3>
+                        <p>-> Bisnis yang dimiliki T8H <-</p>
+                    </div>
+                </a>
+
+            </div>
+        </section> 	
+
+        </section>
+
+        <section id="kontak" class="contact-section">
+            <div class="container" data-aos="fade-up">
+                <h2 class="text-white">Hubungi Koordinator</h2>
+                <p class="text-gray-400">Hanya untuk Operator dengan level akses B-3 ke atas. Semua komunikasi dicatat.</p>
+                <a href="https://wa.me/6282138419250?text=PERMINTAAN%20AKSES%20T8H%20(ID%20ENTITAS%20[NAMA%20RP])" target="_blank" class="cta-button">INITIATE CONTACT</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 T8H - The 8 Hand's. All Rights Reserved. ACCESS LOGGED.</p>
+        </footer>
+
+    </div>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi AOS (Animasi Scroll)
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+
+        // --- KONFIGURASI DISCORD (Webhook Log In) ---
+        // Ganti URL ini dengan webhook Discord Anda yang sebenarnya
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1448210230520315934/dHQbGzA6fMhuvPQbtcLfsPr8dqUGZXhwN0e-a7cQA8MAWBpfVKZDrhQW22caUFtrZFsh" ; 
+
+        // Fungsi Kirim Log ke Discord (untuk Login)
+        const sendLoginLogToDiscord = async (namaAsli, namaRp) => {
+             // Cek jika URL Webhook kosong atau masih placeholder
+            if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.includes("LINK_WEBHOOK")) {
+                console.warn("Webhook URL is missing or still placeholder. Login log skipped.");
+                return;
+            }
+
+            const message = {
+                embeds: [{
+                    title: "🔓 T8H :: Akses Kredensial Terdeteksi",
+                    color: 11184810, // Abu-abu Terang Decimal
+                    fields: [
+                        { name: "ID Entitas (IC)", value: `**${namaRp}**`, inline: true },
+                        { name: "Nama Operator (OOC)", value: namaAsli, inline: true },
+                        { name: "Timestamp Akses", value: new Date().toLocaleString('id-ID'), inline: false }
+                    ],
+                    footer: { text: "T8H Access Protocol" }
+                }]
+            };
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(message)
+                });
+
+                if (!response.ok) {
+                    console.error(`Failed to send access log to Discord: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error("Error sending access log:", error);
+            }
+        };
+
+
+        // --- LOGIKA SISTEM LOGIN, TAMPILAN NAMA & DISCORD ---
+
+        const accessGate = document.getElementById('access-gate');
+        const mainContent = document.getElementById('main-content');
+        const accessForm = document.getElementById('access-form');
+        const namaAsliInput = document.getElementById('nama-asli');
+        const namaRpInput = document.getElementById('nama-rp');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Elemen Tampilan Nama di Navbar
+        const userBadge = document.getElementById('user-badge');
+        const displayNamaRp = document.getElementById('display-nama-rp');
+        
+        // Kunci sesi
+        const T8H_ACCESS_KEY = 't8h_access_session';
+
+        // Fungsi Update Tampilan Nama di Navbar
+        const updateNavbarProfile = (namaRp) => {
+            if (namaRp) {
+                displayNamaRp.innerText = namaRp.toUpperCase(); 
+                userBadge.classList.remove('hidden'); 
+            }
+        };
+
+        // Fungsi Memberikan Akses
+        const grantAccess = async (namaAsli, namaRp, isNewLogin = false) => {
+            sessionStorage.setItem(T8H_ACCESS_KEY, JSON.stringify({ 
+                namaAsli, 
+                namaRp, 
+                timestamp: new Date().getTime() 
+            }));
+
+            // Kirim log jika ini login baru
+            if (isNewLogin) {
+                await sendLoginLogToDiscord(namaAsli, namaRp);
+            }
+
+            // Update Tampilan
+            updateNavbarProfile(namaRp);
+
+            // Animasi Buka Gerbang
+            accessGate.style.opacity = '0';
+            setTimeout(() => {
+                accessGate.style.display = 'none';
+                mainContent.classList.remove('hidden-content');
+                AOS.refresh(); 
+            }, 600); // Waktu animasi disesuaikan dengan transisi CSS (0.6s)
+        };
+
+        // Handler saat form disubmit
+        accessForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const namaAsli = namaAsliInput.value.trim();
+            const namaRp = namaRpInput.value.trim();
+
+            if (namaAsli === '' || namaRp === '') {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            errorMessage.classList.add('hidden');
+            // Tandai sebagai login baru
+            grantAccess(namaAsli, namaRp, true); 
+        });
+
+        // Fungsi inisialisasi saat halaman dimuat
+        const initializeSite = () => {
+            // Cek sessionStorage
+            const userData = sessionStorage.getItem(T8H_ACCESS_KEY);
+            
+            if (userData) {
+                // Jika data ada (artinya cuma refresh halaman), langsung masuk 
+                const user = JSON.parse(userData);
+                updateNavbarProfile(user.namaRp);
+                
+                // Bypass login screen
+                accessGate.style.display = 'none'; 
+                mainContent.classList.remove('hidden-content');
+            } else {
+                // Jika tidak ada data, minta login
+                mainContent.classList.add('hidden-content');
+                accessGate.style.display = 'flex';
+            }
+        };
+
+        window.onload = initializeSite;
+    </script>
+</body>
+</html>

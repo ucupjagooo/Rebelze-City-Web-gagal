@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasar Gelap T8H - Data Kontraband</title>
+    <!-- Memuat Tailwind CSS CDN untuk styling cepat dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- Konfigurasi Tailwind untuk tema custom dan animasi glow -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0a0a0a',
+                        'accent-light': '#B0B0B0', // Highlight Abu-abu
+                        'accent-dark': '#FFFFFF', // Highlight Putih
+                        'alert-red': '#ef4444', // Warna merah untuk pesan error
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(255, 255, 255, 0.3), 0 0 5px rgba(176, 176, 176, 0.5)',
+                        'glow-sm': '0 0 5px rgba(255, 255, 255, 0.2)',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto Mono', 'monospace'], 
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Menggunakan font Roboto Mono dan memastikan latar belakang gelap */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #050505;
+            display: flex;
+            flex-direction: column;
+            color: #f0f0f0;
+        }
+
+        /* Styling untuk efek glow pada kartu produk dan tombol */
+        .card-glow {
+            transition: all 0.3s ease;
+            border: 1px solid #2C2C2C;
+            background: linear-gradient(145deg, #1f1f1f, #141414);
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+            border-color: #B0B0B0;
+        }
+
+        .btn-glow {
+            background-color: #FFFFFF; /* Tombol Putih */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            transition: all 0.2s ease;
+            color: #050505; /* Teks Hitam */
+            font-weight: 700;
+        }
+        .btn-glow:hover {
+            background-color: #B0B0B0;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+        .btn-disabled {
+            background-color: #333 !important;
+            color: #666 !important;
+            cursor: not-allowed;
+            box-shadow: none !important;
+        }
+
+        /* Scrollbar styling untuk tampilan gelap */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B0B0B0;
+        }
+
+        /* --- PASSWORD GATE STYLING --- */
+        #password-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .gate-card {
+            background-color: #1f1f1f;
+            border: 2px solid #B0B0B0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .gate-input {
+            background-color: #0a0a0a;
+            border: 1px solid #B0B0B0;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .hidden-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-gray-100 p-4 md:p-8">
+
+    <!-- PASSWORD GATE OVERLAY -->
+    <div id="password-gate">
+        <div class="gate-card w-full max-w-sm">
+            <h2 class="text-3xl font-bold mb-4 text-accent-dark">T8H ACCESS PROTOCOL</h2>
+            <p class="mb-4 text-gray-400">Masukkan Kredensial untuk membuka Jalur Kontraband.</p>
+            <input type="password" id="password-input" class="gate-input" placeholder="Masukkan Kredensial" onkeydown="if(event.key === 'Enter') checkPassword()">
+            <button onclick="checkPassword()" class="btn-glow w-full py-3 rounded-lg text-black font-semibold uppercase tracking-wider">
+                DECRYPT ACCESS
+            </button>
+            <p id="password-error" class="text-alert-red mt-3 hidden text-sm">Kredensial salah. Tersisa <span id="attempts-left">3</span> percobaan.</p>
+        </div>
+    </div>
+    
+    <!-- MAIN SHOP CONTENT -->
+    <div id="main-shop-content" class="min-h-screen w-full max-w-5xl mx-auto hidden-content">
+        
+        <!-- Header Aplikasi -->
+        <header class="text-center mb-10 border-b-2 border-accent-light/50 pb-6">
+            <h1 class="4xl md:text-5xl font-extrabold tracking-tight text-white uppercase">
+                T8H <span class="text-accent-light">BLACK MARKET</span>
+            </h1>
+            <p class="text-gray-500 mt-2 text-xl">Kontraband Level B-4. Transaksi Terbatas. (Buka 24 Jam)</p>
+        </header>
+
+        <!-- Konten Utama: Daftar Produk (Hanya Ganja) dan Keranjang Belanja -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Kiri: Daftar Produk (Hanya 1 Item) -->
+            <section class="lg:col-span-2">
+                <h2 class="text-2xl font-bold mb-4 text-accent-light">Katalog Kontraband</h2>
+                <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Kartu produk akan di-render di sini oleh JavaScript -->
+                </div>
+            </section>
+
+            <!-- Kanan: Keranjang Belanja & Total -->
+            <aside class="lg:col-span-1 sticky top-8">
+                <div class="card-glow p-6 rounded-xl shadow-lg border-accent-light/30">
+                    <h2 class="text-2xl font-bold mb-4 text-accent-dark border-b border-gray-700 pb-2">Jalur Pesanan</h2>
+
+                    <!-- Daftar Item di Keranjang -->
+                    <div id="cart-items" class="min-h-24 max-h-96 overflow-y-auto mb-4 space-y-3">
+                        <p class="text-gray-500 text-center py-4">Keranjang kosong. Tambah item di bawah.</p>
+                    </div>
+
+                    <!-- Total Harga -->
+                    <div class="border-t border-accent-light/50 pt-4 mt-4">
+                        <div class="flex justify-between items-center text-xl font-bold mb-4">
+                            <span class="text-accent-light">TOTAL HARGAS:</span>
+                            <span id="total-price" class="text-3xl font-extrabold text-accent-dark shadow-glow-sm">$0</span>
+                        </div>
+
+                        <!-- Area Tombol Checkout -->
+                        <div id="checkout-area">
+                            
+                            <!-- Input Nama Pemesan -->
+                            <input type="text" id="buyer-name" placeholder="ID Entitas Pemesan (Wajib)" class="w-full p-3 mb-3 bg-gray-900 border border-accent-light rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-dark">
+
+                            <!-- Tombol "Kirim Pesanan ke Discord" -->
+                            <button id="checkout-button" onclick="checkoutToDiscord()" class="btn-glow w-full py-3 rounded-lg text-black font-semibold uppercase tracking-wider transition duration-200">
+                                SINKRONISASI PESANAN
+                            </button>
+                            
+                            <!-- Pesan Status -->
+                            <p id="checkout-message" class="text-center mt-3 text-sm text-gray-400">
+                                Pesanan akan dikirim ke Log Discord Admin.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </aside>
+
+        </main>
+    </div>
+
+    <script>
+        // --- KONFIGURASI KHUSUS ---
+        // Catatan: Nilai-nilai ini diambil dari selection terbaru Anda.
+        const CORRECT_PASSWORD = "envelopekatanyamallowkalauiyaberartiini";
+        const PASSWORD_SESSION_KEY = 'shop_access_granted_t8h';
+        const ATTEMPTS_LEFT_KEY = 'shop_attempts_left_t8h';
+        const LAST_PURCHASE_KEY = 'shop_last_purchase_time_t8h'; 
+        const MAX_ATTEMPTS = 3;
+        const COOLDOWN_DURATION = 30 * 60 * 1000; // 30 menit
+        const DISCORD_ORDER_WEBHOOK = "https://discord.com/api/webhooks/1448220862804136038/mQIaTE89f8wGckqLDI9mvIADpBiPhxhi80w9EPUt5T9beYRi7gH8GBDglPpB7ed-17e1";
+        
+        // Data Produk (Hanya Ganja)
+        const products = [
+            { id: 1, name: "Ganja (Stack)", price: 2500, description: "Kontraband Ilegal Level B-4. Harga per stack." },
+        ];
+
+        // State Keranjang Belanja
+        let cart = {};
+
+        // Fungsi Format Mata Uang USD
+        const formatCurrency = (number) => {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+        
+        // --- LOGIKA PASSWORD GATE DENGAN ATTEMPT LIMIT ---
+        const updateAttemptsDisplay = (attempts) => {
+             const attemptsSpan = document.getElementById('attempts-left');
+             if(attemptsSpan) attemptsSpan.textContent = attempts;
+        };
+
+        const checkPassword = () => {
+            const input = document.getElementById('password-input').value;
+            const errorDiv = document.getElementById('password-error');
+            let attemptsLeft = parseInt(localStorage.getItem(ATTEMPTS_LEFT_KEY)) || MAX_ATTEMPTS;
+
+            if (attemptsLeft <= 0) {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'AKSES DIBLOKIR', 
+                    text: 'Anda telah mencapai batas maksimum percobaan. Akses diblokir.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#B0B0B0'
+                });
+                return;
+            }
+            
+            if (input === CORRECT_PASSWORD) {
+                sessionStorage.setItem(PASSWORD_SESSION_KEY, 'true');
+                localStorage.removeItem(ATTEMPTS_LEFT_KEY); // Reset attempts upon success
+                document.getElementById('password-gate').style.display = 'none'; 
+                document.getElementById('main-shop-content').classList.remove('hidden-content');
+                initializeShop(); 
+            } else {
+                attemptsLeft--;
+                localStorage.setItem(ATTEMPTS_LEFT_KEY, attemptsLeft);
+                updateAttemptsDisplay(attemptsLeft);
+                errorDiv.classList.remove('hidden');
+                document.getElementById('password-input').value = '';
+                document.getElementById('password-input').focus();
+
+                if (attemptsLeft === 0) {
+                    Swal.fire({ 
+                        icon: 'error', 
+                        title: 'AKSES DIBLOKIR', 
+                        text: 'Anda telah mencapai batas maksimum percobaan. Akses diblokir.', 
+                        background: '#1a1a1a', 
+                        color: '#fff',
+                        confirmButtonColor: '#B0B0B0'
+                    });
+                    setTimeout(() => {
+                        document.getElementById('password-gate').style.display = 'none';
+                    }, 1500);
+                }
+            }
+        };
+
+        const initializeGate = () => {
+            let attemptsLeft = parseInt(localStorage.getItem(ATTEMPTS_LEFT_KEY));
+            
+            if (attemptsLeft === 0) {
+                 document.getElementById('password-gate').style.display = 'none'; 
+                 Swal.fire({ 
+                     icon: 'error', 
+                     title: 'AKSES DIBLOKIR', 
+                     text: 'Anda telah mencapai batas maksimum percobaan (3 kali). Akses diblokir.', 
+                     background: '#1a1a1a', 
+                     color: '#fff',
+                     confirmButtonColor: '#B0B0B0'
+                 });
+                 return;
+            } else if (sessionStorage.getItem(PASSWORD_SESSION_KEY) === 'true') {
+                // Bypass gate
+                document.getElementById('password-gate').style.display = 'none'; 
+                document.getElementById('main-shop-content').classList.remove('hidden-content');
+                initializeShop();
+            } else {
+                // Tampilkan gate
+                if (isNaN(attemptsLeft)) {
+                     localStorage.setItem(ATTEMPTS_LEFT_KEY, MAX_ATTEMPTS);
+                     attemptsLeft = MAX_ATTEMPTS;
+                }
+
+                updateAttemptsDisplay(attemptsLeft);
+                document.getElementById('password-gate').style.display = 'flex'; 
+                document.getElementById('main-shop-content').classList.add('hidden-content');
+                document.getElementById('password-input').focus();
+            }
+        };
+
+        // --- FUNGSI TOKO ---
+        
+        // Fungsi Pengecekan Cooldown (30 menit)
+        const checkCooldownStatus = () => {
+            const lastPurchaseTime = parseInt(localStorage.getItem(LAST_PURCHASE_KEY));
+            if (!lastPurchaseTime) return 0;
+
+            const currentTime = new Date().getTime();
+            const expirationTime = lastPurchaseTime + COOLDOWN_DURATION;
+            
+            if (currentTime >= expirationTime) return 0;
+
+            return expirationTime - currentTime; // Waktu sisa dalam milidetik
+        };
+
+        // Fungsi untuk Menghitung dan Memperbarui Total Harga
+        const calculateTotal = () => {
+            let total = 0;
+            for (const id in cart) {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    total += product.price * cart[id];
+                }
+            }
+            document.getElementById('total-price').textContent = formatCurrency(total);
+            return total;
+        };
+
+        // Fungsi untuk Mengubah Kuantitas Item
+        window.updateQuantity = (productId, change) => { // Dibuat global
+            if (checkCooldownStatus() > 0) { 
+                Swal.fire({ 
+                    icon: 'warning', 
+                    title: 'Cooldown Aktif', 
+                    text: 'Anda hanya bisa mengubah pesanan setiap 30 menit sekali.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#B0B0B0'
+                });
+                return;
+            }
+
+            const id = String(productId);
+            
+            if (cart[id]) {
+                cart[id] += change;
+            } else if (change > 0) {
+                // FIX: Inisialisasi item jika belum ada di keranjang dan perubahan adalah penambahan (change > 0)
+                cart[id] = change; 
+            }
+
+            if (cart[id] <= 0) {
+                delete cart[id];
+            }
+            renderCart();
+        };
+
+        // Fungsi untuk Merender Daftar Produk
+        const renderProducts = () => {
+            const productListDiv = document.getElementById('product-list');
+            productListDiv.innerHTML = products.map(product => `
+                <div class="card-glow p-5 rounded-xl flex flex-col justify-between shadow-glow-sm cursor-pointer hover:border-white transition-all duration-300" onclick="updateQuantity(${product.id}, 1)">
+                    <div>
+                        <h3 class="text-xl font-bold text-accent-dark mb-2">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mb-3">${product.description}</p>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-gray-700">
+                        <span class="text-2xl font-extrabold text-white">${formatCurrency(product.price)}</span>
+                        <button class="btn-glow px-4 py-1.5 text-sm rounded-full hover:scale-105" title="Klik untuk menambah kuantitas">
+                            + 1 Stack
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // Fungsi untuk Merender Isi Keranjang Belanja & Mengontrol Tombol Checkout
+        const renderCart = () => {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const checkoutButton = document.getElementById('checkout-button');
+            const messageDiv = document.getElementById('checkout-message');
+            const remainingCooldown = checkCooldownStatus();
+            
+            let cartContent = '';
+            const itemsInCart = Object.keys(cart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    return { ...product, quantity: cart[id], subtotal: product.price * cart[id] };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            if (itemsInCart.length === 0) {
+                cartContent = `<p class="text-gray-500 text-center py-4">Keranjang kosong. Tambah item di atas.</p>`;
+            } else {
+                cartContent = itemsInCart.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-dark-bg rounded-lg border border-gray-700">
+                        <div class="flex-grow">
+                            <p class="text-white font-semibold">${item.name}</p>
+                            <p class="text-accent-light text-sm">${formatCurrency(item.price)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-300 hover:text-alert-red font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-alert-red transition duration-150" title="Kurangi Kuantitas" ${remainingCooldown === 0 ? '' : 'disabled'} >-</button>
+                            <span class="text-lg font-bold">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-300 hover:text-white font-bold p-1 w-6 h-6 rounded-full border border-gray-600 hover:border-white transition duration-150" title="Tambah Kuantitas" ${remainingCooldown === 0 ? '' : 'disabled'} >+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            cartItemsDiv.innerHTML = cartContent;
+            calculateTotal();
+
+            // Kontrol Tombol dan Pesan Berdasarkan Cooldown dan Isi Keranjang
+            
+            if (remainingCooldown > 0) { // COOLDOWN ACTIVE
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+                
+                const nextPurchaseDate = new Date(new Date().getTime() + remainingCooldown);
+                const dateString = nextPurchaseDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                const timeString = nextPurchaseDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.textContent = `Node Cooldown. Akses kembali pada: ${dateString}, ${timeString} WIB.`;
+                messageDiv.classList.remove('text-gray-400', 'text-white');
+                messageDiv.classList.add('text-alert-red');
+                
+            } else if (itemsInCart.length === 0) {
+                checkoutButton.classList.add('btn-disabled');
+                checkoutButton.disabled = true;
+                messageDiv.textContent = "Keranjang kosong. Tambahkan item untuk melanjutkan.";
+                messageDiv.classList.remove('text-alert-red', 'text-white');
+                messageDiv.classList.add('text-gray-400');
+                
+            } else {
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+                messageDiv.textContent = "Pesanan siap disinkronisasi ke Discord Admin (T8H).";
+                messageDiv.classList.remove('text-alert-red', 'text-gray-400');
+                messageDiv.classList.add('text-white');
+            }
+        };
+
+        // Fungsi Checkout: Mengirim ke Discord Webhook
+        window.checkoutToDiscord = async () => { // Dibuat global
+            const buyerNameInput = document.getElementById('buyer-name');
+            const buyerName = buyerNameInput.value.trim();
+            const messageDiv = document.getElementById('checkout-message');
+            const checkoutButton = document.getElementById('checkout-button');
+            const totalPriceText = document.getElementById('total-price').textContent;
+            
+            // Cek Cooldown Final
+            if (checkCooldownStatus() > 0) {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Sinkronisasi Gagal', 
+                    text: 'Anda harus menunggu cooldown 30 menit sebelum memesan lagi.', 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#B0B0B0'
+                });
+                renderCart();
+                return;
+            }
+
+            // 1. Validasi Nama dan Keranjang
+            if (Object.keys(cart).length === 0) {
+                Swal.fire({ icon: 'warning', title: 'Keranjang Kosong', text: 'Keranjang Anda masih kosong. Silakan pilih item dulu.', background: '#1a1a1a', color: '#fff' });
+                return;
+            }
+            if (!buyerName) {
+                Swal.fire({ icon: 'error', title: 'ID Entitas Wajib Diisi', text: 'Mohon masukkan ID Entitas (RP) Anda untuk memproses pesanan.', background: '#1a1a1a', color: '#fff' });
+                buyerNameInput.focus();
+                return;
+            }
+
+            // 2. Persiapan Data
+            const itemsInCart = Object.keys(cart).map(id => {
+                const product = products.find(p => p.id === parseInt(id));
+                if (product) {
+                    return { ...product, quantity: cart[id], subtotal: product.price * cart[id] };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            // Format field list item Discord
+            const itemDescription = itemsInCart.map(item => 
+                `${item.name} (${formatCurrency(item.price)}) x ${item.quantity} = **${formatCurrency(item.subtotal)}**`
+            ).join('\n');
+
+            const discordPayload = {
+                embeds: [{
+                    title: `📦 T8H KONTRA BAND DATA LOG`,
+                    description: `Pesanan diterima dari Entitas **${buyerName}** (T8H).`,
+                    color: 11184810, // Abu-abu Decimal
+                    fields: [
+                        { name: "👤 ID Entitas", value: `**${buyerName}**`, inline: false },
+                        { name: "📦 Detail Data", value: itemDescription, inline: false },
+                        { name: "💰 TOTAL NILAI ASET", value: `**${totalPriceText}**`, inline: true },
+                        { name: "🕒 Waktu Sinkronisasi", value: new Date().toLocaleString('id-ID'), inline: true }
+                    ],
+                    footer: { text: "T8H Black Market Node" }
+                }]
+            };
+
+            // 3. Kirim ke Discord
+            checkoutButton.innerHTML = "MENGIRIM DATA...";
+            checkoutButton.classList.add('btn-disabled');
+            checkoutButton.disabled = true;
+
+            try {
+                // Perhatian: Tidak ada pemeriksaan URL placeholder di sini, diasumsikan URL valid.
+                
+                const response = await fetch(DISCORD_ORDER_WEBHOOK, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(discordPayload)
+                });
+
+                if (!response.ok) {
+                    // Log response body untuk detail error dari Discord
+                    const errorData = await response.json();
+                    console.error("Discord API Error Response:", errorData);
+                    throw new Error(`Gagal mengirim ke Discord. Status: ${response.status}. Cek konsol untuk detail error Discord.`);
+                }
+
+                // --- START COOLDOWN ON SUCCESS ---
+                localStorage.setItem(LAST_PURCHASE_KEY, new Date().getTime());
+                // --- END COOLDOWN ---
+                
+                // 4. Sukses
+                Swal.fire({ 
+                    icon: 'success', 
+                    title: 'Sinkronisasi Berhasil!', 
+                    text: `Pesanan atas nama ${buyerName} berhasil dikirim ke Discord Admin. Node cooldown 30 menit diaktifkan.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#B0B0B0'
+                });
+
+                // Reset keranjang
+                cart = {};
+                renderCart();
+                buyerNameInput.value = '';
+
+            } catch (error) {
+                console.error("Error saat mengirim pesanan:", error);
+                 Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Sinkronisasi Gagal', 
+                    text: `Terjadi kesalahan jaringan atau Webhook tidak valid: ${error.message}. Cek konsol.`, 
+                    background: '#1a1a1a', 
+                    color: '#fff',
+                    confirmButtonColor: '#B0B0B0'
+                 });
+            } finally {
+                // Pastikan tombol direset dan keranjang di-render ulang
+                checkoutButton.innerHTML = "SINKRONISASI PESANAN";
+                checkoutButton.classList.remove('btn-disabled');
+                checkoutButton.disabled = false;
+                renderCart(); 
+            }
+        };
+
+        // Inisialisasi Toko Penuh
+        const initializeShop = () => {
+            renderProducts();
+            renderCart();
+            // Atur timer untuk refresh status setiap 1 menit (untuk update cooldown)
+            setInterval(renderCart, 60000); 
+        };
+
+        // Inisialisasi Aplikasi saat memuat halaman
+        window.onload = () => {
+            initializeGate();
+        };
+    </script>
+</body>
+</html>
